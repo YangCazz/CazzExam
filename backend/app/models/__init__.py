@@ -1,1 +1,1 @@
-from . import knowledge, question, exam, wrong, plan, essay  # noqa: F401
+from . import knowledge, question, exam, wrong, plan, essay, learning  # noqa: F401

@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import settings
 from .database import init_db
-from .routers import knowledge, questions, exams, wrong, plans, stats, essay, import_api, ai
+from .routers import knowledge, questions, exams, wrong, plans, stats, essay, import_api, ai, learning
 
 
 @asynccontextmanager
@@ -25,6 +25,7 @@ app.include_router(stats.router)
 app.include_router(essay.router)
 app.include_router(import_api.router)
 app.include_router(ai.router)
+app.include_router(learning.router)
 
 
 @app.get("/api/health")

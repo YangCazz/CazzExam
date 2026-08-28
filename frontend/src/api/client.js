@@ -14,4 +14,5 @@ async function api(path, opts = {}) {
 export const http = {
   get: (p) => api(p),
   post: (p, body) => api(p, { method: 'POST', body: JSON.stringify(body || {}) }),
+  put: (p, body) => api(p, { method: 'PUT', body: JSON.stringify(body || {}) }),
 };
