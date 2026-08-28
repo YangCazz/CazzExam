@@ -1,0 +1,31 @@
+# Runtime and local user data
+backend/data/*.db
+backend/data/*.db-*
+backend/data/backup/
+backend/data/*.sqlite*
+backend/.env
+frontend/.env
+
+# Dependencies and build output
+frontend/node_modules/
+tools/node_modules/
+frontend/dist/
+tools/python/
+tools/npm-cache/
+tools/pip-cache/
+
+# Test, cache, and temporary output
+.pytest_cache/
+backend/.pytest_cache/
+backend/tests/*.db
+**/__pycache__/
+*.py[cod]
+*.log
+*.tmp
+tools/shots/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini

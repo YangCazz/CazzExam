@@ -1,0 +1,39 @@
+{
+ "questions": [
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "以下哪种架构风格以数据为中心？",
+   "options": [
+    "调用/返回风格",
+    "数据流风格",
+    "仓库风格",
+    "解释器风格"
+   ],
+   "answer": "C",
+   "analysis": "仓库风格以数据为中心。",
+   "difficulty": 3,
+   "source_type": "real",
+   "source_year": 2023,
+   "knowledge_ids": [
+    3,
+    7
+   ]
+  },
+  {
+   "qtype": "case",
+   "subject": 2,
+   "stem": "某系统要求高并发低延迟，请识别其质量属性并给出架构方案。",
+   "options": [],
+   "answer": "要点：性能/可用性；方案：微服务+缓存+限流……",
+   "analysis": "",
+   "difficulty": 4,
+   "source_type": "real",
+   "source_year": 2024,
+   "knowledge_ids": [
+    8,
+    10
+   ]
+  }
+ ]
+}
