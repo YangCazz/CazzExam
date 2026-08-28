@@ -3,6 +3,7 @@ import { onMounted, ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { http } from '../api/client';
 const route = useRoute();
+const taskId = Number(route.query.task || 0);
 const tree = ref([]);
 const err = ref('');
 const view = ref('pick');            // pick | practice | result
@@ -45,7 +46,7 @@ function selected() { return session.value ? session.value.answers[session.value
 function goTo(i) { if (i >= 0 && i < session.value.questions.length) session.value.idx = i; }
 function next() {
   if (session.value.idx < session.value.questions.length - 1) { session.value.idx += 1; }
-  else { view.value = 'result'; }
+  else { view.value = 'result'; if (taskId) http.post('/learning/tasks/' + taskId + '/complete'); }
 }
 function restart() { startWithKp(session.value.kpId); }
 function backToPick() { view.value = 'pick'; session.value = null; loadTree(); }

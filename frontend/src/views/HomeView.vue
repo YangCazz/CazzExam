@@ -5,7 +5,7 @@ import { http } from '../api/client';
 const router = useRouter(); const data = ref(null); const err = ref(''); const loading = ref(false);
 const meta = { review: ['到期复习', 'warn'], practice: ['针对练习', 'accent'], material: ['论文素材', 'ok'] };
 async function load() { try { data.value = await http.get('/learning/dashboard'); err.value = ''; } catch (e) { err.value = e.message; } }
-async function start(t) { loading.value = true; try { await http.post(`/learning/tasks/${t.id}/start`); router.push(t.type === 'review' ? '/wrong' : t.type === 'material' ? '/essay' : `/practice${t.target_id ? '?kp=' + t.target_id : ''}`); } finally { loading.value = false; } }
+async function start(t) { loading.value = true; try { await http.post(`/learning/tasks/${t.id}/start`); const query = `task=${t.id}${t.target_id ? '&kp=' + t.target_id : ''}`; router.push(t.type === 'review' ? `/wrong?${query}` : t.type === 'material' ? `/essay?${query}` : `/practice?${query}`); } finally { loading.value = false; } }
 async function replan(minutes) { await http.post('/learning/tasks/replan', { minutes }); await load(); }
 onMounted(load);
 </script>
