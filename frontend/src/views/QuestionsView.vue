@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { http } from '../api/client';
+import BaseButton from '../components/base/BaseButton.vue';
 const list = ref([]);
 const err = ref('');
 const f = ref({ qtype: '', subject: '' });
@@ -32,16 +33,16 @@ function qtypeBadge(qt) { return { choice: 'accent', case: 'warn', essay: 'ok' }
 <template>
   <div class="card">
     <div class="toolbar">
-      <select v-model="f.qtype" style="width:110px"><option value="">全部题型</option><option value="choice">单选</option><option value="case">案例</option><option value="essay">论文</option></select>
-      <select v-model="f.subject" style="width:130px"><option value="">全部科目</option><option value="1">综合知识</option><option value="2">案例分析</option><option value="3">论文</option></select>
-      <button class="ghost sm" @click="load">查询</button>
+      <select v-model="f.qtype" class="w110"><option value="">全部题型</option><option value="choice">单选</option><option value="case">案例</option><option value="essay">论文</option></select>
+      <select v-model="f.subject" class="w130"><option value="">全部科目</option><option value="1">综合知识</option><option value="2">案例分析</option><option value="3">论文</option></select>
+      <BaseButton size="sm" variant="ghost" @click="load">查询</BaseButton>
       <span class="spacer"></span>
       <span class="badge accent">{{ list.length }} 题</span>
     </div>
-    <div class="list-panel" style="padding:0 14px 8px">
-      <p v-if="err" class="badge err" style="margin:10px 0">{{ err }}</p>
+    <div class="list-panel">
+      <p v-if="err" class="badge err err-inline">{{ err }}</p>
       <table>
-        <thead><tr><th style="width:52px">ID</th><th style="width:84px">题型</th><th>题干</th><th style="width:96px">科目</th><th style="width:64px">难度</th><th style="width:70px">年份</th><th style="width:80px">来源</th></tr></thead>
+        <thead><tr><th class="col-id">ID</th><th class="col-qtype">题型</th><th>题干</th><th class="col-sub">科目</th><th class="col-diff">难度</th><th class="col-year">年份</th><th class="col-source">来源</th></tr></thead>
         <tbody>
           <tr v-for="q in list" :key="q.id">
             <td class="num muted">{{ q.id }}</td>
@@ -63,13 +64,30 @@ function qtypeBadge(qt) { return { choice: 'accent', case: 'warn', essay: 'ok' }
     <div class="row">
       <select v-model="form.qtype"><option value="choice">单选</option><option value="case">案例</option><option value="essay">论文</option></select>
       <select v-model.number="form.subject"><option :value="1">综合知识</option><option :value="2">案例分析</option><option :value="3">论文</option></select>
-      <input v-model="form.source_year" placeholder="真题年份(可选)" style="width:120px" />
-      <input v-model="form.knowledge_ids" placeholder="知识点ID(逗号分隔)" style="width:180px" />
+      <input v-model="form.source_year" placeholder="真题年份(可选)" class="w120" />
+      <input v-model="form.knowledge_ids" placeholder="知识点ID(逗号分隔)" class="w180" />
     </div>
-    <div><textarea v-model="form.stem" rows="3" placeholder="题干" style="width:100%"></textarea></div>
-    <div v-if="form.qtype === 'choice'"><textarea v-model="form.options" rows="3" placeholder="选项，每行一个（A. xxx / B. xxx …）" style="width:100%"></textarea></div>
-    <div><textarea v-model="form.answer" rows="1" placeholder="答案（单选填选项字母；案例/论文填参考答案要点）" style="width:100%"></textarea></div>
-    <div><textarea v-model="form.analysis" rows="2" placeholder="解析" style="width:100%"></textarea></div>
-    <button @click="add">保存题目</button>
+    <div><textarea v-model="form.stem" rows="3" placeholder="题干" class="w100"></textarea></div>
+    <div v-if="form.qtype === 'choice'"><textarea v-model="form.options" rows="3" placeholder="选项，每行一个（A. xxx / B. xxx …）" class="w100"></textarea></div>
+    <div><textarea v-model="form.answer" rows="1" placeholder="答案（单选填选项字母；案例/论文填参考答案要点）" class="w100"></textarea></div>
+    <div><textarea v-model="form.analysis" rows="2" placeholder="解析" class="w100"></textarea></div>
+    <BaseButton @click="add">保存题目</BaseButton>
   </div>
 </template>
+
+<style scoped>
+/* 宽度/布局类（替代原内联 style） */
+.list-panel { padding: 0 14px 8px; }
+.err-inline { margin: 10px 0; }
+.w110 { width: 110px; }
+.w120 { width: 120px; }
+.w130 { width: 130px; }
+.w180 { width: 180px; }
+.w100 { width: 100%; }
+.col-id { width: 52px; }
+.col-qtype { width: 84px; }
+.col-sub { width: 96px; }
+.col-diff { width: 64px; }
+.col-year { width: 70px; }
+.col-source { width: 80px; }
+</style>
