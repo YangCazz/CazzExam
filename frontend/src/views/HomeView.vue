@@ -13,8 +13,8 @@ onMounted(load);
 <template>
   <div v-if="error" class="notice error">学习服务暂不可用：{{ error }}</div>
   <template v-else-if="data">
-    <section class="command-hero"><div><p class="eyebrow">{{ data.date }} / 今日执行清单</p><h2>把有限时间，投向<br><em>下一步最值得做的事。</em></h2><p>不是刷得更多，而是用复习、训练和表达形成可验证的能力闭环。</p><div class="time-switch"><button class="ghost" @click="replan(15)">15 分钟</button><button class="ghost" @click="replan(30)">30 分钟</button><button @click="replan(60)">安排 60 分钟</button></div></div><div class="hero-orbit"><span>本周完成</span><b>{{ done }}</b><small>项学习动作</small><i></i></div></section>
-    <div class="overview-grid">
+    <section v-motion :initial="{ opacity: 0, y: 16 }" :enter="{ opacity: 1, y: 0, transition: { duration: 420 } }" class="command-hero"><div><p class="eyebrow">{{ data.date }} / 今日执行清单</p><h2>把有限时间，投向<br><em>下一步最值得做的事。</em></h2><p>不是刷得更多，而是用复习、训练和表达形成可验证的能力闭环。</p><div class="time-switch"><button class="ghost" @click="replan(15)">15 分钟</button><button class="ghost" @click="replan(30)">30 分钟</button><button @click="replan(60)">安排 60 分钟</button></div></div><div class="hero-orbit"><span>本周完成</span><b>{{ done }}</b><small>项学习动作</small><i></i></div></section>
+    <div v-motion :initial="{ opacity: 0, y: 18 }" :enter="{ opacity: 1, y: 0, transition: { delay: 110, duration: 440 } }" class="overview-grid">
       <section class="panel task-panel"><div class="section-heading"><div><p class="eyebrow">NOW</p><h2>当前任务</h2></div><span class="muted">按收益排序</span></div>
         <article v-for="(task, index) in data.tasks" :key="task.id" class="priority-task"><span class="task-number">0{{ index + 1 }}</span><div class="task-copy"><span class="type-pill" :class="labels[task.type]?.[1]">{{ labels[task.type]?.[0] || '学习任务' }}</span><h3>{{ task.title }}</h3><p>{{ task.reason }}</p><small>{{ task.completion_hint }} · {{ task.estimated_minutes }} 分钟</small></div><button :disabled="loading" @click="begin(task)">{{ task.status === 'in_progress' ? '继续' : '开始' }} <span>→</span></button></article>
         <div v-if="!data.tasks.length" class="empty-state">今天没有待办。去做一次诊断，建立下一轮训练计划。</div>

@@ -1,8 +1,9 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Icon from './components/Icon.vue';
 import { http } from './api/client';
+import CommandPalette from './components/CommandPalette.vue';
 
 const route = useRoute();
 const profile = ref({ certification: '系统架构设计师', target_date: '' });
@@ -19,7 +20,11 @@ const groups = [
   { label: '复盘与资产', items: [['/review', 'wrong', '复习队列'], ['/insights', 'chart', '能力画像']] },
   { label: '内容与设置', items: [['/content', 'database', '内容工作台'], ['/settings', 'gear', '偏好与数据']] },
 ];
-onMounted(async () => { try { profile.value = await http.get('/learning/profile'); } catch (_) {} });
+const paletteOpen = ref(false);
+const paletteItems = computed(() => groups.flatMap(group => group.items.map(([path, icon, label]) => ({ path, icon, label, group: group.label }))));
+function onShortcut(event) { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); paletteOpen.value = !paletteOpen.value; } }
+onMounted(async () => { window.addEventListener('keydown', onShortcut); try { profile.value = await http.get('/learning/profile'); } catch (_) {} });
+onBeforeUnmount(() => window.removeEventListener('keydown', onShortcut));
 </script>
 
 <template>
@@ -29,6 +34,7 @@ onMounted(async () => { try { profile.value = await http.get('/learning/profile'
       <nav v-for="group in groups" :key="group.label" class="nav-section"><span class="nav-label">{{ group.label }}</span><router-link v-for="[path, icon, label] in group.items" :key="path" :to="path"><Icon :name="icon" :size="17" /><span>{{ label }}</span></router-link></nav>
       <div class="nav-profile"><span class="presence-dot"></span><div><b>{{ profile.certification }}</b><small>数据仅存储在本机</small></div></div>
     </aside>
-    <main class="workbench-main"><header class="workbench-topbar"><div><p class="eyebrow">学习操作系统 / {{ profile.certification }}</p><h1>{{ pageMeta[0] }}</h1><p class="topbar-sub">{{ pageMeta[1] }}</p></div><router-link to="/settings" class="deadline-chip"><span>目标日</span><b>{{ daysLeft === '未设置' ? '待设置' : `还有 ${daysLeft} 天` }}</b></router-link></header><router-view :key="route.fullPath" /></main>
+    <main class="workbench-main"><header class="workbench-topbar"><div><p class="eyebrow">学习操作系统 / {{ profile.certification }}</p><h1>{{ pageMeta[0] }}</h1><p class="topbar-sub">{{ pageMeta[1] }}</p></div><div class="topbar-actions"><button class="command-trigger" title="快速导航 (Ctrl K)" @click="paletteOpen = true"><span>⌕</span> 快速导航 <kbd>⌘ K</kbd></button><router-link to="/settings" class="deadline-chip"><span>目标日</span><b>{{ daysLeft === '未设置' ? '待设置' : `还有 ${daysLeft} 天` }}</b></router-link></div></header><router-view :key="route.fullPath" /></main>
+    <CommandPalette :open="paletteOpen" :items="paletteItems" @close="paletteOpen = false" />
   </div>
 </template>
