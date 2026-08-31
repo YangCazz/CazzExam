@@ -85,19 +85,19 @@ function barOption() {
     <Card>
       <SectionHeading eyebrow="TREND" title="近 14 天学习趋势" />
       <ChartPanel v-if="trend.length" :option="trendOption()" height="280px" />
-      <EmptyState v-else icon="📈" title="暂无答题数据" description="完成一些练习后，这里会呈现你的正确率变化。" />
+      <EmptyState v-else icon="trending-up" title="暂无答题数据" description="完成一些练习后，这里会呈现你的正确率变化。" />
     </Card>
 
-    <div class="row" style="align-items:stretch">
-      <Card class="stats-col" style="flex:1;min-width:280px">
+    <div class="stats-split">
+      <Card class="stats-col s1">
         <SectionHeading eyebrow="ERRORS" title="错因分布" />
         <ChartPanel v-if="errorDist.length" :option="pieOption()" height="260px" />
-        <EmptyState v-else icon="🧩" title="暂无错因数据" />
+        <EmptyState v-else icon="pie" title="暂无错因数据" />
       </Card>
-      <Card class="stats-col" style="flex:2;min-width:380px">
+      <Card class="stats-col s2">
         <SectionHeading eyebrow="WEAKEST" title="薄弱知识点 Top10" subtitle="得分率最低" />
         <ChartPanel v-if="weakKps().length" :option="barOption()" height="280px" />
-        <EmptyState v-else icon="🎯" title="暂无知识点得分数据" />
+        <EmptyState v-else icon="target" title="暂无知识点得分数据" />
       </Card>
     </div>
   </template>
@@ -106,4 +106,9 @@ function barOption() {
 <style scoped>
 .overview-line { margin: 0; font-size: 13px; line-height: 1.8; }
 .overview-line b { color: var(--text); }
+.stats-split { display: flex; align-items: stretch; gap: 16px; }
+.stats-col { min-width: 0; }
+.stats-col.s1 { flex: 1; min-width: 280px; }
+.stats-col.s2 { flex: 2; min-width: 380px; }
+@media (max-width: 700px) { .stats-split { flex-direction: column; } .stats-col.s1, .stats-col.s2 { min-width: 0; } }
 </style>
