@@ -1,69 +1,34 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Icon from './components/Icon.vue';
+import { http } from './api/client';
+
 const route = useRoute();
-const pageMeta = computed(() => {
-  const map = {
-    '/': { title: '学习总览', sub: '今日任务与学习数据一览' },
-    '/knowledge': { title: '知识库', sub: '章-节-知识点 · 点击查看详情与关联' },
-    '/practice': { title: '练习模式', sub: '知识点 → 关联例题 → 即时反馈' },
-    '/graph': { title: '知识图谱', sub: '知识点串联 · 薄弱点自动标红' },
-    '/questions': { title: '题库', sub: '录入 · 检索 · 批量导入' },
-    '/exam': { title: '模拟考试', sub: '三科限时全真模拟 · 自动判分' },
-    '/wrong': { title: '错题本', sub: '错因归因 · 反思 · SM-2 间隔复习' },
-    '/plan': { title: '学习计划', sub: '按 2026-11 考试日期倒推' },
-    '/stats': { title: '统计画像', sub: '趋势 · 错因分布 · 薄弱知识点' },
-    '/essay': { title: '论文专项', sub: '限时写作 · 素材库 · ADR · AI 批改' },
-    '/settings': { title: '设置', sub: 'AI 网关 · 数据导出 · 系统信息' },
-  };
-  return map[route.path] || { title: '', sub: '' };
-});
-const daysLeft = computed(() => {
-  const target = new Date('2026-11-14T00:00:00');
-  const now = new Date();
-  return Math.max(0, Math.ceil((target - now) / 86400000));
-});
+const profile = ref({ certification: '系统架构设计师', target_date: '' });
+const pageMeta = computed(() => ({
+  '/': ['学习总览', '从最有价值的一步开始'], '/diagnostic': ['学习诊断', '用一次小样本校准学习起点'], '/weekly': ['节奏规划', '围绕本周可投入时间排布任务'],
+  '/knowledge': ['知识地图', '把大纲、薄弱点和训练串成一张图'], '/practice': ['综合练习', '选择一个知识点，完成一段刻意训练'], '/case': ['案例工作台', '拆题、列要点、复盘得分证据'],
+  '/essay': ['论文工作台', '素材、项目事实与限时表达'], '/exam': ['模拟考试', '在完整约束下验证阶段能力'], '/review': ['复习队列', '先回忆，再核对，再安排下一次'],
+  '/insights': ['能力画像', '以证据识别下一轮训练重点'], '/content': ['内容工作台', '题目、知识点与导入质量治理'], '/settings': ['偏好与数据', '目标、隐私和本地数据控制'],
+}[route.path] || ['', '']));
+const daysLeft = computed(() => !profile.value.target_date ? '未设置' : Math.max(0, Math.ceil((new Date(profile.value.target_date) - new Date()) / 86400000)));
 const groups = [
-  { label: '学习', items: [['/', 'home', '总览'], ['/knowledge', 'book', '知识库'], ['/practice', 'target', '练习模式'], ['/graph', 'network', '知识图谱']] },
-  { label: '考试与数据', items: [['/questions', 'database', '题库'], ['/exam', 'exam', '模拟考试'], ['/wrong', 'wrong', '错题本'], ['/stats', 'chart', '统计']] },
-  { label: '写作与系统', items: [['/plan', 'calendar', '学习计划'], ['/essay', 'essay', '论文专项'], ['/settings', 'gear', '设置']] },
+  { label: '行动台', items: [['/', 'home', '学习总览'], ['/diagnostic', 'target', '学习诊断'], ['/weekly', 'calendar', '节奏规划']] },
+  { label: '学习与训练', items: [['/knowledge', 'network', '知识地图'], ['/practice', 'book', '综合练习'], ['/case', 'case', '案例工作台'], ['/essay', 'essay', '论文工作台'], ['/exam', 'exam', '模拟考试']] },
+  { label: '复盘与资产', items: [['/review', 'wrong', '复习队列'], ['/insights', 'chart', '能力画像']] },
+  { label: '内容与设置', items: [['/content', 'database', '内容工作台'], ['/settings', 'gear', '偏好与数据']] },
 ];
+onMounted(async () => { try { profile.value = await http.get('/learning/profile'); } catch (_) {} });
 </script>
+
 <template>
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-logo">📚</div>
-        <div>
-          <div class="brand-title">软考·架构师备考</div>
-          <div class="brand-sub">2026 · 系统架构设计师</div>
-        </div>
-      </div>
-      <template v-for="g in groups" :key="g.label">
-        <div class="nav-group">{{ g.label }}</div>
-        <router-link v-for="[path, icon, label] in g.items" :key="path" :to="path">
-          <Icon :name="icon" class="nav-ico" />
-          <span>{{ label }}</span>
-        </router-link>
-      </template>
-      <div class="sidebar-foot">数据本地存储 · 自动备份</div>
+  <div class="workbench-shell">
+    <aside class="workbench-nav">
+      <router-link class="workbench-brand" to="/"><span class="brand-mark">SA</span><span><strong>架构备考工作台</strong><small>LOCAL STUDY SYSTEM</small></span></router-link>
+      <nav v-for="group in groups" :key="group.label" class="nav-section"><span class="nav-label">{{ group.label }}</span><router-link v-for="[path, icon, label] in group.items" :key="path" :to="path"><Icon :name="icon" :size="17" /><span>{{ label }}</span></router-link></nav>
+      <div class="nav-profile"><span class="presence-dot"></span><div><b>{{ profile.certification }}</b><small>数据仅存储在本机</small></div></div>
     </aside>
-    <main class="main">
-      <header class="topbar">
-        <div>
-          <div class="page-title">{{ pageMeta.title }}</div>
-          <div class="page-sub">{{ pageMeta.sub }}</div>
-        </div>
-        <div class="page-actions">
-          <span class="badge accent">距 2026-11 考试 · {{ daysLeft }} 天</span>
-        </div>
-      </header>
-      <router-view v-slot="{ Component }">
-        <transition name="fade">
-          <component :is="Component" :key="route.fullPath" />
-        </transition>
-      </router-view>
-    </main>
+    <main class="workbench-main"><header class="workbench-topbar"><div><p class="eyebrow">学习操作系统 / {{ profile.certification }}</p><h1>{{ pageMeta[0] }}</h1><p class="topbar-sub">{{ pageMeta[1] }}</p></div><router-link to="/settings" class="deadline-chip"><span>目标日</span><b>{{ daysLeft === '未设置' ? '待设置' : `还有 ${daysLeft} 天` }}</b></router-link></header><router-view v-slot="{ Component }"><transition name="fade" mode="out-in"><component :is="Component" :key="route.fullPath" /></transition></router-view></main>
   </div>
 </template>

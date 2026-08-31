@@ -13,6 +13,7 @@ const icons = {
   chart: '<svg ' + S + '><path d="M4 20V10M10 20V4M16 20v-8"/><path d="M22 20H2"/></svg>',
   essay: '<svg ' + S + '><path d="M6 2.5h9l5 5v14H6z"/><path d="M15 2.5v5h5M9 12h6M9 16h6"/></svg>',
   gear: '<svg ' + S + '><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg>',
+  case: '<svg ' + S + '><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5M8 17h7"/></svg>',
 };
 </script>
 <template>
