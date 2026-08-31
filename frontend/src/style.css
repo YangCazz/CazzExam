@@ -195,8 +195,8 @@ button.ghost:disabled,.btn.ghost:disabled{background:transparent;color:var(--tex
 .command-hero em,.diagnostic-intro em,.planning-hero em,.case-hero em,.review-header em{font-style:normal;color:var(--action-primary)}
 .command-hero>div>p:not(.eyebrow),.diagnostic-intro>div>p:not(.eyebrow),.planning-hero>div>p:not(.eyebrow),.case-hero>div>p:not(.eyebrow){margin:0;color:var(--text-muted);line-height:1.8;max-width:550px}
 .time-switch{display:flex;gap:8px;margin-top:22px}
-.hero-stat{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:4px;text-align:left}
-.hero-stat b{font-size:30px;font-variant-numeric:tabular-nums;color:var(--text);line-height:1.1}
+.hero-stat{display:flex;flex-direction:column;justify-content:center;gap:6px;text-align:left;align-self:stretch;min-width:170px;padding-left:26px;border-left:1px solid var(--border-strong)}
+.hero-stat b{font-size:28px;font-variant-numeric:tabular-nums;color:var(--text);line-height:1.1}
 .hero-stat span{color:var(--text-muted);font-size:12px}
 .overview-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.72fr);gap:16px}
 .priority-task{display:flex;align-items:center;gap:16px;padding:16px 0;border-top:1px solid var(--border)}
@@ -210,7 +210,7 @@ button.ghost:disabled,.btn.ghost:disabled{background:transparent;color:var(--tex
 .task-copy h3{margin:7px 0 4px;font-size:15px;color:var(--text)}
 .task-copy p,.task-copy small{margin:0;color:var(--text-muted);font-size:12px}
 .task-copy small{display:block;margin-top:5px;color:var(--text-faint)}
-.right-rail{display:grid;gap:16px;align-content:start}
+.right-rail{display:grid;gap:16px;grid-template-rows:auto 1fr}
 .signal-row{position:relative;display:flex;align-items:flex-start;gap:9px;padding:12px 0;border-top:1px solid var(--border)}
 .signal-row>div{flex:1}
 .signal-row b{font-size:13px;color:var(--text)}
@@ -220,8 +220,10 @@ button.ghost:disabled,.btn.ghost:disabled{background:transparent;color:var(--tex
 .signal-dot.amber{background:var(--status-warning)}
 .signal-dot.jade{background:var(--status-success)}
 .risk-level{font-size:10px;color:var(--text-muted)}
-.next-card h3{margin:7px 0;font-size:16px;color:var(--text)}
-.next-card p{color:var(--text-muted);font-size:12px;line-height:1.7}
+.next-card{display:flex;flex-direction:column}
+.next-card h3{margin:7px 0 6px;font-size:16px;color:var(--text)}
+.next-card p{margin:0 0 16px;color:var(--text-muted);font-size:12px;line-height:1.7}
+.next-card .btn{margin-top:auto}
 .loading-state{margin-top:24px;color:var(--text-muted)}
 .empty-state{padding:25px 0;color:var(--text-muted);font-size:13px}
 
@@ -405,7 +407,7 @@ textarea{line-height:1.7;resize:vertical}
   .workbench-nav{flex-basis:200px}
   .workbench-main{padding:0 22px 40px}
   .overview-grid,.case-layout,.review-layout{grid-template-columns:1fr}
-  .right-rail{grid-template-columns:1fr 1fr}
+  .right-rail{grid-template-columns:1fr 1fr;grid-template-rows:auto}
   .command-hero,.diagnostic-intro,.planning-hero,.case-hero{padding-top:28px}
   .hero-stat{display:none}
 }
