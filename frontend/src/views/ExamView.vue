@@ -1,6 +1,8 @@
 <script setup>
 import { onMounted, ref, reactive, computed, onUnmounted } from 'vue';
 import { http } from '../api/client';
+import BaseButton from '../components/base/BaseButton.vue';
+import Icon from '../components/Icon.vue';
 const templates = ref([]);
 const err = ref('');
 const paper = ref(null);
@@ -97,8 +99,8 @@ async function gradeEssay() {
 </script>
 <template>
   <div class="card" v-if="!running && !report">
-    <h2 style="margin-bottom:4px">选择试卷</h2>
-    <p class="muted" style="margin-bottom:14px">按模板限时全真模拟；答错的单选题自动进错题本，交卷后可查看知识点得分率报告。</p>
+    <h2 class="mb4">选择试卷</h2>
+    <p class="muted mb14">按模板限时全真模拟；答错的单选题自动进错题本，交卷后可查看知识点得分率报告。</p>
     <p v-if="err" class="badge err">{{ err }}</p>
     <div class="tpl-grid">
       <div class="tpl-card" v-for="t in templates" :key="t.id">
@@ -107,16 +109,16 @@ async function gradeEssay() {
         <div class="tpl-meta">
           <span class="tag">限时 {{ t.duration_min }} 分钟</span>
         </div>
-        <div class="tpl-actions"><button @click="start(t)">开始考试</button></div>
+        <div class="tpl-actions"><BaseButton icon="target" @click="start(t)">开始考试</BaseButton></div>
       </div>
       <div class="tpl-card">
         <div class="tpl-title">错题重做</div>
         <div class="tpl-desc">从错题本待复习队列中抽取题目重做，检验是否真正掌握；答对自动推进复习进度。</div>
-        <div class="tpl-actions"><button class="ghost" @click="startWrong">开始重做</button></div>
+        <div class="tpl-actions"><BaseButton variant="ghost" icon="restart" @click="startWrong">开始重做</BaseButton></div>
       </div>
     </div>
-    <p class="muted" v-if="!templates.length" style="margin-top:12px">暂无试卷模板，请先确保题库有题。</p>
-    <h3 style="margin-top:22px">历史记录</h3>
+    <p class="muted mt12" v-if="!templates.length">暂无试卷模板，请先确保题库有题。</p>
+    <h3 class="mt22">历史记录</h3>
     <table>
       <tr><th>时间</th><th>模板</th><th>模式</th><th>得分</th><th>已答</th><th></th></tr>
       <tr v-for="h in history" :key="h.id">
@@ -125,51 +127,51 @@ async function gradeEssay() {
         <td>{{ h.mode }}</td>
         <td>{{ h.score }}</td>
         <td>{{ h.answered }}</td>
-        <td><button class="ghost" @click="viewReport(h.id, h.template)">查看报告</button></td>
+        <td><BaseButton size="sm" variant="ghost" @click="viewReport(h.id, h.template)">查看报告</BaseButton></td>
       </tr>
     </table>
   </div>
 
   <div class="card" v-if="running && paper">
-    <div class="row" style="justify-content:space-between">
-      <h2 style="margin:0">{{ modeLabel }} · 第 {{ current + 1 }}/{{ paper.questions.length }} 题</h2>
+    <div class="row between">
+      <h2 class="head-title">{{ modeLabel }} · 第 {{ current + 1 }}/{{ paper.questions.length }} 题</h2>
       <div class="row">
         <span class="badge" :class="timeLeft < 300 ? 'err' : 'ok'">剩余 {{ fmtTime(timeLeft) }}</span>
-        <button class="ghost" @click="submit">交卷</button>
+        <BaseButton variant="ghost" @click="submit">交卷</BaseButton>
       </div>
     </div>
-    <div class="row" style="margin:10px 0;flex-wrap:wrap">
+    <div class="row qnav">
       <button v-for="(qq, i) in paper.questions" :key="qq.id" class="ghost q-dot"
               :class="{ answered: answers[qq.id] !== undefined }"
               @click="jump(i)">{{ i + 1 }}</button>
     </div>
     <div class="q-box" v-if="q">
       <div class="stem">{{ q.stem }}</div>
-      <div v-if="q.items && q.items.length" style="margin-top:8px">
-        <div v-for="it in q.items" :key="it.seq" style="margin:4px 0">
+      <div v-if="q.items && q.items.length" class="mt8">
+        <div v-for="it in q.items" :key="it.seq" class="q-sub">
           <b>（{{ it.seq }}）</b> {{ it.stem }} <span class="muted">[{{ it.score }}分]</span>
         </div>
       </div>
       <template v-if="q.qtype === 'choice'">
         <label v-for="opt in q.options" :key="opt" class="opt"
                :class="{ selected: answers[q.id] === opt[0] }">
-          <input type="radio" :name="'q' + q.id" :value="opt[0]" v-model="answers[q.id]" style="display:none" />
+          <input type="radio" :name="'q' + q.id" :value="opt[0]" v-model="answers[q.id]" class="opt-input" />
           {{ opt }}
         </label>
       </template>
-      <textarea v-else v-model="answers[q.id]" rows="6" placeholder="主观题作答" style="width:100%"></textarea>
+      <textarea v-else v-model="answers[q.id]" rows="6" placeholder="主观题作答" class="w100"></textarea>
     </div>
-    <div class="row" style="margin-top:12px">
-      <button class="ghost" :disabled="current === 0" @click="current--">上一题</button>
-      <button class="ghost" :disabled="current === paper.questions.length - 1" @click="current++">下一题</button>
+    <div class="row mt12">
+      <BaseButton variant="ghost" :disabled="current === 0" icon="chevron-left" @click="current--">上一题</BaseButton>
+      <BaseButton variant="ghost" :disabled="current === paper.questions.length - 1" @click="current++">下一题<Icon name="chevron-right" :size="14" /></BaseButton>
       <span class="muted">已答 {{ answeredCount }} 题</span>
     </div>
   </div>
 
   <div class="card" v-if="report">
-    <div class="row" style="justify-content:space-between">
-      <h2 style="margin:0">考试报告 · {{ modeLabel }}</h2>
-      <router-link to="/wrong"><button class="ghost">去错题本归因</button></router-link>
+    <div class="row between">
+      <h2 class="head-title">考试报告 · {{ modeLabel }}</h2>
+      <BaseButton :to="'/wrong'" variant="ghost" icon="wrong" size="sm">去错题本归因</BaseButton>
     </div>
     <p>得分 <b>{{ report.score }}</b> / {{ report.total }} 分（答对 {{ report.correct }} 题）</p>
     <h3>按知识点得分率（升序，薄弱在前）</h3>
@@ -196,28 +198,42 @@ async function gradeEssay() {
       <div class="q-box" v-for="s in report.subjective" :key="s.question_id">
         <div class="stem">{{ s.stem }}</div>
         <p><b>我的作答：</b><span class="muted">{{ s.user_answer || '未作答' }}</span></p>
-        <button class="ghost" @click="refOpen[s.question_id] = !refOpen[s.question_id]">
+        <BaseButton size="sm" variant="ghost" @click="refOpen[s.question_id] = !refOpen[s.question_id]">
           {{ refOpen[s.question_id] ? '收起' : '显示参考答案' }}
-        </button>
-        <div v-if="refOpen[s.question_id]">
+        </BaseButton>
+        <div v-if="refOpen[s.question_id]" class="mt8">
           <p><b>参考答案要点：</b>{{ s.reference }}</p>
           <p class="muted" v-if="s.analysis">{{ s.analysis }}</p>
         </div>
       </div>
-      <div v-if="aiGrade" style="margin-top:10px">
+      <div v-if="aiGrade" class="mt10">
         <p class="muted">{{ aiGrade.message }}</p>
         <pre v-if="aiGrade.scores" class="ai-pre">{{ JSON.stringify(aiGrade.scores, null, 2) }}</pre>
       </div>
-      <button v-if="report.subjective.some(s => s.qtype === 'essay')" @click="gradeEssay">AI 批改论文</button>
+      <BaseButton v-if="report.subjective.some(s => s.qtype === 'essay')" icon="sparkles" @click="gradeEssay">AI 批改论文</BaseButton>
     </template>
-    <div class="row" style="margin-top:14px">
-      <button @click="startWrong">错题重做</button>
-      <button class="ghost" @click="report = null; paper = null">返回</button>
+    <div class="row mt14">
+      <BaseButton icon="restart" @click="startWrong">错题重做</BaseButton>
+      <BaseButton variant="ghost" @click="report = null; paper = null">返回</BaseButton>
     </div>
   </div>
 </template>
 <style scoped>
+/* 实用布局类（替代原内联 style） */
+.between { justify-content: space-between; }
+.head-title { margin: 0; }
+.mb4 { margin-bottom: 4px; }
+.mb14 { margin-bottom: 14px; }
+.mt8 { margin-top: 8px; }
+.mt10 { margin-top: 10px; }
+.mt12 { margin-top: 12px; }
+.mt14 { margin-top: 14px; }
+.mt22 { margin-top: 22px; }
+.qnav { margin: 10px 0; flex-wrap: wrap; }
+.q-sub { margin: 4px 0; }
+.opt-input { display: none; }
+.w100 { width: 100%; }
 .q-dot { margin: 2px; padding: 6px 9px; font-size: 12px; border-radius: 7px; }
-.q-dot.answered { background: var(--ok-dim); color: var(--status-success); border-color: rgba(52, 211, 153, 0.3); }
+.q-dot.answered { background: var(--ok-dim); color: var(--status-success); border-color: rgba(77, 178, 129, 0.28); }
 .ai-pre { background: var(--surface-inset); padding: 10px; border-radius: 8px; overflow: auto; }
 </style>
