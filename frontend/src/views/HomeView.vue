@@ -5,6 +5,8 @@ import { http } from '../api/client';
 import Card from '../components/base/Card.vue';
 import SectionHeading from '../components/base/SectionHeading.vue';
 import EmptyState from '../components/base/EmptyState.vue';
+import BaseButton from '../components/base/BaseButton.vue';
+import Icon from '../components/Icon.vue';
 import DashboardHero from '../components/home/DashboardHero.vue';
 import TaskCard from '../components/home/TaskCard.vue';
 import RiskOverview from '../components/home/RiskOverview.vue';
@@ -51,7 +53,7 @@ onMounted(load);
                     :minutes="task.estimated_minutes" :status="task.status"
                     :loading="loading" :on-start="() => begin(task)" />
         </template>
-        <EmptyState v-else icon="🎯" title="今天没有待办" description="去做一次诊断，建立下一轮训练计划。" action-text="开始诊断" to="/diagnostic" />
+        <EmptyState v-else icon="target" title="今天没有待办" description="去做一次诊断，建立下一轮训练计划。" action-text="开始诊断" to="/diagnostic" />
       </Card>
 
       <aside class="right-rail">
@@ -60,7 +62,7 @@ onMounted(load);
           <p class="eyebrow">NEXT MILESTONE</p>
           <h3>先完成一轮小诊断</h3>
           <p>用 20 分钟确认三科基线，再让系统推荐后续训练。</p>
-          <router-link class="text-link" to="/diagnostic">开始诊断 →</router-link>
+          <BaseButton :to="'/diagnostic'" variant="ghost" block icon="target">开始诊断</BaseButton>
         </section>
       </aside>
     </div>

@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import BaseButton from '../base/BaseButton.vue';
+import Icon from '../Icon.vue';
 const props = defineProps({
   index: Number, type: { type: String, default: 'practice' },
   title: String, reason: String, hint: String, minutes: Number,
@@ -25,7 +26,7 @@ const num = computed(() => String(props.index + 1).padStart(2, '0'));
       <div class="task-meta"><span v-if="hint">{{ hint }}</span><span class="task-minutes">{{ minutes }} 分钟</span></div>
     </div>
     <BaseButton :loading="loading" :disabled="disabled" @click="onStart && onStart()">
-      {{ status === 'in_progress' ? '继续' : '开始' }} <span aria-hidden="true">→</span>
+      {{ status === 'in_progress' ? '继续' : '开始' }}<Icon name="arrow-right" :size="14" />
     </BaseButton>
   </article>
 </template>
