@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, ref, computed, watch } from 'vue';
 import * as echarts from 'echarts';
 import { http } from '../api/client';
 import { chartTheme } from '../utils/chartTheme';
+import BaseButton from '../components/base/BaseButton.vue';
 const t = chartTheme();
 const el = ref(null);
 const raw = ref({ nodes: [], links: [] });
@@ -203,44 +204,61 @@ onUnmounted(() => { if (pollTimer) clearTimeout(pollTimer); if (chart) chart.dis
 <template>
   <div class="card">
     <div class="toolbar">
-      <input v-model="search" placeholder="搜索知识点…" style="width:210px" />
+      <input v-model="search" placeholder="搜索知识点…" class="w210" />
       <span class="spacer"></span>
-      <label v-for="(label, key) in relNames" :key="key"
-             style="font-size:12px;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:4px">
+      <label v-for="(label, key) in relNames" :key="key" class="rel-filter">
         <input type="checkbox" v-model="showTypes[key]" /> {{ label }}
       </label>
       <span class="badge accent">{{ matchedCount }} 节点 · {{ visibleLinkCount }} 边</span>
-      <button class="ghost sm" @click="resetView">重置视图</button>
+      <BaseButton size="sm" variant="ghost" @click="resetView">重置视图</BaseButton>
     </div>
-    <div class="list-panel" style="position:relative;padding:0">
-      <div class="graph-wrap" :class="{ ready }" style="height:620px;width:100%">
-        <div ref="el" style="height:620px;width:100%"></div>
+    <div class="list-panel graph-panel">
+      <div class="graph-wrap" :class="{ ready }">
+        <div ref="el" class="graph-canvas"></div>
       </div>
-      <div v-if="info" class="graph-side" style="opacity:1">
-        <div class="row" style="justify-content:space-between">
-          <b style="font-size:14px">{{ info.name }}</b>
-          <button class="ghost sm" @click="info = null; detail = null">✕</button>
+      <div v-if="info" class="graph-side">
+        <div class="row between">
+          <b class="side-title">{{ info.name }}</b>
+          <BaseButton size="sm" variant="ghost" icon="x-circle" aria-label="关闭" @click="info = null; detail = null"></BaseButton>
         </div>
-        <div class="row" style="margin:10px 0">
-          <span class="muted" style="font-size:12px">掌握度</span>
-          <span class="progress" :class="info.mastery < 40 ? 'err' : (info.mastery < 70 ? 'warn' : '')" style="flex:1">
+        <div class="row side-mastery">
+          <span class="muted muted-sm">掌握度</span>
+          <span class="progress side-progress" :class="info.mastery < 40 ? 'err' : (info.mastery < 70 ? 'warn' : '')">
             <i :style="{ width: info.mastery + '%' }"></i>
           </span>
-          <b class="num" style="font-size:13px">{{ Math.round(info.mastery) }}%</b>
+          <b class="num side-pct">{{ Math.round(info.mastery) }}%</b>
         </div>
-        <p class="muted" style="font-size:12px;margin:8px 0;line-height:1.7" v-if="detail && detail.description">{{ detail.description }}</p>
-        <div class="row" style="margin:8px 0" v-if="detail">
+        <p class="muted side-desc" v-if="detail && detail.description">{{ detail.description }}</p>
+        <div class="row side-tags" v-if="detail">
           <span class="tag">关联题 {{ detail.questions.length }}</span>
           <span class="tag">子节点 {{ detail.children.length }}</span>
         </div>
         <div class="row">
-          <router-link :to="'/practice?kp=' + info.id"><button class="sm">练习本知识点</button></router-link>
-          <router-link to="/knowledge"><button class="sm ghost">知识库</button></router-link>
+          <BaseButton :to="'/practice?kp=' + info.id" size="sm" icon="target">练习本知识点</BaseButton>
+          <BaseButton :to="'/knowledge'" size="sm" variant="ghost" icon="book">知识点库</BaseButton>
         </div>
       </div>
     </div>
-    <p class="muted" style="padding:10px 14px 2px;font-size:12px">
+    <p class="muted graph-hint">
       拖拽节点可固定位置 · 滚轮缩放 · 空白处拖拽平移画布 · 悬停高亮关联 · 点击节点查看详情
     </p>
   </div>
 </template>
+
+<style scoped>
+/* 原内联样式静默化：布局/宽度一律 scoped 类；掌握度进度等动态宽度保留 :style 绑定 */
+.w210 { width: 210px; }
+.rel-filter { font-size: 12px; color: var(--text-muted); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+.graph-panel { position: relative; padding: 0; }
+.graph-wrap { height: 620px; width: 100%; }
+.graph-canvas { height: 620px; width: 100%; }
+.between { justify-content: space-between; }
+.side-title { font-size: 14px; }
+.side-mastery { margin: 10px 0; }
+.muted-sm { font-size: 12px; }
+.side-progress { flex: 1; }
+.side-pct { font-size: 13px; }
+.side-desc { font-size: 12px; margin: 8px 0; line-height: 1.7; }
+.side-tags { margin: 8px 0; }
+.graph-hint { padding: 10px 14px 2px; font-size: 12px; }
+</style>
