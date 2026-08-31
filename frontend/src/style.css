@@ -62,8 +62,8 @@
   --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:32px; --space-7:48px;
 
   /* 字体 / 版式 */
-  --font:"Segoe UI","Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;
-  --mono:"Cascadia Code","Consolas",monospace;
+  --font:"Inter","Segoe UI","Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;
+  --mono:"Inter","Cascadia Code","Consolas",monospace;
   --sidebar-w:256px; --topbar-h:64px;
   --ease:cubic-bezier(.4,0,.2,1);
 }
