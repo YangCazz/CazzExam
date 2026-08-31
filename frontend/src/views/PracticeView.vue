@@ -2,6 +2,8 @@
 import { onMounted, ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { http } from '../api/client';
+import BaseButton from '../components/base/BaseButton.vue';
+import Icon from '../components/Icon.vue';
 const route = useRoute();
 const taskId = Number(route.query.task || 0);
 const tree = ref([]);
@@ -60,44 +62,44 @@ onMounted(async () => {
   <!-- 知识点选择 -->
   <div class="card" v-if="view === 'pick'">
     <div class="toolbar">
-      <b style="font-size:13px">选择知识点</b>
+      <b class="tb-title">选择知识点</b>
       <span class="spacer"></span>
       <span class="badge accent">{{ tree.length }} 个知识点</span>
     </div>
-    <div class="list-panel" style="padding:6px 8px 10px">
-      <p v-if="err" class="badge err" style="margin:8px">{{ err }}</p>
-      <p class="muted" style="margin:8px 12px">点选知识点开始练习：做关联题 → 即时判分 → 答错自动进错题本。</p>
+    <div class="list-panel">
+      <p v-if="err" class="badge err err-inline">{{ err }}</p>
+      <p class="muted pick-hint">点选知识点开始练习：做关联题 → 即时判分 → 答错自动进错题本。</p>
       <div v-for="p in tree" :key="p.id" class="tree-row" @click="startWithKp(p.id)">
         <span class="tree-guide" v-for="i in indent(p)" :key="i"></span>
         <span class="tree-dot"></span>
-        <span style="flex:1;min-width:0">
+        <span class="tcell">
           <span class="tcell-main">{{ p.name }}</span>
           <span class="tcell-sub" v-if="p.code"> · {{ p.code }}</span>
         </span>
-        <span class="num muted" style="width:44px;text-align:right">{{ Math.round(p.mastery) }}%</span>
-        <button class="sm ghost" @click.stop="startWithKp(p.id)">练习</button>
+        <span class="num muted tree-num">{{ Math.round(p.mastery) }}%</span>
+        <BaseButton size="sm" variant="ghost" icon="practice" @click.stop="startWithKp(p.id)">练习</BaseButton>
       </div>
     </div>
   </div>
 
   <!-- 练习中 -->
   <div class="card" v-if="view === 'practice' && session && current">
-    <div class="row" style="justify-content:space-between">
+    <div class="row q-head">
       <div>
-        <b style="font-size:14px">{{ session.kpName }}</b>
-        <span class="badge accent" style="margin-left:8px">{{ qtypeName(current) }}</span>
+        <b class="kp-name">{{ session.kpName }}</b>
+        <span class="badge accent q-badge">{{ qtypeName(current) }}</span>
       </div>
       <span class="badge ok">答对 {{ stats.correct }}/{{ stats.answered }}</span>
     </div>
-    <div class="row" style="margin:12px 0 6px">
-      <span class="muted num" style="font-size:12px;width:44px">{{ session.idx + 1 }}/{{ session.questions.length }}</span>
-      <span class="progress" style="flex:1"><i :style="{ width: ((session.idx + 1) / session.questions.length * 100) + '%' }"></i></span>
+    <div class="row q-progress-row">
+      <span class="muted num q-index">{{ session.idx + 1 }}/{{ session.questions.length }}</span>
+      <span class="progress q-progress"><i :style="{ width: ((session.idx + 1) / session.questions.length * 100) + '%' }"></i></span>
     </div>
 
     <div class="q-box">
       <div class="stem">{{ current.stem }}</div>
-      <div v-if="current.items && current.items.length" style="margin-top:10px">
-        <div v-for="it in current.items" :key="it.seq" style="margin:6px 0">
+      <div v-if="current.items && current.items.length" class="q-items">
+        <div v-for="it in current.items" :key="it.seq" class="q-item">
           <b>（{{ it.seq }}）</b> {{ it.stem }} <span class="muted">[{{ it.score }}分]</span>
         </div>
       </div>
@@ -109,16 +111,16 @@ onMounted(async () => {
                  'opt-wrong': session.results[current.id] && selected() === opt[0] && !session.results[current.id].is_correct
                }">
           <input type="radio" :name="'p' + current.id" :value="opt[0]" v-model="session.answers[current.id]"
-                 :disabled="!!session.results[current.id]" style="display:none" />
+                 :disabled="!!session.results[current.id]" class="opt-input" />
           {{ opt }}
         </label>
       </template>
-      <textarea v-else v-model="session.answers[current.id]" rows="5"
+      <textarea v-else v-model="session.answers[current.id]" rows="5" class="answer-input"
                 :disabled="!!session.results[current.id]"
-                placeholder="在下方作答，交卷后对照参考答案自评" style="width:100%"></textarea>
+                placeholder="在下方作答，交卷后对照参考答案自评"></textarea>
     </div>
 
-    <div v-if="session.results[current.id]" style="margin-top:12px">
+    <div v-if="session.results[current.id]" class="answer-result">
       <p>
         <span class="badge" :class="session.results[current.id].is_correct ? 'ok' : 'err'">
           {{ session.results[current.id].is_correct ? '✓ 回答正确' : (session.results[current.id].correct_answer ? '✗ 回答错误' : '主观题 · 请对照参考答案自评') }}
@@ -131,22 +133,22 @@ onMounted(async () => {
       <p class="muted" v-if="session.results[current.id].correct_answer && !session.results[current.id].is_correct">已自动加入错题本，可在「错题本」归因复习。</p>
     </div>
 
-    <div class="row" style="justify-content:space-between;margin-top:16px">
-      <button class="ghost" :disabled="session.idx === 0" @click="goTo(session.idx - 1)">◀ 上一题</button>
-      <div class="row" style="gap:4px">
+    <div class="row q-foot">
+      <BaseButton variant="ghost" :disabled="session.idx === 0" icon="chevron-left" @click="goTo(session.idx - 1)">上一题</BaseButton>
+      <div class="row q-dots">
         <button v-for="(qq, i) in session.questions" :key="qq.id" class="dot-btn"
                 :class="{ done: session.results[qq.id] && session.results[qq.id].is_correct, wrong: session.results[qq.id] && !session.results[qq.id].is_correct, cur: i === session.idx }"
                 @click="goTo(i)">{{ i + 1 }}</button>
       </div>
-      <button v-if="!session.results[current.id]" @click="check" :disabled="!selected()">提交</button>
-      <button v-else @click="next">{{ session.idx < session.questions.length - 1 ? '下一题 ▶' : '完成练习' }}</button>
+      <BaseButton v-if="!session.results[current.id]" :disabled="!selected()" @click="check">提交</BaseButton>
+      <BaseButton v-else @click="next">{{ session.idx < session.questions.length - 1 ? '下一题' : '完成练习' }}<Icon name="chevron-right" :size="14" /></BaseButton>
     </div>
   </div>
 
   <!-- 完成总结 -->
   <div class="card" v-if="view === 'result' && session">
     <h2>练习完成 · {{ session.kpName }}</h2>
-    <div class="stat-grid" style="margin:14px 0">
+    <div class="stat-grid result-stats">
       <div class="stat-card">
         <div class="stat-label">答对</div>
         <div class="stat-value">{{ stats.correct }}<small>/{{ stats.answered }}</small></div>
@@ -164,7 +166,7 @@ onMounted(async () => {
       <h3>错题回顾（已自动加入错题本）</h3>
       <div class="q-box" v-for="w in stats.wrongs" :key="w.question_id">
         <div class="stem">{{ w.stem }}</div>
-        <p style="margin:8px 0">
+        <p class="wrong-answer">
           我的答案 <span class="badge err">{{ w.answer || '未作答' }}</span>
           正确答案 <span class="badge ok">{{ w.correct_answer }}</span>
         </p>
@@ -172,9 +174,35 @@ onMounted(async () => {
       </div>
     </template>
     <p v-else class="muted">全部答对，太棒了！</p>
-    <div class="row" style="margin-top:16px">
-      <button @click="restart">再来一次</button>
-      <button class="ghost" @click="backToPick">选择其他知识点</button>
+    <div class="row result-actions">
+      <BaseButton icon="restart" @click="restart">再来一次</BaseButton>
+      <BaseButton variant="ghost" @click="backToPick">选择其他知识点</BaseButton>
     </div>
   </div>
 </template>
+
+<style scoped>
+/* 原内联样式静默化：布局一律走 scoped 类；进度/掌握度等动态宽度保留 :style 绑定 */
+.tb-title { font-size: 13px; }
+.list-panel { padding: 6px 8px 10px; }
+.err-inline { margin: 8px; }
+.pick-hint { margin: 8px 12px; }
+.tcell { flex: 1; min-width: 0; }
+.tree-num { width: 44px; text-align: right; }
+.q-head { justify-content: space-between; }
+.kp-name { font-size: 14px; }
+.q-badge { margin-left: 8px; }
+.q-progress-row { margin: 12px 0 6px; }
+.q-index { font-size: 12px; width: 44px; }
+.q-progress { flex: 1; }
+.q-items { margin-top: 10px; }
+.q-item { margin: 6px 0; }
+.opt-input { display: none; }
+.answer-input { width: 100%; }
+.answer-result { margin-top: 12px; }
+.q-foot { justify-content: space-between; margin-top: 16px; }
+.q-dots { gap: 4px; }
+.result-stats { margin: 14px 0; }
+.wrong-answer { margin: 8px 0; }
+.result-actions { margin-top: 16px; }
+</style>

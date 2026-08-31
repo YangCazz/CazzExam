@@ -5,8 +5,8 @@ import { computed } from 'vue';
 import {
   Home, BookOpen, Target, Network, Database, FileText, TriangleAlert,
   Calendar, BarChart3, Settings, Briefcase, ClipboardCheck, PenLine,
-  ArrowRight, ChevronRight, CheckCircle2, Clock, TrendingUp, PieChart,
-  GitBranch, FlaskConical, Sigma, Library, Laptop, RefreshCcw,
+  ArrowRight, ChevronLeft, ChevronRight, CheckCircle2, XCircle, Clock,
+  TrendingUp, PieChart, GitBranch, FlaskConical, Sigma, Library, Laptop, RefreshCcw,
 } from 'lucide-vue-next';
 
 const props = defineProps({ name: { type: String, required: true }, size: { type: Number, default: 16 } });
@@ -14,7 +14,8 @@ const icons = {
   home: Home, book: BookOpen, target: Target, network: Network, database: Database,
   essay: FileText, wrong: TriangleAlert, calendar: Calendar, chart: BarChart3,
   gear: Settings, case: Briefcase, exam: ClipboardCheck, practice: PenLine,
-  'arrow-right': ArrowRight, 'chevron-right': ChevronRight, 'check-circle': CheckCircle2,
+  'arrow-right': ArrowRight, 'chevron-left': ChevronLeft, 'chevron-right': ChevronRight,
+  'check-circle': CheckCircle2, 'x-circle': XCircle,
   clock: Clock, 'trending-up': TrendingUp, pie: PieChart, branch: GitBranch,
   lab: FlaskConical, sigma: Sigma, library: Library, laptop: Laptop,
   restart: RefreshCcw,
