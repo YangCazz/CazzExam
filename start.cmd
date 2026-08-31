@@ -1,7 +1,14 @@
 @echo off
-chcp 65001 >nul
-echo [1/2] 启动后端 (uvicorn :8000) ...
-start "study-backend" cmd /c "cd /d %~dp0backend && ..\tools\python\python.exe -m uvicorn app.main:app --port 8000"
-echo [2/2] 启动前端 (vite :5173) ...
-start "study-frontend" cmd /c "cd /d %~dp0frontend && node node_modules\vite\bin\vite.js"
-echo 打开浏览器访问 http://127.0.0.1:5173
+setlocal
+cd /d "%~dp0"
+
+echo Starting backend on http://127.0.0.1:8000 ...
+start "Ruankao Backend" /min /D "%~dp0backend" "%~dp0tools\python\python.exe" -m uvicorn app.main:app --port 8000
+
+echo Starting frontend on http://127.0.0.1:5173 ...
+start "Ruankao Frontend" /min /D "%~dp0frontend" node.exe node_modules\vite\bin\vite.js --host 127.0.0.1
+
+ping 127.0.0.1 -n 4 >nul
+if not defined RUANKAO_NO_BROWSER start "Ruankao Study" http://127.0.0.1:5173
+echo Started. You may close this window.
+endlocal
