@@ -7,6 +7,7 @@ import {
   Calendar, BarChart3, Settings, Briefcase, ClipboardCheck, PenLine,
   ArrowRight, ChevronLeft, ChevronRight, CheckCircle2, XCircle, Clock,
   TrendingUp, PieChart, GitBranch, FlaskConical, Sigma, Library, Laptop, RefreshCcw,
+  Sparkles,
 } from 'lucide-vue-next';
 
 const props = defineProps({ name: { type: String, required: true }, size: { type: Number, default: 16 } });
@@ -18,7 +19,7 @@ const icons = {
   'check-circle': CheckCircle2, 'x-circle': XCircle,
   clock: Clock, 'trending-up': TrendingUp, pie: PieChart, branch: GitBranch,
   lab: FlaskConical, sigma: Sigma, library: Library, laptop: Laptop,
-  restart: RefreshCcw,
+  restart: RefreshCcw, sparkles: Sparkles,
 };
 const icon = computed(() => icons[props.name] || null);
 </script>

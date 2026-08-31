@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, reactive, onUnmounted } from 'vue';
 import { http } from '../api/client';
+import BaseButton from '../components/base/BaseButton.vue';
 const tab = ref('essays');
 const essays = ref([]);
 const mats = ref([]);
@@ -67,12 +68,12 @@ async function addMat() {
 </script>
 <template>
   <div class="card">
-    <div class="row" style="justify-content:space-between">
-      <h2 style="margin:0">论文专项</h2>
+    <div class="row between">
+      <h2 class="head-title">论文专项</h2>
       <div class="row">
-        <button :class="tab === 'essays' ? '' : 'ghost'" @click="tab = 'essays'">论文真题与写作</button>
-        <button :class="tab === 'mats' ? '' : 'ghost'" @click="tab = 'mats'">素材库</button>
-        <button :class="tab === 'adr' ? '' : 'ghost'" @click="tab = 'adr'">ADR 记录</button>
+        <BaseButton size="sm" :variant="tab === 'essays' ? 'primary' : 'ghost'" @click="tab = 'essays'">论文真题与写作</BaseButton>
+        <BaseButton size="sm" :variant="tab === 'mats' ? 'primary' : 'ghost'" @click="tab = 'mats'">素材库</BaseButton>
+        <BaseButton size="sm" :variant="tab === 'adr' ? 'primary' : 'ghost'" @click="tab = 'adr'">ADR 记录</BaseButton>
       </div>
     </div>
     <p v-if="err" class="badge err">{{ err }}</p>
@@ -82,36 +83,36 @@ async function addMat() {
   <template v-if="tab === 'essays'">
     <div class="card" v-if="!writing">
       <h2>论文真题库（点击开始限时写作，120 分钟）</h2>
-      <div style="margin-top:8px">
+      <div class="mt8">
         <div v-for="e in essays" :key="e.id" class="tree-row" @click="startWrite(e)">
           <span class="tree-dot"></span>
-          <span style="flex:1;min-width:0">
+          <span class="tcell">
             <span class="tcell-main">{{ (e.stem || '').split('\n')[0] }}</span>
             <span class="tcell-sub" v-if="(e.stem || '').includes('\n')">{{ e.stem.split('\n').slice(1).join(' ') }}</span>
           </span>
           <span class="tag" v-if="e.source_year">{{ e.source_year }}</span>
-          <button class="sm ghost" @click.stop="startWrite(e)">开始写作</button>
+          <BaseButton size="sm" variant="ghost" @click.stop="startWrite(e)">开始写作</BaseButton>
         </div>
         <div class="empty" v-if="!essays.length">暂无论文真题。在「题库」录 qtype=essay 的题目即可出现。</div>
       </div>
     </div>
 
     <div class="card" v-if="writing">
-      <div class="row" style="justify-content:space-between">
-        <h2 style="margin:0">{{ writing.stem }}</h2>
+      <div class="row between">
+        <h2 class="head-title">{{ writing.stem }}</h2>
         <div class="row">
           <span class="badge" :class="timeLeft < 1800 ? 'err' : 'ok'">剩余 {{ fmtTime(timeLeft) }}</span>
           <span class="badge warn">字数 {{ wordCount }}</span>
-          <button class="ghost" @click="submit">交卷</button>
+          <BaseButton variant="ghost" @click="submit">交卷</BaseButton>
         </div>
       </div>
-      <textarea v-model="draft" rows="18" @input="onInput" placeholder="在此撰写论文（建议 2500 字以上，结合亲身项目实践）" style="width:100%;font-size:14px;line-height:1.8"></textarea>
-      <div class="row" style="margin-top:10px">
-        <button class="ghost" @click="showRef = !showRef">{{ showRef ? '隐藏' : '查看' }}参考提纲</button>
-        <button @click="grade" :disabled="!attemptId">AI 批改论文</button>
+      <textarea v-model="draft" rows="18" @input="onInput" placeholder="在此撰写论文（建议 2500 字以上，结合亲身项目实践）" class="draft-input"></textarea>
+      <div class="row mt10">
+        <BaseButton variant="ghost" @click="showRef = !showRef">{{ showRef ? '隐藏' : '查看' }}参考提纲</BaseButton>
+        <BaseButton icon="sparkles" :disabled="!attemptId" @click="grade">AI 批改论文</BaseButton>
       </div>
-      <div v-if="showRef" class="muted" style="margin-top:8px">{{ writing.analysis || writing.answer || '（题库未录入参考提纲）' }}</div>
-      <div v-if="aiGrade" style="margin-top:10px">
+      <div v-if="showRef" class="muted mt8">{{ writing.analysis || writing.answer || '（题库未录入参考提纲）' }}</div>
+      <div v-if="aiGrade" class="mt10">
         <p class="muted">{{ aiGrade.message }}</p>
         <pre v-if="aiGrade.scores" class="ai-pre">{{ JSON.stringify(aiGrade.scores, null, 2) }}</pre>
       </div>
@@ -126,13 +127,13 @@ async function addMat() {
         <tr><th>分类</th><th>标题</th><th>标签</th></tr>
         <tr v-for="m in mats" :key="m.id"><td>{{ m.category }}</td><td>{{ m.title }}</td><td>{{ m.tags }}</td></tr>
       </table>
-      <div class="row" style="margin-top:12px">
+      <div class="row mt12">
         <select v-model="matForm.category"><option>项目经历</option><option>架构决策</option><option>技术点</option><option>范文</option></select>
-        <input v-model="matForm.title" placeholder="标题" style="flex:1" />
-        <input v-model="matForm.tags" placeholder="标签(逗号分隔)" style="width:200px" />
-        <button @click="addMat">保存素材</button>
+        <input v-model="matForm.title" placeholder="标题" class="flex1" />
+        <input v-model="matForm.tags" placeholder="标签(逗号分隔)" class="w200" />
+        <BaseButton @click="addMat">保存素材</BaseButton>
       </div>
-      <div><textarea v-model="matForm.content" rows="3" placeholder="内容（写作时可引用）" style="width:100%"></textarea></div>
+      <div><textarea v-model="matForm.content" rows="3" placeholder="内容（写作时可引用）" class="w100"></textarea></div>
       <p class="muted">提示：每完成一个模块/架构决策，就补一条素材——这是论文的弹药库。</p>
     </div>
   </template>
@@ -150,5 +151,16 @@ async function addMat() {
   </template>
 </template>
 <style scoped>
+/* 实用布局类（替代原内联 style） */
+.between { justify-content: space-between; }
+.head-title { margin: 0; }
+.mt8 { margin-top: 8px; }
+.mt10 { margin-top: 10px; }
+.mt12 { margin-top: 12px; }
+.tcell { flex: 1; min-width: 0; }
+.draft-input { width: 100%; font-size: 14px; line-height: 1.8; }
+.flex1 { flex: 1; }
+.w200 { width: 200px; }
+.w100 { width: 100%; }
 .ai-pre { background: var(--surface-inset); padding: 10px; border-radius: 8px; overflow: auto; }
 </style>
