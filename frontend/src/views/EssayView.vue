@@ -113,7 +113,7 @@ async function addMat() {
       <div v-if="showRef" class="muted" style="margin-top:8px">{{ writing.analysis || writing.answer || '（题库未录入参考提纲）' }}</div>
       <div v-if="aiGrade" style="margin-top:10px">
         <p class="muted">{{ aiGrade.message }}</p>
-        <pre v-if="aiGrade.scores" style="background:var(--panel2);padding:10px;border-radius:8px;overflow:auto">{{ JSON.stringify(aiGrade.scores, null, 2) }}</pre>
+        <pre v-if="aiGrade.scores" class="ai-pre">{{ JSON.stringify(aiGrade.scores, null, 2) }}</pre>
       </div>
     </div>
   </template>
@@ -149,3 +149,6 @@ async function addMat() {
     </div>
   </template>
 </template>
+<style scoped>
+.ai-pre { background: var(--surface-inset); padding: 10px; border-radius: 8px; overflow: auto; }
+</style>

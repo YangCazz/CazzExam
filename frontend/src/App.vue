@@ -1,9 +1,10 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import Icon from './components/Icon.vue';
-import { http } from './api/client';
+import AppSidebar from './components/shell/AppSidebar.vue';
+import PageHeader from './components/shell/PageHeader.vue';
 import CommandPalette from './components/CommandPalette.vue';
+import { http } from './api/client';
 
 const route = useRoute();
 const profile = ref({ certification: '系统架构设计师', target_date: '' });
@@ -13,6 +14,7 @@ const pageMeta = computed(() => ({
   '/essay': ['论文工作台', '素材、项目事实与限时表达'], '/exam': ['模拟考试', '在完整约束下验证阶段能力'], '/review': ['复习队列', '先回忆，再核对，再安排下一次'],
   '/insights': ['能力画像', '以证据识别下一轮训练重点'], '/content': ['内容工作台', '题目、知识点与导入质量治理'], '/settings': ['偏好与数据', '目标、隐私和本地数据控制'],
 }[route.path] || ['', '']));
+const eyebrow = computed(() => `学习操作系统 / ${profile.value.certification}`);
 const daysLeft = computed(() => !profile.value.target_date ? '未设置' : Math.max(0, Math.ceil((new Date(profile.value.target_date) - new Date()) / 86400000)));
 const groups = [
   { label: '行动台', items: [['/', 'home', '学习总览'], ['/diagnostic', 'target', '学习诊断'], ['/weekly', 'calendar', '节奏规划']] },
@@ -29,12 +31,16 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onShortcut));
 
 <template>
   <div class="workbench-shell">
-    <aside class="workbench-nav">
-      <router-link class="workbench-brand" to="/"><span class="brand-mark">SA</span><span><strong>架构备考工作台</strong><small>LOCAL STUDY SYSTEM</small></span></router-link>
-      <nav v-for="group in groups" :key="group.label" class="nav-section"><span class="nav-label">{{ group.label }}</span><router-link v-for="[path, icon, label] in group.items" :key="path" :to="path"><Icon :name="icon" :size="17" /><span>{{ label }}</span></router-link></nav>
-      <div class="nav-profile"><span class="presence-dot"></span><div><b>{{ profile.certification }}</b><small>数据仅存储在本机</small></div></div>
-    </aside>
-    <main class="workbench-main"><header class="workbench-topbar"><div><p class="eyebrow">学习操作系统 / {{ profile.certification }}</p><h1>{{ pageMeta[0] }}</h1><p class="topbar-sub">{{ pageMeta[1] }}</p></div><div class="topbar-actions"><button class="command-trigger" title="快速导航 (Ctrl K)" @click="paletteOpen = true"><span>⌕</span> 快速导航 <kbd>⌘ K</kbd></button><router-link to="/settings" class="deadline-chip"><span>目标日</span><b>{{ daysLeft === '未设置' ? '待设置' : `还有 ${daysLeft} 天` }}</b></router-link></div></header><router-view :key="route.fullPath" /></main>
+    <AppSidebar :groups="groups" :profile="profile" />
+    <main class="workbench-main">
+      <PageHeader :eyebrow="eyebrow" :title="pageMeta[0]" :subtitle="pageMeta[1]">
+        <template #actions>
+          <button class="command-trigger" title="快速导航 (Ctrl K)" @click="paletteOpen = true"><span>⌕</span> 快速导航 <kbd>⌘ K</kbd></button>
+          <router-link to="/settings" class="deadline-chip"><span>目标日</span><b>{{ daysLeft === '未设置' ? '待设置' : `还有 ${daysLeft} 天` }}</b></router-link>
+        </template>
+      </PageHeader>
+      <router-view :key="route.fullPath" />
+    </main>
     <CommandPalette :open="paletteOpen" :items="paletteItems" @close="paletteOpen = false" />
   </div>
 </template>

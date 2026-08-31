@@ -2,6 +2,8 @@
 import { onMounted, onUnmounted, ref, computed, watch } from 'vue';
 import * as echarts from 'echarts';
 import { http } from '../api/client';
+import { chartTheme } from '../utils/chartTheme';
+const t = chartTheme();
 const el = ref(null);
 const raw = ref({ nodes: [], links: [] });
 const info = ref(null);
@@ -34,8 +36,8 @@ function buildNodes() {
       y: pos ? pos[1] : undefined,
       symbolSize: 18 + Math.min(n.mastery || 0, 100) / 10,
       fixed: (fixedIds.has(n.id) || pos) ? true : undefined,
-      itemStyle: { color: (n.mastery || 0) < 40 ? '#f87171' : '#5b8cff', opacity: isMatch ? 1 : 0.12 },
-      label: { show: isMatch, fontSize: 11, color: matched && matched.includes(n.id) ? '#ffffff' : '#dbe4f3' },
+      itemStyle: { color: t.nodeColor(n.mastery), opacity: isMatch ? 1 : 0.12 },
+      label: { show: isMatch, fontSize: 11, color: matched && matched.includes(n.id) ? '#ffffff' : t.label },
       emphasis: { itemStyle: { borderColor: '#fff', borderWidth: 1 } },
     };
   });
@@ -44,16 +46,15 @@ function buildLinks() {
   const typeSet = new Set(Object.keys(showTypes.value).filter(k => showTypes.value[k]));
   return raw.value.links.filter(l => typeSet.has(l.type)).map(l => ({
     source: l.source, target: l.target,
-    label: { show: true, formatter: relNames[l.type] || l.type, fontSize: 9, color: '#8b9ab9' },
+    label: { show: true, formatter: relNames[l.type] || l.type, fontSize: 9, color: t.textMuted },
   }));
 }
 function buildOption(extra = {}) {
   return {
-    textStyle: { color: '#dbe4f3' },
+    textStyle: { color: t.label },
     tooltip: {
       formatter: (p) => p.dataType === 'node' ? p.data.name : '',
-      confine: true, backgroundColor: 'rgba(13, 18, 32, 0.95)',
-      borderColor: '#2c3a5c', textStyle: { color: '#e7edf8' },
+      confine: true, ...t.tooltip,
     },
     series: [{
       type: 'graph',
@@ -64,7 +65,7 @@ function buildOption(extra = {}) {
       label: { show: true, fontSize: 11 },
       data: buildNodes(),
       links: buildLinks(),
-      lineStyle: { color: '#5c6b8c', width: 1, opacity: 0.55 },
+      lineStyle: { color: t.line, width: 1, opacity: 0.55 },
       force: { repulsion: 320, edgeLength: 100, gravity: 0.1 },
       emphasis: { focus: 'adjacency', lineStyle: { width: 2, opacity: 1 } },
       ...extra,

@@ -139,8 +139,8 @@ async function gradeEssay() {
       </div>
     </div>
     <div class="row" style="margin:10px 0;flex-wrap:wrap">
-      <button v-for="(qq, i) in paper.questions" :key="qq.id" class="ghost"
-              :style="{ background: answers[qq.id] !== undefined ? 'rgba(52,211,153,0.25)' : '', margin: '2px' }"
+      <button v-for="(qq, i) in paper.questions" :key="qq.id" class="ghost q-dot"
+              :class="{ answered: answers[qq.id] !== undefined }"
               @click="jump(i)">{{ i + 1 }}</button>
     </div>
     <div class="q-box" v-if="q">
@@ -206,7 +206,7 @@ async function gradeEssay() {
       </div>
       <div v-if="aiGrade" style="margin-top:10px">
         <p class="muted">{{ aiGrade.message }}</p>
-        <pre v-if="aiGrade.scores" style="background:var(--panel2);padding:10px;border-radius:8px;overflow:auto">{{ JSON.stringify(aiGrade.scores, null, 2) }}</pre>
+        <pre v-if="aiGrade.scores" class="ai-pre">{{ JSON.stringify(aiGrade.scores, null, 2) }}</pre>
       </div>
       <button v-if="report.subjective.some(s => s.qtype === 'essay')" @click="gradeEssay">AI 批改论文</button>
     </template>
@@ -216,3 +216,8 @@ async function gradeEssay() {
     </div>
   </div>
 </template>
+<style scoped>
+.q-dot { margin: 2px; padding: 6px 9px; font-size: 12px; border-radius: 7px; }
+.q-dot.answered { background: var(--ok-dim); color: var(--status-success); border-color: rgba(52, 211, 153, 0.3); }
+.ai-pre { background: var(--surface-inset); padding: 10px; border-radius: 8px; overflow: auto; }
+</style>
