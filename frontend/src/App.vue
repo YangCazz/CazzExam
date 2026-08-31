@@ -29,6 +29,6 @@ onMounted(async () => { try { profile.value = await http.get('/learning/profile'
       <nav v-for="group in groups" :key="group.label" class="nav-section"><span class="nav-label">{{ group.label }}</span><router-link v-for="[path, icon, label] in group.items" :key="path" :to="path"><Icon :name="icon" :size="17" /><span>{{ label }}</span></router-link></nav>
       <div class="nav-profile"><span class="presence-dot"></span><div><b>{{ profile.certification }}</b><small>数据仅存储在本机</small></div></div>
     </aside>
-    <main class="workbench-main"><header class="workbench-topbar"><div><p class="eyebrow">学习操作系统 / {{ profile.certification }}</p><h1>{{ pageMeta[0] }}</h1><p class="topbar-sub">{{ pageMeta[1] }}</p></div><router-link to="/settings" class="deadline-chip"><span>目标日</span><b>{{ daysLeft === '未设置' ? '待设置' : `还有 ${daysLeft} 天` }}</b></router-link></header><router-view v-slot="{ Component }"><transition name="fade" mode="out-in"><component :is="Component" :key="route.fullPath" /></transition></router-view></main>
+    <main class="workbench-main"><header class="workbench-topbar"><div><p class="eyebrow">学习操作系统 / {{ profile.certification }}</p><h1>{{ pageMeta[0] }}</h1><p class="topbar-sub">{{ pageMeta[1] }}</p></div><router-link to="/settings" class="deadline-chip"><span>目标日</span><b>{{ daysLeft === '未设置' ? '待设置' : `还有 ${daysLeft} 天` }}</b></router-link></header><router-view :key="route.fullPath" /></main>
   </div>
 </template>
