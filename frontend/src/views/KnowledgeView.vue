@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
 import { http } from '../api/client';
+import BaseButton from '../components/base/BaseButton.vue';
 const points = ref([]);
 const selected = ref(null);
 const detail = ref(null);
@@ -43,60 +44,60 @@ function masteryClass(m) { return m < 40 ? 'err' : (m < 70 ? 'warn' : ''); }
 <template>
   <div class="card">
     <div class="toolbar">
-      <b style="font-size:13px">章-节-知识点</b>
+      <b class="tb-title">章-节-知识点</b>
       <span class="spacer"></span>
       <span class="badge accent">{{ points.length }} 个知识点</span>
     </div>
-    <div class="list-panel" style="padding:6px 8px 10px">
-      <p v-if="err" class="badge err" style="margin:8px">{{ err }}</p>
+    <div class="list-panel">
+      <p v-if="err" class="badge err err-inline">{{ err }}</p>
       <div v-for="p in points" :key="p.id" class="tree-row"
            :class="{ active: selected && selected.id === p.id }" @click="select(p)">
         <span class="tree-guide" v-for="i in indent(p)" :key="i"></span>
         <span class="tree-dot"></span>
-        <span style="flex:1;min-width:0">
+        <span class="tcell">
           <span class="tcell-main">{{ p.name }}</span>
           <span class="tcell-sub" v-if="p.code"> · {{ subjects[p.subject] }}</span>
         </span>
-        <span class="progress" :class="masteryClass(p.mastery)" style="width:88px"><i :style="{ width: p.mastery + '%' }"></i></span>
-        <span class="num muted" style="width:40px;text-align:right">{{ Math.round(p.mastery) }}%</span>
+        <span class="progress tree-progress" :class="masteryClass(p.mastery)"><i :style="{ width: p.mastery + '%' }"></i></span>
+        <span class="num muted tree-num">{{ Math.round(p.mastery) }}%</span>
       </div>
       <div class="empty" v-if="!points.length && !err">还没有知识点，用下方表单添加</div>
     </div>
   </div>
 
   <div class="card" v-if="detail">
-    <div class="row" style="justify-content:space-between">
-      <h2 style="margin:0">{{ detail.name }} <span class="muted" style="font-weight:400;font-size:12px">{{ detail.code }}</span></h2>
+    <div class="row detail-head">
+      <h2 class="detail-title">{{ detail.name }} <span class="muted detail-code">{{ detail.code }}</span></h2>
       <div class="row">
         <span class="badge accent">{{ subjects[detail.subject] }}</span>
-        <router-link :to="'/practice?kp=' + detail.id"><button class="sm">练习本知识点</button></router-link>
+        <BaseButton :to="'/practice?kp=' + detail.id" size="sm" icon="target">练习本知识点</BaseButton>
       </div>
     </div>
-    <div class="row" style="margin:12px 0 4px">
-      <span class="muted" style="font-size:12px">掌握度</span>
-      <span class="progress" :class="masteryClass(detail.mastery)" style="width:220px"><i :style="{ width: detail.mastery + '%' }"></i></span>
+    <div class="row mastery-row">
+      <span class="muted muted-sm">掌握度</span>
+      <span class="progress mastery-bar" :class="masteryClass(detail.mastery)"><i :style="{ width: detail.mastery + '%' }"></i></span>
       <b class="num">{{ Math.round(detail.mastery) }}%</b>
     </div>
     <div class="divider"></div>
-    <p style="margin:8px 0 6px"><b style="font-size:13px">定义 / 说明</b></p>
-    <textarea v-model="editDesc" rows="2" style="width:100%"></textarea>
-    <button class="sm ghost" style="margin-top:6px" @click="saveField('description')">保存说明</button>
-    <p style="margin:14px 0 6px"><b style="font-size:13px">要点 / 易错点备忘</b></p>
-    <textarea v-model="editMemo" rows="3" style="width:100%"></textarea>
-    <button class="sm ghost" style="margin-top:6px" @click="saveField('memo')">保存备忘</button>
+    <p class="field-head"><b>定义 / 说明</b></p>
+    <textarea v-model="editDesc" rows="2" class="field-input"></textarea>
+    <BaseButton size="sm" variant="ghost" class="field-save" @click="saveField('description')">保存说明</BaseButton>
+    <p class="sub-head"><b>要点 / 易错点备忘</b></p>
+    <textarea v-model="editMemo" rows="3" class="field-input"></textarea>
+    <BaseButton size="sm" variant="ghost" class="field-save" @click="saveField('memo')">保存备忘</BaseButton>
 
     <template v-if="detail.children.length">
-      <p style="margin-top:14px"><b style="font-size:13px">子节点</b></p>
+      <p class="sub-block"><b>子节点</b></p>
       <div class="row"><span class="tag" v-for="c in detail.children" :key="c.id">{{ c.name }}</span></div>
     </template>
     <template v-if="detail.related.length">
-      <p style="margin-top:14px"><b style="font-size:13px">关联知识点（串联）</b></p>
+      <p class="sub-block"><b>关联知识点（串联）</b></p>
       <div class="row"><span class="tag" v-for="(r, i) in detail.related" :key="i">{{ nameMap[r.id] || r.id }}（{{ relNames[r.type] || r.type }}）</span></div>
     </template>
     <template v-if="detail.questions.length">
-      <p style="margin-top:14px"><b style="font-size:13px">关联题目（{{ detail.questions.length }}）</b></p>
+      <p class="sub-block"><b>关联题目（{{ detail.questions.length }}）</b></p>
       <table>
-        <thead><tr><th style="width:50px">ID</th><th style="width:80px">题型</th><th>题干</th></tr></thead>
+        <thead><tr><th class="col-id">ID</th><th class="col-qtype">题型</th><th>题干</th></tr></thead>
         <tbody>
           <tr v-for="q in detail.questions" :key="q.id">
             <td class="num muted">{{ q.id }}</td>
@@ -106,22 +107,48 @@ function masteryClass(m) { return m < 40 ? 'err' : (m < 70 ? 'warn' : ''); }
         </tbody>
       </table>
     </template>
-    <p v-else class="muted" style="margin-top:14px">还没有关联题目——在「题库」录题时填写知识点 ID 即可关联。</p>
+    <p v-else class="muted sub-block">还没有关联题目——在「题库」录题时填写知识点 ID 即可关联。</p>
   </div>
 
   <div class="card">
     <h2>新增知识点</h2>
     <div class="row">
       <input v-model="form.name" placeholder="名称（必填）" />
-      <input v-model="form.code" placeholder="编号，如 3.2.1" style="width:110px" />
+      <input v-model="form.code" placeholder="编号，如 3.2.1" class="code-input" />
       <select v-model.number="form.subject">
         <option :value="1">综合知识</option><option :value="2">案例分析</option><option :value="3">论文</option>
       </select>
-      <select v-model.number="form.parent_id" style="max-width:200px">
+      <select v-model.number="form.parent_id" class="parent-select">
         <option :value="null">（无父级）</option>
         <option v-for="p in points" :key="p.id" :value="p.id">{{ p.name }}</option>
       </select>
-      <button @click="add">添加</button>
+      <BaseButton @click="add">添加</BaseButton>
     </div>
   </div>
 </template>
+
+<style scoped>
+/* 原内联样式的静默化：布局一律走 scoped 类，动态宽度（进度填充）保留 :style 绑定 */
+.tb-title { font-size: 13px; }
+.list-panel { padding: 6px 8px 10px; }
+.err-inline { margin: 8px; }
+.tcell { flex: 1; min-width: 0; }
+.tree-progress { width: 88px; }
+.tree-num { width: 40px; text-align: right; }
+.detail-head { justify-content: space-between; }
+.detail-title { margin: 0; }
+.detail-code { font-weight: 400; font-size: 12px; }
+.mastery-row { margin: 12px 0 4px; }
+.mastery-bar { width: 220px; }
+.muted-sm { font-size: 12px; }
+.field-head { margin: 8px 0 6px; }
+.field-head b, .sub-head b, .sub-block b { font-size: 13px; }
+.field-input { width: 100%; }
+.field-save { margin-top: 6px; }
+.sub-head { margin: 14px 0 6px; }
+.sub-block { margin-top: 14px; }
+.code-input { width: 110px; }
+.parent-select { max-width: 200px; }
+.col-id { width: 50px; }
+.col-qtype { width: 80px; }
+</style>
