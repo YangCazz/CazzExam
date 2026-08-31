@@ -6,7 +6,7 @@ defineProps({ date: String, done: { type: Number, default: 0 }, replan: Function
   <section class="command-hero">
     <div>
       <p class="eyebrow">{{ date }} / 今日执行清单</p>
-      <h2>把有限时间，投向<br><em>下一步最值得做的事。</em></h2>
+      <h2>把有限时间，投向<em>下一步最值得做的事。</em></h2>
       <p>不是刷得更多，而是用复习、训练和表达形成可验证的能力闭环。</p>
       <div class="time-switch">
         <BaseButton variant="ghost" size="sm" :disabled="loading" @click="replan && replan(15)">15 分钟</BaseButton>
