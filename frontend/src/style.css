@@ -198,7 +198,8 @@ button.ghost:disabled,.btn.ghost:disabled{background:transparent;color:var(--tex
 .hero-stat{display:flex;flex-direction:column;justify-content:center;gap:6px;text-align:left;align-self:stretch;min-width:170px;padding-left:26px;border-left:1px solid var(--border-strong)}
 .hero-stat b{font-size:28px;font-variant-numeric:tabular-nums;color:var(--text);line-height:1.1}
 .hero-stat span{color:var(--text-muted);font-size:12px}
-.overview-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.72fr);gap:16px}
+.overview-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.72fr);gap:16px;margin-bottom:16px;align-items:start}
+.overview-grid > .card{margin-bottom:0}
 .priority-task{display:flex;align-items:center;gap:16px;padding:16px 0;border-top:1px solid var(--border)}
 .priority-task button{white-space:nowrap}
 .task-number{color:var(--text-faint);font:700 16px var(--mono)}
