@@ -16,6 +16,11 @@ const domains = {
   5: { title: '信息安全与可靠性', short: '安全与可靠性', x: .86, y: .50, color: '#c37b5c' },
   6: { title: '专业英语', short: '专业英语', x: .86, y: .84, color: '#5f8f72' },
 };
+const domainGrid = {
+  1: { x: 0, y: 0, w: .30, h: .50 }, 2: { x: 0, y: .50, w: .30, h: .50 },
+  3: { x: .30, y: 0, w: .42, h: 1 },
+  4: { x: .72, y: 0, w: .28, h: 1 / 3 }, 5: { x: .72, y: 1 / 3, w: .28, h: 1 / 3 }, 6: { x: .72, y: 2 / 3, w: .28, h: 1 / 3 },
+};
 const graph = { nodes: [], links: [], width: 1, height: 1, panX: 0, panY: 0, scale: 1, alpha: .3, launchFrames: 48, raf: 0, dragged: null, panning: false, last: null, moved: false };
 const nodeTotal = ref(0); const linkTotal = ref(0);
 let ctx; let resizeObserver; let longPressTimer;
@@ -32,7 +37,7 @@ function nodeColor(node) { return isFocused(node) ? '#e7343f' : domains[node.dom
 function rgb(hex) { const n = Number.parseInt(hex.slice(1), 16); return { r: n >> 16, g: (n >> 8) & 255, b: n & 255 }; }
 function wrapLabel(name) { const atoms = name.match(/（[^）]*）|[A-Za-z0-9/+.-]+|./g) || [name]; const lines = []; let line = ''; atoms.forEach(atom => { const next = line + atom; if (line && next.length > 9) { lines.push(line.trim()); line = atom.trimStart(); } else line = next; }); if (line) lines.push(line.trim()); return lines; }
 function domainProgress(id) { const nodes = graph.nodes.filter(n => n.domain === Number(id)); return nodes.length ? Math.round(nodes.reduce((sum, n) => sum + (n.mastery || 0), 0) / nodes.length) : 0; }
-function domainGeometry(id) { const nodes = graph.nodes.filter(n => n.domain === Number(id)); const core = Number(id) === 3; const leafCount = Math.max(1, nodes.filter(n => n.parent_id).length); const columns = Math.ceil(Math.sqrt((leafCount + 1) * (core ? 1.15 : 1))); const rows = Math.ceil((leafCount + 1) / columns); return { x: graph.width * domains[id].x, y: graph.height * domains[id].y, columns, rows, cellX: core ? 48 : 45, cellY: core ? 54 : 50, radiusX: Math.max(core ? 168 : 82, columns * (core ? 25 : 24) + 22), radiusY: Math.max(core ? 178 : 72, rows * (core ? 28 : 27) + 22) }; }
+function domainGeometry(id) { const nodes = graph.nodes.filter(n => n.domain === Number(id)); const area = domainGrid[id]; const gutter = 7; const left = graph.width * area.x + gutter; const top = graph.height * area.y + gutter; const width = graph.width * area.w - gutter * 2; const height = graph.height * area.h - gutter * 2; const leafCount = Math.max(1, nodes.filter(n => n.parent_id).length); const contentWidth = Math.max(80, width - 46); const contentHeight = Math.max(80, height - 58); const columns = Math.max(1, Math.ceil(Math.sqrt((leafCount + 1) * contentWidth / contentHeight))); const rows = Math.ceil((leafCount + 1) / columns); return { left, top, width, height, x: left + width / 2, y: top + height / 2, columns, rows, cellX: columns > 1 ? contentWidth / (columns - 1) : 0, cellY: rows > 1 ? contentHeight / (rows - 1) : 0, contentLeft: left + 23, contentTop: top + 42 }; }
 function nodeDomain(node, treeById) {
   let current = node; const seen = new Set();
   while (current?.parent_id && !seen.has(current.id)) { seen.add(current.id); current = treeById.get(current.parent_id); }
@@ -47,7 +52,7 @@ function assignDomainTargets() {
     items.forEach(n => { n.targetX = centerX; n.targetY = centerY; });
     leaves.forEach((n, index) => {
       const slot = index >= Math.floor(leaves.length / 2) ? index + 1 : index; const column = slot % layout.columns; const row = Math.floor(slot / layout.columns);
-      n.targetX = centerX + (column - (layout.columns - 1) / 2) * layout.cellX; n.targetY = centerY + (row - (layout.rows - 1) / 2) * layout.cellY;
+      n.targetX = layout.contentLeft + column * layout.cellX; n.targetY = layout.contentTop + row * layout.cellY;
     });
   });
 }
@@ -91,14 +96,14 @@ function physics() {
       if (distance < minimum) { const force = (minimum - distance) * .4 * a; dx /= distance; dy /= distance; p.vx -= dx * force; p.vy -= dy * force; q.vx += dx * force; q.vy += dy * force; }
     }
     links.forEach(l => { const dx = l.b.x - l.a.x, dy = l.b.y - l.a.y; const distance = Math.hypot(dx, dy) || .01; const ideal = l.a.footprint + l.b.footprint + (l.a.domain === l.b.domain ? 12 : 42); const force = (distance - ideal) * .0025 * a; l.a.vx += dx / distance * force; l.a.vy += dy / distance * force; l.b.vx -= dx / distance * force; l.b.vy -= dy / distance * force; });
-    let maxSpeed = 0; nodes.forEach(n => { n.x = Math.max(n.r, Math.min(graph.width - n.r, n.x + n.vx)); n.y = Math.max(n.r, Math.min(graph.height - n.r, n.y + n.vy)); maxSpeed = Math.max(maxSpeed, Math.abs(n.vx), Math.abs(n.vy)); });
+    let maxSpeed = 0; nodes.forEach(n => { const area = domainGeometry(n.domain); const pad = n.r + 5; n.x = Math.max(area.left + pad, Math.min(area.left + area.width - pad, n.x + n.vx)); n.y = Math.max(area.top + pad, Math.min(area.top + area.height - pad, n.y + n.vy)); maxSpeed = Math.max(maxSpeed, Math.abs(n.vx), Math.abs(n.vy)); });
     if (maxSpeed < .12) graph.alpha += (.002 - graph.alpha) * .005;
   }
 }
 function roundedRectPath(x, y, width, height, radius = 18) { const r = Math.min(radius, width / 2, height / 2); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + width, y, x + width, y + height, r); ctx.arcTo(x + width, y + height, x, y + height, r); ctx.arcTo(x, y + height, x, y, r); ctx.arcTo(x, y, x + width, y, r); ctx.closePath(); }
 function drawDomains() {
   Object.entries(domains).forEach(([id, zone]) => {
-    const layout = domainGeometry(id); const { x, y, radiusX, radiusY } = layout; const mastery = domainProgress(id); const left = x - radiusX; const top = y - radiusY; const width = radiusX * 2; const height = radiusY * 2;
+    const layout = domainGeometry(id); const { left, top, width, height } = layout; const mastery = domainProgress(id);
     ctx.save(); ctx.globalAlpha = .12; ctx.fillStyle = zone.color; roundedRectPath(left, top, width, height); ctx.fill(); ctx.globalAlpha = 1; ctx.strokeStyle = `${zone.color}55`; ctx.setLineDash([3, 5]); ctx.lineWidth = 1; roundedRectPath(left, top, width, height); ctx.stroke(); ctx.setLineDash([]); ctx.strokeStyle = '#2e9b80'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(left + 14, top + 10); ctx.lineTo(left + 14 + (width - 28) * mastery / 100, top + 10); ctx.stroke(); ctx.fillStyle = zone.color; ctx.globalAlpha = .82; ctx.font = '600 10px Inter, Microsoft YaHei, sans-serif'; ctx.textAlign = 'left'; ctx.fillText(`${zone.short} · ${mastery}%`, left + 14, top + 26); ctx.restore();
   });
 }
