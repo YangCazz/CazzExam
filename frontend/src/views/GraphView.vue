@@ -52,7 +52,8 @@ function assignDomainTargets() {
     items.forEach(n => { n.targetX = centerX; n.targetY = centerY; });
     leaves.forEach((n, index) => {
       const slot = index >= Math.floor(leaves.length / 2) ? index + 1 : index; const column = slot % layout.columns; const row = Math.floor(slot / layout.columns);
-      n.targetX = layout.contentLeft + column * layout.cellX; n.targetY = layout.contentTop + row * layout.cellY;
+      const rawX = layout.contentLeft + column * layout.cellX; const rawY = layout.contentTop + row * layout.cellY; const compactness = .82;
+      n.targetX = centerX + (rawX - centerX) * compactness; n.targetY = centerY + (rawY - centerY) * compactness;
     });
   });
 }
@@ -92,10 +93,10 @@ function physics() {
     const launching = graph.launchFrames-- > 0; const pull = launching ? .014 : .011;
     nodes.forEach(n => { n.vx *= .55; n.vy *= .55; n.vx += ((n.targetX ?? graph.width / 2) - n.x) * pull * a; n.vy += ((n.targetY ?? graph.height / 2) - n.y) * pull * a; });
     for (let iteration = 0; iteration < 3; iteration++) for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
-      const p = nodes[i], q = nodes[j]; let dx = q.x - p.x, dy = q.y - p.y; const distance = Math.hypot(dx, dy) || .01; const minimum = p.footprint + q.footprint + 3;
-      if (distance < minimum) { const force = (minimum - distance) * .4 * a; dx /= distance; dy /= distance; p.vx -= dx * force; p.vy -= dy * force; q.vx += dx * force; q.vy += dy * force; }
+      const p = nodes[i], q = nodes[j]; const sameDomain = p.domain === q.domain; let dx = q.x - p.x, dy = q.y - p.y; const distance = Math.hypot(dx, dy) || .01; const minimum = p.footprint + q.footprint + (sameDomain ? -8 : 3);
+      if (distance < minimum) { const force = (minimum - distance) * (sameDomain ? .24 : .4) * a; dx /= distance; dy /= distance; p.vx -= dx * force; p.vy -= dy * force; q.vx += dx * force; q.vy += dy * force; }
     }
-    links.forEach(l => { const dx = l.b.x - l.a.x, dy = l.b.y - l.a.y; const distance = Math.hypot(dx, dy) || .01; const ideal = l.a.footprint + l.b.footprint + (l.a.domain === l.b.domain ? 12 : 42); const force = (distance - ideal) * .0025 * a; l.a.vx += dx / distance * force; l.a.vy += dy / distance * force; l.b.vx -= dx / distance * force; l.b.vy -= dy / distance * force; });
+    links.forEach(l => { const dx = l.b.x - l.a.x, dy = l.b.y - l.a.y; const distance = Math.hypot(dx, dy) || .01; const ideal = l.a.footprint + l.b.footprint + (l.a.domain === l.b.domain ? -8 : 42); const force = (distance - ideal) * .0025 * a; l.a.vx += dx / distance * force; l.a.vy += dy / distance * force; l.b.vx -= dx / distance * force; l.b.vy -= dy / distance * force; });
     let maxSpeed = 0; nodes.forEach(n => { const area = domainGeometry(n.domain); const pad = n.r + 5; n.x = Math.max(area.left + pad, Math.min(area.left + area.width - pad, n.x + n.vx)); n.y = Math.max(area.top + pad, Math.min(area.top + area.height - pad, n.y + n.vy)); maxSpeed = Math.max(maxSpeed, Math.abs(n.vx), Math.abs(n.vy)); });
     if (maxSpeed < .12) graph.alpha += (.002 - graph.alpha) * .005;
   }
