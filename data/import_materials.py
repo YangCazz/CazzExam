@@ -1,0 +1,101 @@
+# -*- coding: utf-8 -*-
+"""
+把 data/syllabus/architecture-syllabus.json 与 data/questions/architecture-questions.json
+幂等灌入后端数据库（与 backend/scripts/seed_content.py 同构：knowledge_points 按 code 去重、questions 按 stem 去重）。
+
+用法（在仓库根目录）：
+    tools/python/python.exe data/import_materials.py
+"""
+import os, sys, json
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BACKEND = os.path.join(REPO, "backend")
+sys.path.insert(0, BACKEND)
+
+from app.database import SessionLocal
+from app.models.knowledge import KnowledgePoint, KnowledgeRelation
+from app.models.question import Question, QuestionItem, QuestionKnowledge
+
+SYLLABUS = os.path.join(REPO, "data", "syllabus", "architecture-syllabus.json")
+QUESTIONS = os.path.join(REPO, "data", "questions", "architecture-questions.json")
+
+
+def seed_knowledge(db, code2id):
+    with open(SYLLABUS, encoding="utf-8") as f:
+        syl = json.load(f)
+    added = 0
+    for kp in syl["knowledge"]:
+        code, name = kp["code"], kp["name"]
+        if code in code2id:
+            continue
+        parent_id = code2id.get(kp.get("parent_code"))  # 父先于子，逐条插入即可
+        row = KnowledgePoint(parent_id=parent_id, code=code, name=name,
+                             description=kp.get("description", ""), subject=kp.get("subject", 1))
+        db.add(row)
+        db.flush()
+        code2id[code] = row.id
+        added += 1
+    db.commit()
+    print(f"knowledge points added: {added}  (tree total: {len(code2id)})")
+
+    rel_added = 0
+    for fc, tc, rt in syl.get("relations", []):
+        f, t = code2id.get(fc), code2id.get(tc)
+        if not f or not t:
+            print("  skip relation (missing code):", fc, tc)
+            continue
+        dup = db.query(KnowledgeRelation).filter_by(from_id=f, to_id=t, relation_type=rt).first()
+        if dup:
+            continue
+        db.add(KnowledgeRelation(from_id=f, to_id=t, relation_type=rt))
+        rel_added += 1
+    db.commit()
+    print(f"relations added: {rel_added}")
+
+
+def seed_questions(db, code2id):
+    with open(QUESTIONS, encoding="utf-8") as f:
+        data = json.load(f)
+    existing = {q.stem for q in db.query(Question).all()}
+    added = 0
+    for q in data["questions"]:
+        stem = q["stem"]
+        if not stem or stem in existing:
+            continue
+        row = Question(
+            qtype=q.get("qtype", "choice"), subject=q.get("subject", 1), stem=stem,
+            options_json=json.dumps(q.get("options", []), ensure_ascii=False),
+            answer_json=json.dumps(q.get("answer", ""), ensure_ascii=False),
+            analysis=q.get("analysis", ""), difficulty=q.get("difficulty", 3),
+            source_type=q.get("source_type", "self"), source_year=q.get("source_year"),
+        )
+        db.add(row)
+        db.flush()
+        for kc in q.get("knowledge_codes", []):
+            kid = code2id.get(kc)
+            if kid:
+                db.add(QuestionKnowledge(question_id=row.id, knowledge_id=kid))
+            else:
+                print("  question has unknown knowledge_code:", kc, "->", stem[:24])
+        for seq, item in enumerate(q.get("items", []), 1):
+            db.add(QuestionItem(question_id=row.id, seq=item.get("seq", seq),
+                                stem=item.get("stem", ""), answer=item.get("answer", ""),
+                                score=item.get("score", 0)))
+        existing.add(stem)
+        added += 1
+    db.commit()
+    print(f"questions added: {added}")
+
+
+def main():
+    db = SessionLocal()
+    code2id = {k.code: k.id for k in db.query(KnowledgePoint).all()}
+    print("existing knowledge points:", len(code2id))
+    seed_knowledge(db, code2id)
+    seed_questions(db, code2id)
+    db.close()
+    print("done.")
+
+
+if __name__ == "__main__":
+    main()
