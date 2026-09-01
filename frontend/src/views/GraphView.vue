@@ -8,7 +8,7 @@ const search = ref(''); const info = ref(null); const detail = ref(null); const 
 const showTypes = ref({ related: true, prerequisite: true, contains: true, conflicts: true, backbone: true });
 const relNames = { related: '相关', prerequisite: '前置', contains: '包含', conflicts: '冲突', backbone: '主线' };
 const relColors = { related: '#637da8', prerequisite: '#c9a13d', contains: '#5b8cff', conflicts: '#cf6a68', backbone: '#7a6bb0' };
-const graph = { nodes: [], links: [], width: 1, height: 1, panX: 0, panY: 0, scale: 1, alpha: .24, raf: 0, dragged: null, panning: false, last: null, moved: false };
+const graph = { nodes: [], links: [], width: 1, height: 1, panX: 0, panY: 0, scale: 1, alpha: .3, launchFrames: 48, raf: 0, dragged: null, panning: false, last: null, moved: false };
 const nodeTotal = ref(0); const linkTotal = ref(0);
 let ctx; let resizeObserver; let longPressTimer;
 
@@ -18,12 +18,12 @@ const filteredLinks = () => graph.links.filter(l => showTypes.value[l.type]);
 function nodeColor(node) { const degree = node.degree || 0; if (degree <= 1) return '#60a5fa'; if (degree <= 3) return '#3b82f6'; if (degree <= 5) return '#2563eb'; if (degree <= 7) return '#7c3aed'; return '#dc2626'; }
 function rgb(hex) { const n = Number.parseInt(hex.slice(1), 16); return { r: n >> 16, g: (n >> 8) & 255, b: n & 255 }; }
 function initNodes(data) {
-  graph.nodes = data.nodes.map((n, index) => { const r = 14 + Math.min(12, Math.max(0, n.mastery || 0) / 9); return { ...n, x: 100 + Math.random() * Math.max(200, graph.width - 200), y: 90 + Math.random() * Math.max(180, graph.height - 180), vx: 0, vy: 0, r, dR: r, tR: r, dA: 1, tA: 1, order: index }; });
+  graph.nodes = data.nodes.map((n, index) => { const r = 14 + Math.min(12, Math.max(0, n.mastery || 0) / 9); return { ...n, x: graph.width / 2 + (Math.random() - .5) * graph.width * .7, y: graph.height / 2 + (Math.random() - .5) * graph.height * .7, vx: 0, vy: 0, r, dR: r, tR: r, dA: 1, tA: 1, order: index }; });
   const byId = new Map(graph.nodes.map(n => [n.id, n]));
   graph.links = data.links.map(l => ({ ...l, a: byId.get(l.source), b: byId.get(l.target), dA: 1, tA: 1 })).filter(l => l.a && l.b);
   graph.nodes.forEach(n => { n.degree = 0; }); graph.links.forEach(l => { l.a.degree++; l.b.degree++; });
   nodeTotal.value = graph.nodes.length; linkTotal.value = graph.links.length;
-  graph.panX = 0; graph.panY = 0; graph.scale = 1; graph.alpha = .25;
+  graph.panX = 0; graph.panY = 0; graph.scale = 1; graph.alpha = .3; graph.launchFrames = 48;
 }
 function resize() {
   if (!canvas.value || !wrap.value) return;
@@ -38,14 +38,15 @@ function resize() {
 function physics() {
   const nodes = graph.nodes; const links = filteredLinks(); const a = graph.alpha;
   if (a > .002 && !graph.dragged) {
-    nodes.forEach(n => { n.vx *= .78; n.vy *= .78; n.vx += (graph.width / 2 - n.x) * .00075 * a; n.vy += (graph.height / 2 - n.y) * .00075 * a; });
-    for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
-      const p = nodes[i], q = nodes[j]; let dx = q.x - p.x, dy = q.y - p.y; const distance = Math.hypot(dx, dy) || .01; const minimum = p.r + q.r + 20;
-      if (distance < minimum) { const force = (minimum - distance) * .055 * a; dx /= distance; dy /= distance; p.vx -= dx * force; p.vy -= dy * force; q.vx += dx * force; q.vy += dy * force; }
+    const pull = graph.launchFrames-- > 0 ? .018 : .001;
+    nodes.forEach(n => { n.vx *= .55; n.vy *= .55; n.vx += (graph.width / 2 - n.x) * pull * a; n.vy += (graph.height / 2 - n.y) * pull * a; });
+    for (let iteration = 0; iteration < 3; iteration++) for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+      const p = nodes[i], q = nodes[j]; let dx = q.x - p.x, dy = q.y - p.y; const distance = Math.hypot(dx, dy) || .01; const minimum = p.r + q.r + 5;
+      if (distance < minimum) { const force = (minimum - distance) * .4 * a; dx /= distance; dy /= distance; p.vx -= dx * force; p.vy -= dy * force; q.vx += dx * force; q.vy += dy * force; }
     }
-    links.forEach(l => { const dx = l.b.x - l.a.x, dy = l.b.y - l.a.y; const distance = Math.hypot(dx, dy) || .01; const ideal = l.a.r + l.b.r + 74; const force = (distance - ideal) * .0032 * a; l.a.vx += dx / distance * force; l.a.vy += dy / distance * force; l.b.vx -= dx / distance * force; l.b.vy -= dy / distance * force; });
-    nodes.forEach(n => { n.x = Math.max(n.r + 18, Math.min(graph.width - n.r - 18, n.x + n.vx)); n.y = Math.max(n.r + 18, Math.min(graph.height - n.r - 18, n.y + n.vy)); });
-    graph.alpha *= .991;
+    links.forEach(l => { const dx = l.b.x - l.a.x, dy = l.b.y - l.a.y; const distance = Math.hypot(dx, dy) || .01; const ideal = l.a.r + l.b.r + 30; const force = (distance - ideal) * .003 * a; l.a.vx += dx / distance * force; l.a.vy += dy / distance * force; l.b.vx -= dx / distance * force; l.b.vy -= dy / distance * force; });
+    let maxSpeed = 0; nodes.forEach(n => { n.x = Math.max(n.r, Math.min(graph.width - n.r, n.x + n.vx)); n.y = Math.max(n.r, Math.min(graph.height - n.r, n.y + n.vy)); maxSpeed = Math.max(maxSpeed, Math.abs(n.vx), Math.abs(n.vy)); });
+    if (maxSpeed < .12) graph.alpha += (.002 - graph.alpha) * .005;
   }
 }
 function neighborhood(node) { if (!node) return null; const set = new Set([node]); filteredLinks().forEach(l => { if (l.a === node) set.add(l.b); if (l.b === node) set.add(l.a); }); return set; }
@@ -77,7 +78,7 @@ function pointerMove(event) { const p = point(event); if (graph.dragged) { graph
 async function select(node) { if (!node) { info.value = null; detail.value = null; setHighlight(null); return; } info.value = node; detail.value = null; setHighlight(node); try { detail.value = await http.get(`/knowledge/points/${node.id}`); } catch (_) { detail.value = null; } }
 function pointerUp(event) { clearTimeout(longPressTimer); const node = graph.dragged; const moved = graph.moved; graph.dragged = null; graph.panning = false; graph.last = null; if (node && !moved && !info.value) setHighlight(node); else if (!node && !moved && !info.value) setHighlight(null); }
 function onWheel(event) { event.preventDefault(); const before = point(event); const next = Math.max(.45, Math.min(2.7, graph.scale * (event.deltaY > 0 ? .9 : 1.1))); graph.panX = (event.clientX - canvas.value.getBoundingClientRect().left) - before.x * next; graph.panY = (event.clientY - canvas.value.getBoundingClientRect().top) - before.y * next; graph.scale = next; }
-function resetView() { info.value = null; detail.value = null; graph.panX = 0; graph.panY = 0; graph.scale = 1; graph.alpha = .25; graph.nodes.forEach((n) => { n.x = 100 + Math.random() * Math.max(200, graph.width - 200); n.y = 90 + Math.random() * Math.max(180, graph.height - 180); n.vx = n.vy = 0; n.tR = n.r; n.tA = 1; }); graph.links.forEach(l => { l.tA = 1; }); setHighlight(null); }
+function resetView() { info.value = null; detail.value = null; graph.panX = 0; graph.panY = 0; graph.scale = 1; graph.alpha = .3; graph.launchFrames = 48; graph.nodes.forEach((n) => { n.x = graph.width / 2 + (Math.random() - .5) * graph.width * .7; n.y = graph.height / 2 + (Math.random() - .5) * graph.height * .7; n.vx = n.vy = 0; n.tR = n.r; n.tA = 1; }); graph.links.forEach(l => { l.tA = 1; }); setHighlight(null); graph.alpha = .3; }
 function contextMenu(event) { event.preventDefault(); const node = hit(point(event)); if (node) select(node); }
 async function load() { const data = await http.get('/knowledge/graph'); initNodes(data); await nextTick(); resize(); }
 function onKeydown(event) { if (event.key === 'Escape' && info.value) select(null); }
