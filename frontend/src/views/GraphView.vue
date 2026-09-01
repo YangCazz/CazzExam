@@ -4,7 +4,7 @@ import { http } from '../api/client';
 import BaseButton from '../components/base/BaseButton.vue';
 
 const canvas = ref(null); const wrap = ref(null);
-const search = ref(''); const info = ref(null); const detail = ref(null); const hover = ref(null);
+const search = ref(''); const info = ref(null); const detail = ref(null); const hover = ref(null); const selected = ref(null);
 const showTypes = ref({ related: true, prerequisite: true, contains: true, conflicts: true, backbone: true });
 const relNames = { related: '相关', prerequisite: '前置', contains: '包含', conflicts: '冲突', backbone: '主线' };
 const relColors = { related: '#637da8', prerequisite: '#c9a13d', contains: '#5b8cff', conflicts: '#cf6a68', backbone: '#7a6bb0' };
@@ -60,6 +60,7 @@ function initNodes(data, tree = []) {
   const byId = new Map(graph.nodes.map(n => [n.id, n]));
   graph.links = data.links.map(l => ({ ...l, a: byId.get(l.source), b: byId.get(l.target), dA: 1, tA: 1 })).filter(l => l.a && l.b);
   assignDomainTargets();
+  graph.nodes.forEach(n => { n.x = n.targetX + (Math.random() - .5) * 72; n.y = n.targetY + (Math.random() - .5) * 72; });
   nodeTotal.value = graph.nodes.length; linkTotal.value = graph.links.length;
   graph.panX = 0; graph.panY = 0; graph.scale = 1; graph.alpha = .3; graph.launchFrames = 48;
 }
@@ -91,46 +92,45 @@ function physics() {
 function drawDomains() {
   Object.entries(domains).forEach(([id, zone]) => {
     const x = graph.width * zone.x; const y = graph.height * zone.y; const core = Number(id) === 3;
-    ctx.save(); ctx.globalAlpha = .12; ctx.fillStyle = zone.color; ctx.beginPath(); ctx.arc(x, y, core ? 152 : 105, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; ctx.strokeStyle = `${zone.color}55`; ctx.setLineDash([3, 5]); ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, core ? 152 : 105, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = zone.color; ctx.globalAlpha = .72; ctx.font = '600 10px Inter, Microsoft YaHei, sans-serif'; ctx.textAlign = 'center'; ctx.fillText(zone.short, x, y - (core ? 160 : 113)); ctx.restore();
+    const radius = core ? 184 : 128; ctx.save(); ctx.globalAlpha = .12; ctx.fillStyle = zone.color; ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; ctx.strokeStyle = `${zone.color}55`; ctx.setLineDash([3, 5]); ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = zone.color; ctx.globalAlpha = .72; ctx.font = '600 10px Inter, Microsoft YaHei, sans-serif'; ctx.textAlign = 'center'; ctx.fillText(zone.short, x, Math.max(14, y - (core ? 192 : 116))); ctx.restore();
   });
 }
 function neighborhood(node) { if (!node) return null; const set = new Set([node]); filteredLinks().forEach(l => { if (l.a === node) set.add(l.b); if (l.b === node) set.add(l.a); }); return set; }
 function setHighlight(node) {
-  hover.value = node;
   const connected = neighborhood(node);
-  graph.nodes.forEach(n => { const active = !node || connected.has(n); n.tR = node ? (active ? n.r * 1.15 : n.r * .78) : n.r; n.tA = active ? 1 : .15; });
-  graph.links.forEach(l => { l.tA = !node || (l.a === node || l.b === node) ? 1 : .06; });
+  graph.nodes.forEach(n => { const related = connected?.has(n); n.tR = !node ? n.r : n === node ? n.r * 1.28 : related ? n.r * 1.1 : n.r * .9; n.tA = !node ? 1 : n === node ? 1 : related ? .92 : .36; });
+  graph.links.forEach(l => { l.tA = !node ? 1 : (l.a === node || l.b === node) ? 1 : .16; });
   graph.alpha = node ? .06 : .12;
 }
 function focusSearch() {
   const query = search.value.trim().toLowerCase(); if (!query) return setHighlight(null);
   const node = graph.nodes.find(n => n.name.toLowerCase().includes(query));
   if (!node) return;
-  setHighlight(node); graph.nodes.forEach(n => { const keep = n === node || neighborhood(node).has(n); n.tA = keep ? 1 : .06; n.tR = n === node ? n.r * 1.3 : n.r * .3; }); graph.links.forEach(l => { l.tA = l.a.tA > .5 && l.b.tA > .5 ? 1 : .02; }); graph.alpha = .3;
+  selected.value = node; hover.value = node; setHighlight(node); graph.nodes.forEach(n => { const keep = n === node || neighborhood(node).has(n); n.tA = keep ? 1 : .24; n.tR = n === node ? n.r * 1.3 : keep ? n.r * 1.1 : n.r * .72; }); graph.links.forEach(l => { l.tA = l.a.tA > .5 && l.b.tA > .5 ? 1 : .12; }); graph.alpha = .3;
 }
 function render() {
   if (!ctx) return;
   physics(); graph.nodes.forEach(n => { n.dR += (n.tR - n.dR) * .16; n.dA += (n.tA - n.dA) * .14; }); graph.links.forEach(l => { l.dA += (l.tA - l.dA) * .14; }); ctx.clearRect(0, 0, graph.width, graph.height); ctx.save(); ctx.translate(graph.panX, graph.panY); ctx.scale(graph.scale, graph.scale);
   drawDomains();
-  const query = search.value.trim(); const focus = neighborhood(hover.value || info.value); const links = filteredLinks();
-  links.forEach(l => { const active = !focus || l.a === hover.value || l.b === hover.value || l.a === info.value || l.b === info.value; const match = !query || (l.a.name.includes(query) && l.b.name.includes(query)); ctx.save(); ctx.globalAlpha = l.dA * (active ? (match ? .74 : .34) : .045); ctx.strokeStyle = active && focus ? '#315fba' : '#7ca4da'; ctx.lineWidth = active && focus ? 1.7 : .65; ctx.beginPath(); ctx.moveTo(l.a.x, l.a.y); ctx.lineTo(l.b.x, l.b.y); ctx.stroke(); ctx.restore(); });
-  [...graph.nodes].sort((a, b) => a.dR - b.dR).forEach(n => { const matched = !query || n.name.includes(query); const active = !focus || focus.has(n); const radius = n.dR; const color = rgb(nodeColor(n)); ctx.save(); ctx.globalAlpha = n.dA * (matched && active ? 1 : (query ? .1 : .16)); const fill = ctx.createRadialGradient(n.x - radius * .28, n.y - radius * .28, 0, n.x, n.y, radius); fill.addColorStop(0, `rgb(${Math.min(255, color.r + 34)},${Math.min(255, color.g + 34)},${Math.min(255, color.b + 34)})`); fill.addColorStop(1, nodeColor(n)); ctx.fillStyle = fill; ctx.beginPath(); ctx.arc(n.x, n.y, radius, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = info.value === n ? '#f3c96b' : hover.value === n ? '#fff' : 'rgba(255,255,255,.7)'; ctx.lineWidth = info.value === n || hover.value === n ? 2.6 : 1.4; ctx.stroke(); ctx.fillStyle = '#283a55'; ctx.shadowColor = 'rgba(255,255,255,.96)'; ctx.shadowBlur = 3; ctx.font = `600 ${Math.max(9.5, Math.min(11.5, radius * .43))}px Inter, Microsoft YaHei, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'top'; n.label.forEach((line, index) => ctx.fillText(line, n.x, n.y + radius + 5 + index * 12)); ctx.restore(); });
+  const query = search.value.trim(); const focusNode = selected.value || info.value || hover.value; const focus = neighborhood(focusNode); const links = filteredLinks();
+  links.forEach(l => { const active = !focus || l.a === focusNode || l.b === focusNode; const match = !query || (l.a.name.includes(query) && l.b.name.includes(query)); ctx.save(); ctx.globalAlpha = l.dA * (active ? (match ? .74 : .34) : .045); ctx.strokeStyle = active && focus ? '#315fba' : '#7ca4da'; ctx.lineWidth = active && focus ? 1.7 : .65; ctx.beginPath(); ctx.moveTo(l.a.x, l.a.y); ctx.lineTo(l.b.x, l.b.y); ctx.stroke(); ctx.restore(); });
+  [...graph.nodes].sort((a, b) => a.dR - b.dR).forEach(n => { const matched = !query || n.name.includes(query); const radius = n.dR; const color = rgb(nodeColor(n)); ctx.save(); ctx.globalAlpha = n.dA * (matched ? 1 : .16); const fill = ctx.createRadialGradient(n.x - radius * .28, n.y - radius * .28, 0, n.x, n.y, radius); fill.addColorStop(0, `rgb(${Math.min(255, color.r + 34)},${Math.min(255, color.g + 34)},${Math.min(255, color.b + 34)})`); fill.addColorStop(1, nodeColor(n)); ctx.fillStyle = fill; ctx.beginPath(); ctx.arc(n.x, n.y, radius, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = info.value === n || selected.value === n ? '#f3c96b' : hover.value === n ? '#fff' : 'rgba(255,255,255,.7)'; ctx.lineWidth = info.value === n || selected.value === n || hover.value === n ? 2.6 : 1.4; ctx.stroke(); ctx.fillStyle = '#283a55'; ctx.shadowColor = 'rgba(255,255,255,.96)'; ctx.shadowBlur = 3; ctx.font = `600 ${Math.max(9.5, Math.min(11.5, radius * .43))}px Inter, Microsoft YaHei, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'top'; n.label.forEach((line, index) => ctx.fillText(line, n.x, n.y + radius + 5 + index * 12)); ctx.restore(); });
   ctx.restore(); graph.raf = requestAnimationFrame(render);
 }
 function point(event) { const rect = canvas.value.getBoundingClientRect(); return { x: (event.clientX - rect.left - graph.panX) / graph.scale, y: (event.clientY - rect.top - graph.panY) / graph.scale, sx: event.clientX - rect.left, sy: event.clientY - rect.top }; }
 function hit(p) { for (let i = graph.nodes.length - 1; i >= 0; i--) { const n = graph.nodes[i]; if (Math.hypot(n.x - p.x, n.y - p.y) <= n.r + 9) return n; } return null; }
 function pointerDown(event) { const p = point(event); graph.dragged = hit(p); graph.panning = !graph.dragged; graph.last = p; graph.moved = false; canvas.value.setPointerCapture?.(event.pointerId); if (graph.dragged) { graph.alpha = .12; if (event.pointerType === 'touch') longPressTimer = setTimeout(() => { if (graph.dragged) select(graph.dragged); }, 500); } }
-function pointerMove(event) { const p = point(event); if (graph.dragged) { graph.dragged.x = p.x; graph.dragged.y = p.y; graph.dragged.vx = 0; graph.dragged.vy = 0; graph.moved = true; clearTimeout(longPressTimer); return; } if (graph.panning && graph.last) { graph.panX += p.sx - graph.last.sx; graph.panY += p.sy - graph.last.sy; graph.last = p; graph.moved = true; return; } if (!info.value) setHighlight(hit(p)); }
-async function select(node) { if (!node) { info.value = null; detail.value = null; setHighlight(null); return; } info.value = node; detail.value = null; setHighlight(node); try { detail.value = await http.get(`/knowledge/points/${node.id}`); } catch (_) { detail.value = null; } }
-function pointerUp(event) { clearTimeout(longPressTimer); const node = graph.dragged; const moved = graph.moved; graph.dragged = null; graph.panning = false; graph.last = null; if (node && !moved && !info.value) setHighlight(node); else if (!node && !moved && !info.value) setHighlight(null); }
+function pointerMove(event) { const p = point(event); if (graph.dragged) { graph.dragged.x = p.x; graph.dragged.y = p.y; graph.dragged.vx = 0; graph.dragged.vy = 0; graph.moved = true; clearTimeout(longPressTimer); return; } if (graph.panning && graph.last) { graph.panX += p.sx - graph.last.sx; graph.panY += p.sy - graph.last.sy; graph.last = p; graph.moved = true; return; } hover.value = hit(p); if (!selected.value && !info.value) setHighlight(hover.value); }
+async function select(node) { if (!node) { info.value = null; detail.value = null; selected.value = null; setHighlight(null); return; } info.value = node; selected.value = node; hover.value = node; detail.value = null; setHighlight(node); try { detail.value = await http.get(`/knowledge/points/${node.id}`); } catch (_) { detail.value = null; } }
+function pointerUp(event) { clearTimeout(longPressTimer); const node = graph.dragged; const moved = graph.moved; graph.dragged = null; graph.panning = false; graph.last = null; if (node && !moved && !info.value) { selected.value = node; setHighlight(node); } else if (!node && !moved && !info.value) { selected.value = null; hover.value = null; setHighlight(null); } }
 function onWheel(event) { event.preventDefault(); const before = point(event); const next = Math.max(.45, Math.min(2.7, graph.scale * (event.deltaY > 0 ? .9 : 1.1))); graph.panX = (event.clientX - canvas.value.getBoundingClientRect().left) - before.x * next; graph.panY = (event.clientY - canvas.value.getBoundingClientRect().top) - before.y * next; graph.scale = next; }
-function resetView() { info.value = null; detail.value = null; graph.panX = 0; graph.panY = 0; graph.scale = 1; graph.alpha = .3; graph.launchFrames = 48; graph.nodes.forEach((n) => { n.x = graph.width / 2 + (Math.random() - .5) * graph.width * .7; n.y = graph.height / 2 + (Math.random() - .5) * graph.height * .7; n.vx = n.vy = 0; n.tR = n.r; n.tA = 1; }); graph.links.forEach(l => { l.tA = 1; }); setHighlight(null); graph.alpha = .3; }
+function resetView() { info.value = null; detail.value = null; selected.value = null; hover.value = null; graph.panX = 0; graph.panY = 0; graph.scale = 1; graph.alpha = .3; graph.launchFrames = 48; graph.nodes.forEach((n) => { n.x = n.targetX + (Math.random() - .5) * 72; n.y = n.targetY + (Math.random() - .5) * 72; n.vx = n.vy = 0; n.tR = n.r; n.tA = 1; }); graph.links.forEach(l => { l.tA = 1; }); setHighlight(null); graph.alpha = .3; }
 function contextMenu(event) { event.preventDefault(); const node = hit(point(event)); if (node) select(node); }
 async function load() { const [data, tree] = await Promise.all([http.get('/knowledge/graph'), http.get('/knowledge/tree')]); initNodes(data, tree); await nextTick(); resize(); }
-function onKeydown(event) { if (event.key === 'Escape' && info.value) select(null); }
+function onKeydown(event) { if (event.key === 'Escape' && (info.value || selected.value)) select(null); }
 onMounted(async () => { resize(); graph.raf = requestAnimationFrame(render); resizeObserver = new ResizeObserver(resize); resizeObserver.observe(wrap.value); window.addEventListener('keydown', onKeydown); await load(); });
 onUnmounted(() => { clearTimeout(longPressTimer); cancelAnimationFrame(graph.raf); resizeObserver?.disconnect(); window.removeEventListener('keydown', onKeydown); });
-watch(showTypes, () => { graph.alpha = .18; setHighlight(info.value || hover.value); }, { deep: true });
+watch(showTypes, () => { graph.alpha = .18; setHighlight(info.value || selected.value || hover.value); }, { deep: true });
 watch(search, query => { const keyword = query.trim().toLowerCase(); const any = !keyword || graph.nodes.some(n => n.name.toLowerCase().includes(keyword)); graph.nodes.forEach(n => { const match = !keyword || n.name.toLowerCase().includes(keyword); n.tA = match ? 1 : .06; n.tR = match ? n.r : n.r * .25; }); graph.links.forEach(l => { l.tA = keyword ? (l.a.tA > .5 && l.b.tA > .5 ? 1 : .02) : 1; }); graph.alpha = any ? .15 : .04; });
 </script>
 
