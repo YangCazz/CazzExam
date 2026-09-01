@@ -1,264 +1,83 @@
 <script setup>
-import { onMounted, onUnmounted, ref, computed, watch } from 'vue';
-import * as echarts from 'echarts';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { http } from '../api/client';
-import { chartTheme } from '../utils/chartTheme';
 import BaseButton from '../components/base/BaseButton.vue';
-const t = chartTheme();
-const el = ref(null);
-const raw = ref({ nodes: [], links: [] });
-const info = ref(null);
-const detail = ref(null);
-const search = ref('');
+
+const canvas = ref(null); const wrap = ref(null);
+const search = ref(''); const info = ref(null); const detail = ref(null); const hover = ref(null);
 const showTypes = ref({ related: true, prerequisite: true, contains: true, conflicts: true, backbone: true });
 const relNames = { related: '相关', prerequisite: '前置', contains: '包含', conflicts: '冲突', backbone: '主线' };
-const fixedIds = new Set();
-const nodePositions = new Map();   // name -> [x, y]（最终为屏幕坐标）
-const matchedCount = ref(0);
-const visibleLinkCount = computed(() => buildLinks().length);
-const ready = ref(false);
-let pollStart = 0;
-let freezeAttempts = 0;
-let chart = null;
-let pollTimer = null;
-let lastBox = null;
-let stableCount = 0;
+const relColors = { related: '#637da8', prerequisite: '#c9a13d', contains: '#5b8cff', conflicts: '#cf6a68', backbone: '#7a6bb0' };
+const graph = { nodes: [], links: [], width: 1, height: 1, panX: 0, panY: 0, scale: 1, alpha: .24, raf: 0, dragged: null, panning: false, last: null, moved: false };
+const nodeTotal = ref(0); const linkTotal = ref(0);
+let ctx; let resizeObserver;
 
-function buildNodes() {
-  const kw = search.value.trim();
-  const matched = kw ? raw.value.nodes.filter(n => n.name.includes(kw)).map(n => n.id) : null;
-  matchedCount.value = matched ? matched.length : raw.value.nodes.length;
-  return raw.value.nodes.map(n => {
-    const pos = nodePositions.get(n.name);
-    const isMatch = !matched || matched.includes(n.id);
-    return {
-      id: n.id, name: n.name,
-      x: pos ? pos[0] : undefined,
-      y: pos ? pos[1] : undefined,
-      symbolSize: 18 + Math.min(n.mastery || 0, 100) / 10,
-      fixed: (fixedIds.has(n.id) || pos) ? true : undefined,
-      itemStyle: { color: t.nodeColor(n.mastery), opacity: isMatch ? 1 : 0.12 },
-      label: { show: isMatch, fontSize: 11, color: matched && matched.includes(n.id) ? '#ffffff' : t.label },
-      emphasis: { itemStyle: { borderColor: '#fff', borderWidth: 1 } },
-    };
-  });
+const matchedCount = computed(() => { search.value; return nodeTotal.value ? graph.nodes.filter(n => n.name.includes(search.value.trim())).length : 0; });
+const visibleLinkCount = computed(() => { linkTotal.value; Object.values(showTypes.value); return graph.links.filter(l => showTypes.value[l.type]).length; });
+const filteredLinks = () => graph.links.filter(l => showTypes.value[l.type]);
+function nodeColor(mastery) { if (mastery >= 70) return '#4db281'; if (mastery >= 40) return '#c9a13d'; return '#cf6a68'; }
+function initNodes(data) {
+  graph.nodes = data.nodes.map((n, index) => ({ ...n, x: 100 + Math.random() * Math.max(200, graph.width - 200), y: 90 + Math.random() * Math.max(180, graph.height - 180), vx: 0, vy: 0, r: 14 + Math.min(12, Math.max(0, n.mastery || 0) / 9), order: index }));
+  const byId = new Map(graph.nodes.map(n => [n.id, n]));
+  graph.links = data.links.map(l => ({ ...l, a: byId.get(l.source), b: byId.get(l.target) })).filter(l => l.a && l.b);
+  nodeTotal.value = graph.nodes.length; linkTotal.value = graph.links.length;
+  graph.panX = 0; graph.panY = 0; graph.scale = 1; graph.alpha = .25;
 }
-function buildLinks() {
-  const typeSet = new Set(Object.keys(showTypes.value).filter(k => showTypes.value[k]));
-  return raw.value.links.filter(l => typeSet.has(l.type)).map(l => ({
-    source: l.source, target: l.target,
-    label: { show: true, formatter: relNames[l.type] || l.type, fontSize: 9, color: t.textMuted },
-  }));
+function resize() {
+  if (!canvas.value || !wrap.value) return;
+  const box = wrap.value.getBoundingClientRect(); const ratio = window.devicePixelRatio || 1;
+  graph.width = Math.max(280, box.width); graph.height = Math.max(360, box.height);
+  canvas.value.width = graph.width * ratio; canvas.value.height = graph.height * ratio;
+  canvas.value.style.width = `${graph.width}px`; canvas.value.style.height = `${graph.height}px`;
+  ctx = canvas.value.getContext('2d'); ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  if (!graph.nodes.length) return;
+  graph.nodes.forEach((n, i) => { if (!Number.isFinite(n.x)) { n.x = graph.width / 2 + (i % 5 - 2) * 90; n.y = graph.height / 2 + (i % 4 - 2) * 75; } });
 }
-function buildOption(extra = {}) {
-  return {
-    textStyle: { color: t.label },
-    tooltip: {
-      formatter: (p) => p.dataType === 'node' ? p.data.name : '',
-      confine: true, ...t.tooltip,
-    },
-    series: [{
-      type: 'graph',
-      layout: nodePositions.size ? 'none' : 'force',
-      roam: true,
-      draggable: true,
-      scaleLimit: { min: 0.25, max: 4 },
-      label: { show: true, fontSize: 11 },
-      data: buildNodes(),
-      links: buildLinks(),
-      lineStyle: { color: t.line, width: 1, opacity: 0.55 },
-      force: { repulsion: 320, edgeLength: 100, gravity: 0.1 },
-      emphasis: { focus: 'adjacency', lineStyle: { width: 2, opacity: 1 } },
-      ...extra,
-    }],
-  };
+function physics() {
+  const nodes = graph.nodes; const links = filteredLinks(); const a = graph.alpha;
+  if (a > .002 && !graph.dragged) {
+    nodes.forEach(n => { n.vx *= .78; n.vy *= .78; n.vx += (graph.width / 2 - n.x) * .00075 * a; n.vy += (graph.height / 2 - n.y) * .00075 * a; });
+    for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+      const p = nodes[i], q = nodes[j]; let dx = q.x - p.x, dy = q.y - p.y; const distance = Math.hypot(dx, dy) || .01; const minimum = p.r + q.r + 20;
+      if (distance < minimum) { const force = (minimum - distance) * .055 * a; dx /= distance; dy /= distance; p.vx -= dx * force; p.vy -= dy * force; q.vx += dx * force; q.vy += dy * force; }
+    }
+    links.forEach(l => { const dx = l.b.x - l.a.x, dy = l.b.y - l.a.y; const distance = Math.hypot(dx, dy) || .01; const ideal = l.a.r + l.b.r + 74; const force = (distance - ideal) * .0032 * a; l.a.vx += dx / distance * force; l.a.vy += dy / distance * force; l.b.vx -= dx / distance * force; l.b.vy -= dy / distance * force; });
+    nodes.forEach(n => { n.x = Math.max(n.r + 18, Math.min(graph.width - n.r - 18, n.x + n.vx)); n.y = Math.max(n.r + 18, Math.min(graph.height - n.r - 18, n.y + n.vy)); });
+    graph.alpha *= .991;
+  }
 }
+function neighborhood(node) { if (!node) return null; const set = new Set([node]); filteredLinks().forEach(l => { if (l.a === node) set.add(l.b); if (l.b === node) set.add(l.a); }); return set; }
 function render() {
-  if (!chart) return;
-  chart.setOption(buildOption());
-  if (nodePositions.size === 0 && !ready.value) scheduleFreeze();
+  if (!ctx) return;
+  physics(); ctx.clearRect(0, 0, graph.width, graph.height); ctx.save(); ctx.translate(graph.panX, graph.panY); ctx.scale(graph.scale, graph.scale);
+  const query = search.value.trim(); const focus = neighborhood(hover.value || info.value); const links = filteredLinks();
+  links.forEach(l => { const active = !focus || l.a === hover.value || l.b === hover.value || l.a === info.value || l.b === info.value; const match = !query || (l.a.name.includes(query) && l.b.name.includes(query)); ctx.save(); ctx.globalAlpha = active ? (match ? .82 : .5) : .055; ctx.strokeStyle = relColors[l.type] || '#637da8'; ctx.lineWidth = active ? 1.35 : .7; ctx.beginPath(); ctx.moveTo(l.a.x, l.a.y); ctx.lineTo(l.b.x, l.b.y); ctx.stroke(); ctx.restore(); });
+  [...graph.nodes].sort((a, b) => a.r - b.r).forEach(n => { const matched = !query || n.name.includes(query); const active = !focus || focus.has(n); const radius = n.r * (hover.value === n ? 1.13 : 1); ctx.save(); ctx.globalAlpha = matched && active ? 1 : (query ? .1 : .17); ctx.fillStyle = nodeColor(n.mastery || 0); ctx.beginPath(); ctx.arc(n.x, n.y, radius, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = info.value === n ? '#f3c96b' : hover.value === n ? '#fff' : 'rgba(255,255,255,.45)'; ctx.lineWidth = info.value === n || hover.value === n ? 2 : 1; ctx.stroke(); if (radius >= 16) { ctx.fillStyle = '#fff'; ctx.font = `600 ${Math.max(9, Math.min(12, radius * .46))}px Inter, Microsoft YaHei, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; const visible = n.name.length > 5 ? `${n.name.slice(0, 4)}…` : n.name; ctx.fillText(visible, n.x, n.y); } ctx.restore(); });
+  ctx.restore(); graph.raf = requestAnimationFrame(render);
 }
-function readLayoutPts() {
-  const model = chart.getModel().getSeriesByIndex(0);
-  const data = model ? model.getData() : null;
-  if (!data) return null;
-  const pts = [];
-  data.each((idx) => {
-    const name = data.getName(idx);
-    const layout = data.getItemLayout(idx);
-    let x, y;
-    if (Array.isArray(layout)) { x = layout[0]; y = layout[1]; }
-    else if (layout) { x = layout.x; y = layout.y; }
-    if (typeof x === 'number' && typeof y === 'number' && name) {
-      pts.push({ name, x, y });
-    }
-  });
-  return pts.length >= 2 ? pts : null;
-}
-// 轮询等待 force 收敛（带超时兜底：后台/节流环境下动画不推进也能冻结）
-function pollLayout() {
-  if (!chart) return;
-  if (Date.now() - pollStart > 6000) { freezeFit(); return; }
-  const pts = readLayoutPts();
-  if (!pts) { pollTimer = setTimeout(pollLayout, 500); return; }
-  const xs = pts.map(p => p.x), ys = pts.map(p => p.y);
-  const box = { w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys) };
-  if (lastBox && box.w > 10) {
-    const dx = Math.abs(box.w - lastBox.w) / lastBox.w;
-    const dy = Math.abs(box.h - lastBox.h) / lastBox.h;
-    if (dx < 0.015 && dy < 0.015) stableCount++;
-    else stableCount = 0;
-    if (stableCount >= 2) { freezeFit(); return; }
-  }
-  lastBox = box;
-  pollTimer = setTimeout(pollLayout, 500);
-}
-function scheduleFreeze() {
-  if (pollTimer) clearTimeout(pollTimer);
-  lastBox = null; stableCount = 0;
-  pollStart = Date.now();
-  pollTimer = setTimeout(pollLayout, 500);
-}
-// 冻结：把节点坐标线性重映射到画布屏幕坐标（舒适区填满，天然在窗口内）
-function freezeFit() {
-  if (!chart) return;
-  freezeAttempts++;
-  try {
-  const pts = readLayoutPts();
-  if (!pts) {
-    // 读不到坐标：最多重试 5 次后放弃（保持 force 布局直接显示，绝不空白）
-    if (freezeAttempts < 5) { pollTimer = setTimeout(freezeFit, 500); return; }
-    ready.value = true;
-    return;
-  }
-  const xs = pts.map(p => p.x), ys = pts.map(p => p.y);
-  const minX = Math.min(...xs), maxX = Math.max(...xs);
-  const minY = Math.min(...ys), maxY = Math.max(...ys);
-  const w = (maxX - minX) || 1, h = (maxY - minY) || 1;
-  const W = chart.getWidth(), H = chart.getHeight();
-  const pad = 100;
-  const scale = Math.min((W - pad * 2) / w, (H - pad * 2) / h, 1.6, 1);
-  const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
-  for (const p of pts) {
-    const nx = (p.x - cx) * scale + W / 2;
-    const ny = (p.y - cy) * scale + H / 2;
-    nodePositions.set(p.name, [nx, ny]);
-  }
-  chart.setOption(buildOption({ layout: 'none' }));
-  ready.value = true;
-  } catch (e) {
-    console.error('[graph] freeze error', e);
-    ready.value = true;
-  }
-}
-function bindEvents() {
-  chart.on('click', (p) => {
-    if (p.dataType === 'node') selectNode(p.data);
-    else { info.value = null; detail.value = null; }
-  });
-  chart.on('dragend', (p) => {
-    if (p.dataType === 'node' && p.data) {
-      fixedIds.add(p.data.id);
-      try {
-        const model = chart.getModel().getSeriesByIndex(0);
-        const data = model ? model.getData() : null;
-        if (data) {
-          data.each((idx) => {
-            if (data.getName(idx) === p.data.name) {
-              const l = data.getItemLayout(idx);
-              if (Array.isArray(l)) nodePositions.set(p.data.name, [l[0], l[1]]);
-            }
-          });
-        }
-      } catch (e) { /* ignore */ }
-    }
-  });
-}
-async function selectNode(node) {
-  info.value = { id: node.id, name: node.name, mastery: node.mastery || 0 };
-  detail.value = null;
-  try { detail.value = await http.get('/knowledge/points/' + node.id); }
-  catch (e) { detail.value = null; }
-}
-function resetView() {
-  if (!chart) return;
-  chart.dispose();
-  chart = echarts.init(el.value);
-  bindEvents();
-  render();
-}
-function initChart() {
-  chart = echarts.init(el.value);
-  bindEvents();
-  render();
-}
-onMounted(async () => {
-  raw.value = await http.get('/knowledge/graph');
-  initChart();
-  window.addEventListener('resize', () => chart && chart.resize());
-});
-watch(showTypes, render, { deep: true });
-watch(search, render);
-onUnmounted(() => { if (pollTimer) clearTimeout(pollTimer); if (chart) chart.dispose(); });
+function point(event) { const rect = canvas.value.getBoundingClientRect(); return { x: (event.clientX - rect.left - graph.panX) / graph.scale, y: (event.clientY - rect.top - graph.panY) / graph.scale, sx: event.clientX - rect.left, sy: event.clientY - rect.top }; }
+function hit(p) { for (let i = graph.nodes.length - 1; i >= 0; i--) { const n = graph.nodes[i]; if (Math.hypot(n.x - p.x, n.y - p.y) <= n.r + 9) return n; } return null; }
+function pointerDown(event) { const p = point(event); graph.dragged = hit(p); graph.panning = !graph.dragged; graph.last = p; graph.moved = false; canvas.value.setPointerCapture?.(event.pointerId); if (graph.dragged) graph.alpha = .12; }
+function pointerMove(event) { const p = point(event); if (graph.dragged) { graph.dragged.x = p.x; graph.dragged.y = p.y; graph.dragged.vx = 0; graph.dragged.vy = 0; graph.moved = true; return; } if (graph.panning && graph.last) { graph.panX += p.sx - graph.last.sx; graph.panY += p.sy - graph.last.sy; graph.last = p; graph.moved = true; return; } hover.value = hit(p); }
+async function select(node) { if (!node) { info.value = null; detail.value = null; return; } info.value = node; detail.value = null; try { detail.value = await http.get(`/knowledge/points/${node.id}`); } catch (_) { detail.value = null; } }
+function pointerUp(event) { const node = graph.dragged; const moved = graph.moved; graph.dragged = null; graph.panning = false; graph.last = null; if (node && !moved) select(node); else if (!node && !moved) select(null); }
+function onWheel(event) { event.preventDefault(); const before = point(event); const next = Math.max(.45, Math.min(2.7, graph.scale * (event.deltaY > 0 ? .9 : 1.1))); graph.panX = (event.clientX - canvas.value.getBoundingClientRect().left) - before.x * next; graph.panY = (event.clientY - canvas.value.getBoundingClientRect().top) - before.y * next; graph.scale = next; }
+function resetView() { graph.panX = 0; graph.panY = 0; graph.scale = 1; graph.alpha = .25; graph.nodes.forEach((n, i) => { n.x = 100 + Math.random() * Math.max(200, graph.width - 200); n.y = 90 + Math.random() * Math.max(180, graph.height - 180); n.vx = n.vy = 0; }); }
+function contextMenu(event) { event.preventDefault(); const node = hit(point(event)); if (node) select(node); }
+async function load() { const data = await http.get('/knowledge/graph'); initNodes(data); await nextTick(); resize(); }
+onMounted(async () => { resize(); graph.raf = requestAnimationFrame(render); resizeObserver = new ResizeObserver(resize); resizeObserver.observe(wrap.value); await load(); });
+onUnmounted(() => { cancelAnimationFrame(graph.raf); resizeObserver?.disconnect(); });
+watch(showTypes, () => { graph.alpha = .18; }, { deep: true });
 </script>
+
 <template>
-  <div class="card">
-    <div class="toolbar">
-      <input v-model="search" placeholder="搜索知识点…" class="w210" />
-      <span class="spacer"></span>
-      <label v-for="(label, key) in relNames" :key="key" class="rel-filter">
-        <input type="checkbox" v-model="showTypes[key]" /> {{ label }}
-      </label>
-      <span class="badge accent">{{ matchedCount }} 节点 · {{ visibleLinkCount }} 边</span>
-      <BaseButton size="sm" variant="ghost" @click="resetView">重置视图</BaseButton>
-    </div>
-    <div class="list-panel graph-panel">
-      <div class="graph-wrap" :class="{ ready }">
-        <div ref="el" class="graph-canvas"></div>
-      </div>
-      <div v-if="info" class="graph-side">
-        <div class="row between">
-          <b class="side-title">{{ info.name }}</b>
-          <BaseButton size="sm" variant="ghost" icon="x-circle" aria-label="关闭" @click="info = null; detail = null"></BaseButton>
-        </div>
-        <div class="row side-mastery">
-          <span class="muted muted-sm">掌握度</span>
-          <span class="progress side-progress" :class="info.mastery < 40 ? 'err' : (info.mastery < 70 ? 'warn' : '')">
-            <i :style="{ width: info.mastery + '%' }"></i>
-          </span>
-          <b class="num side-pct">{{ Math.round(info.mastery) }}%</b>
-        </div>
-        <p class="muted side-desc" v-if="detail && detail.description">{{ detail.description }}</p>
-        <div class="row side-tags" v-if="detail">
-          <span class="tag">关联题 {{ detail.questions.length }}</span>
-          <span class="tag">子节点 {{ detail.children.length }}</span>
-        </div>
-        <div class="row">
-          <BaseButton :to="'/practice?kp=' + info.id" size="sm" icon="target">练习本知识点</BaseButton>
-          <BaseButton :to="'/knowledge'" size="sm" variant="ghost" icon="book">知识点库</BaseButton>
-        </div>
-      </div>
-    </div>
-    <p class="muted graph-hint">
-      拖拽节点可固定位置 · 滚轮缩放 · 空白处拖拽平移画布 · 悬停高亮关联 · 点击节点查看详情
-    </p>
-  </div>
+  <section class="graph-page">
+    <div class="graph-head"><div><p class="eyebrow">KNOWLEDGE RELATION MAP</p><h2>用关系，而不是目录，理解知识。</h2><p>拖拽调整节点 · 滚轮缩放 · 悬停聚焦关联 · 点击固定知识卡。</p></div><BaseButton size="sm" variant="ghost" icon="rotate-ccw" @click="resetView">重置视图</BaseButton></div>
+    <div class="graph-tools"><label class="map-search"><span>⌕</span><input v-model="search" placeholder="搜索知识点…" /></label><div class="map-filters"><label v-for="(label, key) in relNames" :key="key"><input v-model="showTypes[key]" type="checkbox" /><i :style="{ background: relColors[key] }"></i>{{ label }}</label></div><span class="map-count">{{ matchedCount }} 节点 · {{ visibleLinkCount }} 关系</span></div>
+    <div ref="wrap" class="map-stage"><canvas ref="canvas" @pointerdown="pointerDown" @pointermove="pointerMove" @pointerup="pointerUp" @pointerleave="() => { if (!graph.dragged && !graph.panning) hover = null }" @wheel="onWheel" @contextmenu="contextMenu"></canvas><div v-if="hover && !info" class="map-hover" :style="{ left: `${Math.min(graph.width - 160, hover.x * graph.scale + graph.panX + 16)}px`, top: `${Math.min(graph.height - 72, hover.y * graph.scale + graph.panY + 16)}px` }"><b>{{ hover.name }}</b><span>掌握度 {{ Math.round(hover.mastery || 0) }}%</span></div><aside v-if="info" class="map-detail"><button class="detail-close" aria-label="关闭详情" @click="select(null)">×</button><p class="eyebrow">KNOWLEDGE POINT</p><h3>{{ info.name }}</h3><div class="detail-mastery"><span>掌握度</span><div><i :style="{ width: `${info.mastery || 0}%` }"></i></div><b>{{ Math.round(info.mastery || 0) }}%</b></div><p v-if="detail?.description" class="detail-desc">{{ detail.description }}</p><div v-if="detail" class="detail-meta"><span>关联题 {{ detail.questions.length }}</span><span>子节点 {{ detail.children.length }}</span><span>关联点 {{ detail.related.length }}</span></div><div class="detail-actions"><BaseButton :to="`/practice?kp=${info.id}`" size="sm" icon="target">针对练习</BaseButton><BaseButton to="/knowledge" size="sm" variant="ghost" icon="book">查看详情</BaseButton></div></aside><div class="map-corner"><span><i class="risk"></i>薄弱 &lt; 40%</span><span><i class="warn"></i>巩固 40–69%</span><span><i class="safe"></i>掌握 ≥ 70%</span></div></div>
+  </section>
 </template>
 
 <style scoped>
-/* 原内联样式静默化：布局/宽度一律 scoped 类；掌握度进度等动态宽度保留 :style 绑定 */
-.w210 { width: 210px; }
-.rel-filter { font-size: 12px; color: var(--text-muted); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
-.graph-panel { position: relative; padding: 0; }
-.graph-wrap { height: 620px; width: 100%; }
-.graph-canvas { height: 620px; width: 100%; }
-.between { justify-content: space-between; }
-.side-title { font-size: 14px; }
-.side-mastery { margin: 10px 0; }
-.muted-sm { font-size: 12px; }
-.side-progress { flex: 1; }
-.side-pct { font-size: 13px; }
-.side-desc { font-size: 12px; margin: 8px 0; line-height: 1.7; }
-.side-tags { margin: 8px 0; }
-.graph-hint { padding: 10px 14px 2px; font-size: 12px; }
+.graph-page{display:grid;gap:14px}.graph-head{display:flex;align-items:end;justify-content:space-between;gap:16px}.graph-head h2{margin:5px 0 7px;font-size:21px;letter-spacing:-.02em}.graph-head p:not(.eyebrow){margin:0;color:var(--text-muted);font-size:12px}.graph-tools{display:flex;align-items:center;gap:12px;min-height:42px}.map-search{display:flex;align-items:center;gap:7px;width:220px;padding:0 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-solid);color:var(--text-faint)}.map-search input{width:100%;padding:8px 0;background:transparent;border:0;box-shadow:none}.map-filters{display:flex;gap:9px;flex-wrap:wrap}.map-filters label{display:inline-flex;align-items:center;gap:5px;color:var(--text-muted);font-size:11px;cursor:pointer}.map-filters input{accent-color:var(--action-primary)}.map-filters i{width:7px;height:7px;border-radius:50%}.map-count{margin-left:auto;color:var(--text-faint);font:11px var(--mono);white-space:nowrap}.map-stage{position:relative;height:640px;overflow:hidden;border:1px solid var(--border);border-radius:var(--radius);background:radial-gradient(circle at 50% 45%,rgba(91,140,255,.055),transparent 48%),var(--ink-900)}.map-stage:before{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(148,163,199,.17) .7px,transparent .7px);background-size:20px 20px;opacity:.32}.map-stage canvas{position:relative;display:block;width:100%;height:100%;cursor:grab;touch-action:none}.map-stage canvas:active{cursor:grabbing}.map-hover{position:absolute;z-index:3;display:grid;gap:3px;min-width:126px;padding:9px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--ink-800);box-shadow:var(--shadow);pointer-events:none;font-size:11px}.map-hover span{color:var(--text-muted)}.map-detail{position:absolute;z-index:4;top:14px;right:14px;width:min(292px,calc(100% - 28px));padding:16px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--ink-900);box-shadow:var(--shadow)}.map-detail h3{margin:5px 24px 12px 0;font-size:16px}.detail-close{position:absolute;top:9px;right:9px;padding:0;width:24px;height:24px;border:0;background:transparent;color:var(--text-muted);font-size:20px;line-height:1}.detail-close:hover{background:var(--surface-hover);color:var(--text)}.detail-mastery{display:grid;grid-template-columns:auto 1fr auto;gap:7px;align-items:center;color:var(--text-muted);font-size:11px}.detail-mastery>div{height:5px;overflow:hidden;border-radius:4px;background:rgba(148,163,199,.14)}.detail-mastery i{display:block;height:100%;background:var(--action-primary)}.detail-mastery b{color:var(--text);font-size:11px}.detail-desc{margin:13px 0 0;color:var(--text-muted);font-size:12px;line-height:1.65}.detail-meta{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}.detail-meta span{padding:3px 6px;border-radius:4px;background:var(--surface);color:var(--text-muted);font-size:10px}.detail-actions{display:flex;gap:7px}.map-corner{position:absolute;z-index:2;bottom:12px;left:14px;display:flex;gap:10px;color:var(--text-faint);font-size:10px}.map-corner span{display:flex;align-items:center;gap:4px}.map-corner i{width:7px;height:7px;border-radius:50%}.risk{background:var(--risk-high)}.warn{background:var(--status-warning)}.safe{background:var(--status-success)}@media(max-width:820px){.graph-head{align-items:start;flex-direction:column}.graph-tools{align-items:flex-start;flex-wrap:wrap}.map-count{margin-left:0}.map-stage{height:540px}.map-detail{top:auto;right:10px;bottom:10px;width:calc(100% - 20px)}.map-corner{display:none}}@media(max-width:560px){.map-search{width:100%}.map-filters{gap:7px}.map-stage{height:480px}}
 </style>
