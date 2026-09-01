@@ -105,7 +105,13 @@ function roundedRectPath(x, y, width, height, radius = 18) { const r = Math.min(
 function drawDomains() {
   Object.entries(domains).forEach(([id, zone]) => {
     const layout = domainGeometry(id); const { left, top, width, height } = layout; const mastery = domainProgress(id);
-    ctx.save(); ctx.globalAlpha = .12; ctx.fillStyle = zone.color; roundedRectPath(left, top, width, height); ctx.fill(); ctx.globalAlpha = 1; ctx.strokeStyle = `${zone.color}55`; ctx.setLineDash([3, 5]); ctx.lineWidth = 1; roundedRectPath(left, top, width, height); ctx.stroke(); ctx.setLineDash([]); ctx.strokeStyle = '#2e9b80'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(left + 14, top + 10); ctx.lineTo(left + 14 + (width - 28) * mastery / 100, top + 10); ctx.stroke(); ctx.fillStyle = zone.color; ctx.globalAlpha = .82; ctx.font = '600 10px Inter, Microsoft YaHei, sans-serif'; ctx.textAlign = 'left'; ctx.fillText(`${zone.short} · ${mastery}%`, left + 14, top + 26); ctx.restore();
+    ctx.save(); ctx.globalAlpha = .12; ctx.fillStyle = zone.color; roundedRectPath(left, top, width, height); ctx.fill(); ctx.globalAlpha = 1; ctx.strokeStyle = `${zone.color}55`; ctx.setLineDash([3, 5]); ctx.lineWidth = 1; roundedRectPath(left, top, width, height); ctx.stroke(); ctx.restore();
+  });
+}
+function drawDomainHeaders() {
+  Object.entries(domains).forEach(([id, zone]) => {
+    const { left, top, width } = domainGeometry(id); const mastery = domainProgress(id); const headerHeight = 39;
+    ctx.save(); ctx.fillStyle = 'rgba(242,247,252,.94)'; roundedRectPath(left + 8, top + 8, width - 16, headerHeight, 10); ctx.fill(); ctx.strokeStyle = `${zone.color}55`; ctx.lineWidth = 1; roundedRectPath(left + 8, top + 8, width - 16, headerHeight, 10); ctx.stroke(); ctx.fillStyle = zone.color; ctx.font = '700 13px Inter, Microsoft YaHei, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(zone.short, left + 18, top + 23); ctx.fillStyle = '#24745f'; ctx.textAlign = 'right'; ctx.font = '700 11px Inter, Microsoft YaHei, sans-serif'; ctx.fillText(`掌握 ${mastery}%`, left + width - 18, top + 23); ctx.strokeStyle = '#2e9b80'; ctx.lineWidth = 2.6; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(left + 18, top + 38); ctx.lineTo(left + 18 + (width - 36) * mastery / 100, top + 38); ctx.stroke(); ctx.restore();
   });
 }
 function drawMasteryRings(query) {
@@ -142,7 +148,7 @@ function render() {
   const query = search.value.trim(); const focusNode = selected.value || info.value || hover.value; const focus = neighborhood(focusNode); const links = filteredLinks();
   links.forEach(l => drawLink(l, focus, focusNode, query));
   [...graph.nodes].sort((a, b) => a.dR - b.dR).forEach(n => { const matched = !query || n.name.includes(query); const radius = n.dR; const color = rgb(nodeColor(n)); ctx.save(); ctx.globalAlpha = n.dA * (matched ? 1 : .16); const fill = ctx.createRadialGradient(n.x - radius * .28, n.y - radius * .28, 0, n.x, n.y, radius); fill.addColorStop(0, `rgb(${Math.min(255, color.r + 34)},${Math.min(255, color.g + 34)},${Math.min(255, color.b + 34)})`); fill.addColorStop(1, nodeColor(n)); ctx.fillStyle = fill; ctx.beginPath(); ctx.arc(n.x, n.y, radius, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = isFocused(n) ? '#f3c96b' : sameNode(n, hover.value) ? '#fff' : 'rgba(255,255,255,.7)'; ctx.lineWidth = isFocused(n) || sameNode(n, hover.value) ? 2.6 : 1.4; ctx.stroke(); ctx.fillStyle = '#283a55'; ctx.shadowColor = 'rgba(255,255,255,.96)'; ctx.shadowBlur = 3; ctx.font = `600 ${Math.max(9.5, Math.min(11.5, radius * .43))}px Inter, Microsoft YaHei, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'top'; n.label.forEach((line, index) => ctx.fillText(line, n.x, n.y + radius + 5 + index * 12)); ctx.restore(); });
-  drawMasteryRings(query); drawFocusedLabel(selected.value || info.value);
+  drawMasteryRings(query); drawFocusedLabel(selected.value || info.value); drawDomainHeaders();
   ctx.restore(); graph.raf = requestAnimationFrame(render);
 }
 function point(event) { const rect = canvas.value.getBoundingClientRect(); return { x: (event.clientX - rect.left - graph.panX) / graph.scale, y: (event.clientY - rect.top - graph.panY) / graph.scale, sx: event.clientX - rect.left, sy: event.clientY - rect.top }; }
