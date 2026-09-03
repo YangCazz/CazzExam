@@ -105,29 +105,13 @@
       "provenance_policy": "reference_only",
       "attribution_required": true,
       "note": "与 xxlllq 同源的镜像，无 LICENSE，真题为图片/链接，不导入。"
-    },
-    {
-      "id": "xxlllq_ruankao_exam",
-      "name": "ruankao_exam",
-      "owner": "xxlllq",
-      "url": "https://github.com/xxlllq/ruankao_exam",
-      "clone_dir": "ref/ruankao_exam",
-      "license": "none",
-      "stars": 275,
-      "updated": "2026-08-03",
-      "content_type": "images",
-      "structure": { "README.md": "说明", "img/": "图片" },
-      "maps_to_schema": {},
-      "provenance_policy": "reference_only",
-      "attribution_required": true,
-      "note": "仅图片+说明，无结构化内容，不导入。"
     }
   ],
   "import_decision": {
     "imported": ["peterGuy326"],
     "currently_importable": ["peterGuy326"],
     "needs_permission": [],
-    "reference_only": ["xxlllq_system_architect", "mosoft521", "xxlllq_ruankao_exam"],
+    "reference_only": ["xxlllq_system_architect", "mosoft521"],
     "limited": ["ruankao"],
     "policy": "只有 provenance_policy 为 importable 或已获作者明确授权(且生成 provenance 记录)的来源，才能被 normalize.py 真正导入。所有导入项必须保留 source.repo/source.file/source.license 溯源。"
   }
