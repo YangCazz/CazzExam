@@ -1,3 +1,4 @@
+import json
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import select
@@ -39,9 +40,14 @@ def point_detail(kpid: int, db: Session = Depends(get_db)):
     questions = db.scalars(select(Question).where(Question.id.in_(qids))).all() if qids else []
     rels_out = db.scalars(select(KnowledgeRelation).where(KnowledgeRelation.from_id == kpid)).all()
     rels_in = db.scalars(select(KnowledgeRelation).where(KnowledgeRelation.to_id == kpid)).all()
+    try:
+        card = json.loads(kp.card) if kp.card else None
+    except ValueError:
+        card = None
     return {
         "id": kp.id, "name": kp.name, "code": kp.code, "subject": kp.subject,
         "description": kp.description, "memo": kp.memo, "mastery": kp.mastery,
+        "card": card,
         "children": [{"id": c.id, "name": c.name} for c in children],
         "questions": [{"id": q.id, "qtype": q.qtype, "stem": q.stem} for q in questions],
         "related": [{"id": r.to_id, "type": r.relation_type} for r in rels_out]

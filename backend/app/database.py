@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, event
+from sqlalchemy import create_engine, event, text
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from .config import settings
 
@@ -29,3 +29,12 @@ def get_db():
 def init_db():
     from . import models  # noqa: F401  注册所有模型
     Base.metadata.create_all(bind=engine)
+    _ensure_schema()  # SQLite 补列(create_all 不会给已存在的表加列)
+
+
+def _ensure_schema():
+    """幂等迁移:给已存在的表补缺失列(create_all 从不 ALTER 旧表)。"""
+    with engine.begin() as conn:
+        cols = {row[1] for row in conn.execute(text("PRAGMA table_info(knowledge_points)"))}
+        if "card" not in cols:
+            conn.execute(text("ALTER TABLE knowledge_points ADD COLUMN card TEXT DEFAULT ''"))

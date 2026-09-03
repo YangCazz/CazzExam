@@ -1,0 +1,4988 @@
+{
+ "source": "peterGuy326",
+ "generated": "2026-09-03",
+ "origin": "ref/ref/senior-software-architect-review/mind-maps/*.md",
+ "count": 10,
+ "cards": [
+  {
+   "knowledge_codes": [],
+   "title": "00-overall",
+   "file": "00-overall.md",
+   "blocks": [
+    {
+     "type": "mindmap",
+     "root": {
+      "text": "系统架构设计师",
+      "children": [
+       {
+        "text": "综合知识",
+        "children": [
+         {
+          "text": "计算机系统",
+          "children": [
+           {
+            "text": "CPU与指令",
+            "children": []
+           },
+           {
+            "text": "存储层次",
+            "children": []
+           },
+           {
+            "text": "I/O与总线",
+            "children": []
+           },
+           {
+            "text": "可靠性与校验",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "信息系统",
+          "children": [
+           {
+            "text": "生命周期",
+            "children": []
+           },
+           {
+            "text": "分类 TPS MIS DSS",
+            "children": []
+           },
+           {
+            "text": "企业信息化战略",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "信息安全",
+          "children": [
+           {
+            "text": "密码学",
+            "children": []
+           },
+           {
+            "text": "PKI 协议",
+            "children": []
+           },
+           {
+            "text": "防火墙 IDS",
+            "children": []
+           },
+           {
+            "text": "访问控制 等保",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "软件工程",
+          "children": [
+           {
+            "text": "开发模型",
+            "children": []
+           },
+           {
+            "text": "需求工程",
+            "children": []
+           },
+           {
+            "text": "设计与测试",
+            "children": []
+           },
+           {
+            "text": "CMMI 项目管理",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "数据库",
+          "children": [
+           {
+            "text": "关系模型",
+            "children": []
+           },
+           {
+            "text": "范式 1NF-BCNF",
+            "children": []
+           },
+           {
+            "text": "事务 并发控制",
+            "children": []
+           },
+           {
+            "text": "分布式 NoSQL",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "系统架构设计",
+          "children": [
+           {
+            "text": "架构风格",
+            "children": []
+           },
+           {
+            "text": "4+1视图",
+            "children": []
+           },
+           {
+            "text": "DSSA",
+            "children": []
+           },
+           {
+            "text": "产品线",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "质量属性与评估",
+          "children": [
+           {
+            "text": "六大属性",
+            "children": []
+           },
+           {
+            "text": "场景 6元组",
+            "children": []
+           },
+           {
+            "text": "ATAM SAAM CBAM",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "软件可靠性",
+          "children": [
+           {
+            "text": "MTBF MTTR",
+            "children": []
+           },
+           {
+            "text": "容错技术",
+            "children": []
+           },
+           {
+            "text": "冗余设计",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "架构演化",
+          "children": [
+           {
+            "text": "重构",
+            "children": []
+           },
+           {
+            "text": "维护类型",
+            "children": []
+           },
+           {
+            "text": "迁移策略",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "新技术",
+          "children": [
+           {
+            "text": "云原生 K8s",
+            "children": []
+           },
+           {
+            "text": "大数据 Lambda Kappa",
+            "children": []
+           },
+           {
+            "text": "AI AIGC",
+            "children": []
+           },
+           {
+            "text": "区块链 IoT",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "案例分析",
+        "children": [
+         {
+          "text": "信息系统架构",
+          "children": []
+         },
+         {
+          "text": "层次式架构",
+          "children": []
+         },
+         {
+          "text": "云原生架构",
+          "children": []
+         },
+         {
+          "text": "SOA",
+          "children": []
+         },
+         {
+          "text": "嵌入式架构",
+          "children": []
+         },
+         {
+          "text": "通信架构",
+          "children": []
+         },
+         {
+          "text": "安全架构",
+          "children": []
+         },
+         {
+          "text": "大数据架构",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "论文",
+        "children": [
+         {
+          "text": "软件架构设计",
+          "children": []
+         },
+         {
+          "text": "系统可靠性",
+          "children": []
+         },
+         {
+          "text": "系统安全性",
+          "children": []
+         },
+         {
+          "text": "系统建模",
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "skip_on_import": true,
+   "source": {
+    "repo": "senior-software-architect-review",
+    "license": "none",
+    "file": "mind-maps/00-overall.md",
+    "ref": "00-overall",
+    "url": "https://github.com/PeterGuy326/senior-software-architect-review/blob/main/mind-maps/00-overall.md"
+   }
+  },
+  {
+   "knowledge_codes": [
+    "3.1"
+   ],
+   "title": "architecture-styles",
+   "file": "architecture-styles.md",
+   "blocks": [
+    {
+     "type": "mindmap",
+     "root": {
+      "text": "架构风格",
+      "children": [
+       {
+        "text": "数据流",
+        "children": [
+         {
+          "text": "批处理序列",
+          "children": []
+         },
+         {
+          "text": "管道过滤器",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "调用返回",
+        "children": [
+         {
+          "text": "主程序子程序",
+          "children": []
+         },
+         {
+          "text": "面向对象",
+          "children": []
+         },
+         {
+          "text": "层次式",
+          "children": []
+         },
+         {
+          "text": "客户端服务器",
+          "children": []
+         },
+         {
+          "text": "三层 C/S",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "独立构件",
+        "children": [
+         {
+          "text": "进程通信",
+          "children": []
+         },
+         {
+          "text": "事件驱动",
+          "children": [
+           {
+            "text": "隐式调用",
+            "children": []
+           },
+           {
+            "text": "发布订阅",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "虚拟机",
+        "children": [
+         {
+          "text": "解释器",
+          "children": []
+         },
+         {
+          "text": "规则系统",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "数据中心",
+        "children": [
+         {
+          "text": "数据库系统",
+          "children": []
+         },
+         {
+          "text": "超文本",
+          "children": []
+         },
+         {
+          "text": "黑板",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "闭环控制",
+        "children": [
+         {
+          "text": "过程控制",
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "type": "graph",
+     "direction": "TD",
+     "nodes": [
+      {
+       "id": "A",
+       "shape": "[]",
+       "label": "架构风格"
+      },
+      {
+       "id": "B",
+       "shape": "[]",
+       "label": "传统分层"
+      },
+      {
+       "id": "C",
+       "shape": "[]",
+       "label": "事件驱动"
+      },
+      {
+       "id": "D",
+       "shape": "[]",
+       "label": "数据中心"
+      },
+      {
+       "id": "B1",
+       "shape": "[]",
+       "label": "MVC/MVP/MVVM"
+      },
+      {
+       "id": "B2",
+       "shape": "[]",
+       "label": "三层 C/S"
+      },
+      {
+       "id": "C1",
+       "shape": "[]",
+       "label": "消息队列"
+      },
+      {
+       "id": "C2",
+       "shape": "[]",
+       "label": "微服务"
+      },
+      {
+       "id": "C3",
+       "shape": "[]",
+       "label": "Service Mesh"
+      },
+      {
+       "id": "C4",
+       "shape": "[]",
+       "label": "Serverless"
+      },
+      {
+       "id": "D1",
+       "shape": "[]",
+       "label": "数据仓库"
+      },
+      {
+       "id": "D2",
+       "shape": "[]",
+       "label": "数据湖"
+      },
+      {
+       "id": "D3",
+       "shape": "[]",
+       "label": "Lambda/Kappa"
+      }
+     ],
+     "edges": [
+      {
+       "from": "A",
+       "to": "B",
+       "rel": "-->",
+       "label": "",
+       "from_label": "架构风格",
+       "to_label": "传统分层"
+      },
+      {
+       "from": "A",
+       "to": "C",
+       "rel": "-->",
+       "label": "",
+       "from_label": "架构风格",
+       "to_label": "事件驱动"
+      },
+      {
+       "from": "A",
+       "to": "D",
+       "rel": "-->",
+       "label": "",
+       "from_label": "架构风格",
+       "to_label": "数据中心"
+      },
+      {
+       "from": "B",
+       "to": "B1",
+       "rel": "-->",
+       "label": "",
+       "from_label": "传统分层",
+       "to_label": "MVC/MVP/MVVM"
+      },
+      {
+       "from": "B",
+       "to": "B2",
+       "rel": "-->",
+       "label": "",
+       "from_label": "传统分层",
+       "to_label": "三层 C/S"
+      },
+      {
+       "from": "C",
+       "to": "C1",
+       "rel": "-->",
+       "label": "",
+       "from_label": "事件驱动",
+       "to_label": "消息队列"
+      },
+      {
+       "from": "C",
+       "to": "C2",
+       "rel": "-->",
+       "label": "",
+       "from_label": "事件驱动",
+       "to_label": "微服务"
+      },
+      {
+       "from": "C2",
+       "to": "C3",
+       "rel": "-->",
+       "label": "",
+       "from_label": "微服务",
+       "to_label": "Service Mesh"
+      },
+      {
+       "from": "C2",
+       "to": "C4",
+       "rel": "-->",
+       "label": "",
+       "from_label": "微服务",
+       "to_label": "Serverless"
+      },
+      {
+       "from": "D",
+       "to": "D1",
+       "rel": "-->",
+       "label": "",
+       "from_label": "数据中心",
+       "to_label": "数据仓库"
+      },
+      {
+       "from": "D",
+       "to": "D2",
+       "rel": "-->",
+       "label": "",
+       "from_label": "数据中心",
+       "to_label": "数据湖"
+      },
+      {
+       "from": "D",
+       "to": "D3",
+       "rel": "-->",
+       "label": "",
+       "from_label": "数据中心",
+       "to_label": "Lambda/Kappa"
+      }
+     ]
+    }
+   ],
+   "skip_on_import": false,
+   "source": {
+    "repo": "senior-software-architect-review",
+    "license": "none",
+    "file": "mind-maps/architecture-styles.md",
+    "ref": "architecture-styles",
+    "url": "https://github.com/PeterGuy326/senior-software-architect-review/blob/main/mind-maps/architecture-styles.md"
+   }
+  },
+  {
+   "knowledge_codes": [
+    "3.8"
+   ],
+   "title": "big-data",
+   "file": "big-data.md",
+   "blocks": [
+    {
+     "type": "mindmap",
+     "root": {
+      "text": "大数据架构",
+      "children": [
+       {
+        "text": "特征 5V",
+        "children": [
+         {
+          "text": "Volume 体量",
+          "children": []
+         },
+         {
+          "text": "Velocity 速度",
+          "children": []
+         },
+         {
+          "text": "Variety 多样",
+          "children": []
+         },
+         {
+          "text": "Veracity 真实",
+          "children": []
+         },
+         {
+          "text": "Value 价值",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "存储",
+        "children": [
+         {
+          "text": "HDFS 分布式文件",
+          "children": [
+           {
+            "text": "NameNode 元数据",
+            "children": []
+           },
+           {
+            "text": "DataNode 块存储",
+            "children": []
+           },
+           {
+            "text": "副本 默认3",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "对象存储",
+          "children": [
+           {
+            "text": "S3 / OSS / Ceph",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "列存储",
+          "children": [
+           {
+            "text": "HBase",
+            "children": []
+           },
+           {
+            "text": "Cassandra",
+            "children": []
+           },
+           {
+            "text": "ClickHouse",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "数据湖",
+          "children": [
+           {
+            "text": "Hudi",
+            "children": []
+           },
+           {
+            "text": "Iceberg",
+            "children": []
+           },
+           {
+            "text": "Delta Lake",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "计算",
+        "children": [
+         {
+          "text": "批处理",
+          "children": [
+           {
+            "text": "MapReduce 经典",
+            "children": []
+           },
+           {
+            "text": "Spark 内存",
+            "children": []
+           },
+           {
+            "text": "Hive SQL on Hadoop",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "流处理",
+          "children": [
+           {
+            "text": "Flink 真流",
+            "children": []
+           },
+           {
+            "text": "Spark Streaming 微批",
+            "children": []
+           },
+           {
+            "text": "Kafka Streams",
+            "children": []
+           },
+           {
+            "text": "Storm 早期",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "OLAP",
+          "children": [
+           {
+            "text": "ClickHouse",
+            "children": []
+           },
+           {
+            "text": "Doris / StarRocks",
+            "children": []
+           },
+           {
+            "text": "Druid",
+            "children": []
+           },
+           {
+            "text": "Kylin Cube",
+            "children": []
+           },
+           {
+            "text": "Presto / Trino",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "架构模式",
+        "children": [
+         {
+          "text": "Lambda",
+          "children": [
+           {
+            "text": "批处理层 准确",
+            "children": []
+           },
+           {
+            "text": "速度层 实时",
+            "children": []
+           },
+           {
+            "text": "服务层 合并",
+            "children": []
+           },
+           {
+            "text": "缺点 双链路维护",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Kappa",
+          "children": [
+           {
+            "text": "统一流处理",
+            "children": []
+           },
+           {
+            "text": "简化运维",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "湖仓一体",
+          "children": [
+           {
+            "text": "Lakehouse",
+            "children": []
+           },
+           {
+            "text": "Iceberg / Hudi / Delta",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "数据仓库",
+        "children": [
+         {
+          "text": "OLTP vs OLAP",
+          "children": []
+         },
+         {
+          "text": "ETL / ELT",
+          "children": []
+         },
+         {
+          "text": "维度建模",
+          "children": [
+           {
+            "text": "星型模型",
+            "children": []
+           },
+           {
+            "text": "雪花模型",
+            "children": []
+           },
+           {
+            "text": "星座模型",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "事实表 / 维度表",
+          "children": []
+         },
+         {
+          "text": "分层",
+          "children": [
+           {
+            "text": "ODS 贴源层",
+            "children": []
+           },
+           {
+            "text": "DWD 明细",
+            "children": []
+           },
+           {
+            "text": "DWS 汇总",
+            "children": []
+           },
+           {
+            "text": "ADS 应用",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "数据集市 / 数据中台",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "NoSQL 分类",
+        "children": [
+         {
+          "text": "Key-Value",
+          "children": [
+           {
+            "text": "Redis Memcached",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Document",
+          "children": [
+           {
+            "text": "MongoDB CouchDB",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Column",
+          "children": [
+           {
+            "text": "HBase Cassandra",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Graph",
+          "children": [
+           {
+            "text": "Neo4j JanusGraph",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Time-Series",
+          "children": [
+           {
+            "text": "InfluxDB Prometheus",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "生态组件",
+        "children": [
+         {
+          "text": "Hadoop",
+          "children": []
+         },
+         {
+          "text": "Spark",
+          "children": []
+         },
+         {
+          "text": "Flink",
+          "children": []
+         },
+         {
+          "text": "Kafka",
+          "children": []
+         },
+         {
+          "text": "Zookeeper",
+          "children": []
+         },
+         {
+          "text": "YARN 资源调度",
+          "children": []
+         },
+         {
+          "text": "Hive Metastore",
+          "children": []
+         },
+         {
+          "text": "Airflow / DolphinScheduler",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "应用",
+        "children": [
+         {
+          "text": "数据中台",
+          "children": []
+         },
+         {
+          "text": "实时数仓",
+          "children": []
+         },
+         {
+          "text": "用户画像",
+          "children": []
+         },
+         {
+          "text": "推荐系统",
+          "children": []
+         },
+         {
+          "text": "风控反欺诈",
+          "children": []
+         },
+         {
+          "text": "机器学习平台",
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "type": "graph",
+     "direction": "TB",
+     "nodes": [
+      {
+       "id": "L1",
+       "shape": "[]",
+       "label": "数据源"
+      },
+      {
+       "id": "L2",
+       "shape": "[]",
+       "label": "批处理层\nHDFS+MR/Spark"
+      },
+      {
+       "id": "L3",
+       "shape": "[]",
+       "label": "速度层\nStorm/Flink"
+      },
+      {
+       "id": "L4",
+       "shape": "[]",
+       "label": "服务层\n合并展示"
+      },
+      {
+       "id": "K1",
+       "shape": "[]",
+       "label": "数据源"
+      },
+      {
+       "id": "K2",
+       "shape": "[]",
+       "label": "流处理\nFlink/Kafka Streams"
+      },
+      {
+       "id": "K3",
+       "shape": "[]",
+       "label": "服务层"
+      }
+     ],
+     "edges": [
+      {
+       "from": "L1",
+       "to": "L2",
+       "rel": "-->",
+       "label": "",
+       "from_label": "数据源",
+       "to_label": "批处理层\nHDFS+MR/Spark"
+      },
+      {
+       "from": "L1",
+       "to": "L3",
+       "rel": "-->",
+       "label": "",
+       "from_label": "数据源",
+       "to_label": "速度层\nStorm/Flink"
+      },
+      {
+       "from": "L2",
+       "to": "L4",
+       "rel": "-->",
+       "label": "",
+       "from_label": "批处理层\nHDFS+MR/Spark",
+       "to_label": "服务层\n合并展示"
+      },
+      {
+       "from": "L3",
+       "to": "L4",
+       "rel": "-->",
+       "label": "",
+       "from_label": "速度层\nStorm/Flink",
+       "to_label": "服务层\n合并展示"
+      },
+      {
+       "from": "K1",
+       "to": "K2",
+       "rel": "-->",
+       "label": "",
+       "from_label": "数据源",
+       "to_label": "流处理\nFlink/Kafka Streams"
+      },
+      {
+       "from": "K2",
+       "to": "K3",
+       "rel": "-->",
+       "label": "",
+       "from_label": "流处理\nFlink/Kafka Streams",
+       "to_label": "服务层"
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "headers": [
+      "维度",
+      "Lambda",
+      "Kappa"
+     ],
+     "rows": [
+      [
+       "复杂度",
+       "高（双链路）",
+       "低（单链路）"
+      ],
+      [
+       "准确性",
+       "高（批层兜底）",
+       "依赖流处理稳定性"
+      ],
+      [
+       "运维成本",
+       "高",
+       "低"
+      ],
+      [
+       "历史回溯",
+       "自然支持",
+       "通过重放 Kafka 实现"
+      ],
+      [
+       "适用",
+       "已有批处理积累",
+       "新建系统 / 实时要求高"
+      ]
+     ]
+    },
+    {
+     "type": "graph",
+     "direction": "TB",
+     "nodes": [
+      {
+       "id": "ODS",
+       "shape": "[]",
+       "label": "ODS 贴源层\n原始数据"
+      },
+      {
+       "id": "DWD",
+       "shape": "[]",
+       "label": "DWD 明细层\n清洗+维度退化"
+      },
+      {
+       "id": "DWS",
+       "shape": "[]",
+       "label": "DWS 汇总层\n主题汇总"
+      },
+      {
+       "id": "ADS",
+       "shape": "[]",
+       "label": "ADS 应用层\n面向报表/BI"
+      },
+      {
+       "id": "DIM",
+       "shape": "[]",
+       "label": "DIM 维度表"
+      }
+     ],
+     "edges": [
+      {
+       "from": "ODS",
+       "to": "DWD",
+       "rel": "-->",
+       "label": "",
+       "from_label": "ODS 贴源层\n原始数据",
+       "to_label": "DWD 明细层\n清洗+维度退化"
+      },
+      {
+       "from": "DWD",
+       "to": "DWS",
+       "rel": "-->",
+       "label": "",
+       "from_label": "DWD 明细层\n清洗+维度退化",
+       "to_label": "DWS 汇总层\n主题汇总"
+      },
+      {
+       "from": "DWS",
+       "to": "ADS",
+       "rel": "-->",
+       "label": "",
+       "from_label": "DWS 汇总层\n主题汇总",
+       "to_label": "ADS 应用层\n面向报表/BI"
+      },
+      {
+       "from": "DIM",
+       "to": "DWD",
+       "rel": "-.->",
+       "label": "",
+       "from_label": "DIM 维度表",
+       "to_label": "DWD 明细层\n清洗+维度退化"
+      },
+      {
+       "from": "DIM",
+       "to": "DWS",
+       "rel": "-.->",
+       "label": "",
+       "from_label": "DIM 维度表",
+       "to_label": "DWS 汇总层\n主题汇总"
+      }
+     ]
+    },
+    {
+     "type": "graph",
+     "direction": "TD",
+     "nodes": [
+      {
+       "id": "Q",
+       "shape": "{}",
+       "label": "数据特征"
+      },
+      {
+       "id": "H",
+       "shape": "[]",
+       "label": "Hadoop + Hive"
+      },
+      {
+       "id": "F",
+       "shape": "[]",
+       "label": "Flink + Kafka"
+      },
+      {
+       "id": "CK",
+       "shape": "[]",
+       "label": "ClickHouse / Doris"
+      },
+      {
+       "id": "HB",
+       "shape": "[]",
+       "label": "HBase"
+      },
+      {
+       "id": "LH",
+       "shape": "[]",
+       "label": "Iceberg / Hudi"
+      },
+      {
+       "id": "Neo",
+       "shape": "[]",
+       "label": "Neo4j"
+      },
+      {
+       "id": "TS",
+       "shape": "[]",
+       "label": "InfluxDB / Prometheus"
+      }
+     ],
+     "edges": [
+      {
+       "from": "Q",
+       "to": "H",
+       "rel": "-->",
+       "label": "大量结构化 离线分析",
+       "from_label": "数据特征",
+       "to_label": "Hadoop + Hive"
+      },
+      {
+       "from": "Q",
+       "to": "F",
+       "rel": "-->",
+       "label": "实时流",
+       "from_label": "数据特征",
+       "to_label": "Flink + Kafka"
+      },
+      {
+       "from": "Q",
+       "to": "CK",
+       "rel": "-->",
+       "label": "交互式 OLAP 查询",
+       "from_label": "数据特征",
+       "to_label": "ClickHouse / Doris"
+      },
+      {
+       "from": "Q",
+       "to": "HB",
+       "rel": "-->",
+       "label": "海量列式 随机读写",
+       "from_label": "数据特征",
+       "to_label": "HBase"
+      },
+      {
+       "from": "Q",
+       "to": "LH",
+       "rel": "-->",
+       "label": "湖仓一体 ACID",
+       "from_label": "数据特征",
+       "to_label": "Iceberg / Hudi"
+      },
+      {
+       "from": "Q",
+       "to": "Neo",
+       "rel": "-->",
+       "label": "图关系",
+       "from_label": "数据特征",
+       "to_label": "Neo4j"
+      },
+      {
+       "from": "Q",
+       "to": "TS",
+       "rel": "-->",
+       "label": "时序",
+       "from_label": "数据特征",
+       "to_label": "InfluxDB / Prometheus"
+      }
+     ]
+    },
+    {
+     "type": "mnemonic",
+     "items": [
+      {
+       "term": "5V",
+       "text": "体量 / 速度 / 多样 / 真实 / 价值"
+      },
+      {
+       "term": "HDFS 三件套",
+       "text": "NameNode（元数据）/ DataNode（块）/ 副本数 3"
+      },
+      {
+       "term": "数仓四层",
+       "text": "ODS → DWD → DWS → ADS"
+      },
+      {
+       "term": "NoSQL 4 类",
+       "text": "KV / Doc / Col / Graph"
+      }
+     ]
+    }
+   ],
+   "skip_on_import": false,
+   "source": {
+    "repo": "senior-software-architect-review",
+    "license": "none",
+    "file": "mind-maps/big-data.md",
+    "ref": "big-data",
+    "url": "https://github.com/PeterGuy326/senior-software-architect-review/blob/main/mind-maps/big-data.md"
+   }
+  },
+  {
+   "knowledge_codes": [
+    "1.3"
+   ],
+   "title": "database",
+   "file": "database.md",
+   "blocks": [
+    {
+     "type": "mindmap",
+     "root": {
+      "text": "数据库",
+      "children": [
+       {
+        "text": "数据模型",
+        "children": [
+         {
+          "text": "概念模型",
+          "children": [
+           {
+            "text": "E-R 图",
+            "children": []
+           },
+           {
+            "text": "实体 属性 联系",
+            "children": []
+           },
+           {
+            "text": "1:1 / 1:N / M:N",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "逻辑模型",
+          "children": [
+           {
+            "text": "关系模型",
+            "children": []
+           },
+           {
+            "text": "层次模型",
+            "children": []
+           },
+           {
+            "text": "网状模型",
+            "children": []
+           },
+           {
+            "text": "面向对象",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "物理模型",
+          "children": [
+           {
+            "text": "存储结构",
+            "children": []
+           },
+           {
+            "text": "索引",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "关系理论",
+        "children": [
+         {
+          "text": "函数依赖",
+          "children": [
+           {
+            "text": "平凡 / 非平凡",
+            "children": []
+           },
+           {
+            "text": "完全 / 部分依赖",
+            "children": []
+           },
+           {
+            "text": "传递依赖",
+            "children": []
+           },
+           {
+            "text": "Armstrong 公理",
+            "children": [
+             {
+              "text": "自反 增广 传递",
+              "children": []
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "text": "候选键 / 主键 / 外键",
+          "children": []
+         },
+         {
+          "text": "闭包 与 最小函数依赖集",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "范式",
+        "children": [
+         {
+          "text": "1NF 属性不可分",
+          "children": []
+         },
+         {
+          "text": "2NF 消除部分依赖",
+          "children": []
+         },
+         {
+          "text": "3NF 消除传递依赖",
+          "children": []
+         },
+         {
+          "text": "BCNF 主属性不依赖主属性",
+          "children": []
+         },
+         {
+          "text": "4NF 消除多值依赖",
+          "children": []
+         },
+         {
+          "text": "5NF 消除连接依赖",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "事务 ACID",
+        "children": [
+         {
+          "text": "原子性 Atomicity",
+          "children": []
+         },
+         {
+          "text": "一致性 Consistency",
+          "children": []
+         },
+         {
+          "text": "隔离性 Isolation",
+          "children": [
+           {
+            "text": "读未提交",
+            "children": []
+           },
+           {
+            "text": "读已提交",
+            "children": []
+           },
+           {
+            "text": "可重复读",
+            "children": []
+           },
+           {
+            "text": "串行化",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "持久性 Durability",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "并发控制",
+        "children": [
+         {
+          "text": "锁",
+          "children": [
+           {
+            "text": "共享锁 S",
+            "children": []
+           },
+           {
+            "text": "排它锁 X",
+            "children": []
+           },
+           {
+            "text": "意向锁 IS IX",
+            "children": []
+           },
+           {
+            "text": "两阶段封锁 2PL",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "多版本 MVCC",
+          "children": []
+         },
+         {
+          "text": "时间戳排序",
+          "children": []
+         },
+         {
+          "text": "乐观锁 / 悲观锁",
+          "children": []
+         },
+         {
+          "text": "死锁预防 / 检测",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "分布式数据库",
+        "children": [
+         {
+          "text": "CAP 定理",
+          "children": []
+         },
+         {
+          "text": "BASE 理论",
+          "children": []
+         },
+         {
+          "text": "分库分表",
+          "children": [
+           {
+            "text": "垂直 水平",
+            "children": []
+           },
+           {
+            "text": "Sharding Key",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "读写分离",
+          "children": []
+         },
+         {
+          "text": "主从复制",
+          "children": []
+         },
+         {
+          "text": "一致性哈希",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "NoSQL",
+        "children": [
+         {
+          "text": "Key-Value Redis",
+          "children": []
+         },
+         {
+          "text": "Document MongoDB",
+          "children": []
+         },
+         {
+          "text": "Column HBase Cassandra",
+          "children": []
+         },
+         {
+          "text": "Graph Neo4j",
+          "children": []
+         },
+         {
+          "text": "搜索 Elasticsearch",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "数据仓库",
+        "children": [
+         {
+          "text": "OLTP vs OLAP",
+          "children": []
+         },
+         {
+          "text": "星型 / 雪花模型",
+          "children": []
+         },
+         {
+          "text": "ETL / ELT",
+          "children": []
+         },
+         {
+          "text": "数据湖 / 湖仓一体",
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "type": "graph",
+     "direction": "TD",
+     "nodes": [
+      {
+       "id": "A",
+       "shape": "[]",
+       "label": "原始关系 R"
+      },
+      {
+       "id": "B",
+       "shape": "{}",
+       "label": "1NF"
+      },
+      {
+       "id": "C",
+       "shape": "{}",
+       "label": "有无部分依赖?"
+      },
+      {
+       "id": "D",
+       "shape": "[]",
+       "label": "分解消除部分依赖\n→ 2NF"
+      },
+      {
+       "id": "E",
+       "shape": "{}",
+       "label": "有无传递依赖?"
+      },
+      {
+       "id": "F",
+       "shape": "[]",
+       "label": "分解消除传递依赖\n→ 3NF"
+      },
+      {
+       "id": "G",
+       "shape": "{}",
+       "label": "主属性是否依赖主属性?"
+      },
+      {
+       "id": "H",
+       "shape": "[]",
+       "label": "BCNF 达成"
+      },
+      {
+       "id": "I",
+       "shape": "[]",
+       "label": "进一步分解"
+      }
+     ],
+     "edges": [
+      {
+       "from": "A",
+       "to": "B",
+       "rel": "-->",
+       "label": "属性是否原子",
+       "from_label": "原始关系 R",
+       "to_label": "1NF"
+      },
+      {
+       "from": "B",
+       "to": "C",
+       "rel": "-->",
+       "label": "是",
+       "from_label": "1NF",
+       "to_label": "有无部分依赖?"
+      },
+      {
+       "from": "C",
+       "to": "D",
+       "rel": "-->",
+       "label": "有",
+       "from_label": "有无部分依赖?",
+       "to_label": "分解消除部分依赖\n→ 2NF"
+      },
+      {
+       "from": "C",
+       "to": "E",
+       "rel": "-->",
+       "label": "无",
+       "from_label": "有无部分依赖?",
+       "to_label": "有无传递依赖?"
+      },
+      {
+       "from": "D",
+       "to": "E",
+       "rel": "-->",
+       "label": "",
+       "from_label": "分解消除部分依赖\n→ 2NF",
+       "to_label": "有无传递依赖?"
+      },
+      {
+       "from": "E",
+       "to": "F",
+       "rel": "-->",
+       "label": "有",
+       "from_label": "有无传递依赖?",
+       "to_label": "分解消除传递依赖\n→ 3NF"
+      },
+      {
+       "from": "E",
+       "to": "G",
+       "rel": "-->",
+       "label": "无",
+       "from_label": "有无传递依赖?",
+       "to_label": "主属性是否依赖主属性?"
+      },
+      {
+       "from": "F",
+       "to": "G",
+       "rel": "-->",
+       "label": "",
+       "from_label": "分解消除传递依赖\n→ 3NF",
+       "to_label": "主属性是否依赖主属性?"
+      },
+      {
+       "from": "G",
+       "to": "H",
+       "rel": "-->",
+       "label": "否",
+       "from_label": "主属性是否依赖主属性?",
+       "to_label": "BCNF 达成"
+      },
+      {
+       "from": "G",
+       "to": "I",
+       "rel": "-->",
+       "label": "是",
+       "from_label": "主属性是否依赖主属性?",
+       "to_label": "进一步分解"
+      }
+     ]
+    },
+    {
+     "type": "graph",
+     "direction": "LR",
+     "nodes": [
+      {
+       "id": "A",
+       "shape": "[]",
+       "label": "读未提交"
+      },
+      {
+       "id": "B",
+       "shape": "[]",
+       "label": "读已提交"
+      },
+      {
+       "id": "C",
+       "shape": "[]",
+       "label": "可重复读"
+      },
+      {
+       "id": "D",
+       "shape": "[]",
+       "label": "串行化"
+      }
+     ],
+     "edges": [
+      {
+       "from": "A",
+       "to": "Bug",
+       "rel": "-->",
+       "label": "脏读 不可重复读 幻读",
+       "from_label": "读未提交",
+       "to_label": "Bug"
+      },
+      {
+       "from": "B",
+       "to": "Bug",
+       "rel": "-->",
+       "label": "不可重复读 幻读",
+       "from_label": "读已提交",
+       "to_label": "Bug"
+      },
+      {
+       "from": "C",
+       "to": "Bug",
+       "rel": "-->",
+       "label": "幻读 MySQL默认",
+       "from_label": "可重复读",
+       "to_label": "Bug"
+      },
+      {
+       "from": "D",
+       "to": "OK",
+       "rel": "-->",
+       "label": "无并发问题 性能最低",
+       "from_label": "串行化",
+       "to_label": "OK"
+      }
+     ]
+    },
+    {
+     "type": "graph",
+     "direction": "LR",
+     "nodes": [
+      {
+       "id": "Q",
+       "shape": "{}",
+       "label": "查询模式"
+      },
+      {
+       "id": "Inverted",
+       "shape": "[]",
+       "label": "倒排索引"
+      },
+      {
+       "id": "Columnar",
+       "shape": "[]",
+       "label": "列存"
+      }
+     ],
+     "edges": [
+      {
+       "from": "Q",
+       "to": "BTree",
+       "rel": "-->",
+       "label": "等值/范围/排序",
+       "from_label": "查询模式",
+       "to_label": "BTree"
+      },
+      {
+       "from": "Q",
+       "to": "Hash",
+       "rel": "-->",
+       "label": "等值 + 高频",
+       "from_label": "查询模式",
+       "to_label": "Hash"
+      },
+      {
+       "from": "Q",
+       "to": "Inverted",
+       "rel": "-->",
+       "label": "全文检索",
+       "from_label": "查询模式",
+       "to_label": "倒排索引"
+      },
+      {
+       "from": "Q",
+       "to": "RTree",
+       "rel": "-->",
+       "label": "地理位置",
+       "from_label": "查询模式",
+       "to_label": "RTree"
+      },
+      {
+       "from": "Q",
+       "to": "Trie",
+       "rel": "-->",
+       "label": "前缀匹配",
+       "from_label": "查询模式",
+       "to_label": "Trie"
+      },
+      {
+       "from": "Q",
+       "to": "Columnar",
+       "rel": "-->",
+       "label": "大量列 OLAP",
+       "from_label": "查询模式",
+       "to_label": "列存"
+      }
+     ]
+    },
+    {
+     "type": "mnemonic",
+     "items": [
+      {
+       "term": "范式",
+       "text": "1NF 原子 · 2NF 全依赖 · 3NF 非传递 · BCNF 主属性纯洁"
+      },
+      {
+       "term": "锁兼容",
+       "text": "S-S 兼容、S-X / X-X 互斥"
+      },
+      {
+       "term": "隔离 4 级",
+       "text": "读未 → 读已 → 可重复 → 串行（MySQL InnoDB 默认可重复读）"
+      },
+      {
+       "term": "ACID 与 BASE",
+       "text": "强一致 → 最终一致"
+      }
+     ]
+    }
+   ],
+   "skip_on_import": false,
+   "source": {
+    "repo": "senior-software-architect-review",
+    "license": "none",
+    "file": "mind-maps/database.md",
+    "ref": "database",
+    "url": "https://github.com/PeterGuy326/senior-software-architect-review/blob/main/mind-maps/database.md"
+   }
+  },
+  {
+   "knowledge_codes": [
+    "2.3.2"
+   ],
+   "title": "design-patterns",
+   "file": "design-patterns.md",
+   "blocks": [
+    {
+     "type": "mindmap",
+     "root": {
+      "text": "GoF 23 设计模式",
+      "children": [
+       {
+        "text": "创建型 5",
+        "children": [
+         {
+          "text": "单例 Singleton",
+          "children": []
+         },
+         {
+          "text": "工厂方法 Factory Method",
+          "children": []
+         },
+         {
+          "text": "抽象工厂 Abstract Factory",
+          "children": []
+         },
+         {
+          "text": "建造者 Builder",
+          "children": []
+         },
+         {
+          "text": "原型 Prototype",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "结构型 7",
+        "children": [
+         {
+          "text": "适配器 Adapter",
+          "children": []
+         },
+         {
+          "text": "桥接 Bridge",
+          "children": []
+         },
+         {
+          "text": "组合 Composite",
+          "children": []
+         },
+         {
+          "text": "装饰 Decorator",
+          "children": []
+         },
+         {
+          "text": "外观 Facade",
+          "children": []
+         },
+         {
+          "text": "享元 Flyweight",
+          "children": []
+         },
+         {
+          "text": "代理 Proxy",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "行为型 11",
+        "children": [
+         {
+          "text": "责任链 Chain of Responsibility",
+          "children": []
+         },
+         {
+          "text": "命令 Command",
+          "children": []
+         },
+         {
+          "text": "解释器 Interpreter",
+          "children": []
+         },
+         {
+          "text": "迭代器 Iterator",
+          "children": []
+         },
+         {
+          "text": "中介者 Mediator",
+          "children": []
+         },
+         {
+          "text": "备忘录 Memento",
+          "children": []
+         },
+         {
+          "text": "观察者 Observer",
+          "children": []
+         },
+         {
+          "text": "状态 State",
+          "children": []
+         },
+         {
+          "text": "策略 Strategy",
+          "children": []
+         },
+         {
+          "text": "模板方法 Template Method",
+          "children": []
+         },
+         {
+          "text": "访问者 Visitor",
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "skip_on_import": false,
+   "source": {
+    "repo": "senior-software-architect-review",
+    "license": "none",
+    "file": "mind-maps/design-patterns.md",
+    "ref": "design-patterns",
+    "url": "https://github.com/PeterGuy326/senior-software-architect-review/blob/main/mind-maps/design-patterns.md"
+   }
+  },
+  {
+   "knowledge_codes": [
+    "3.4"
+   ],
+   "title": "microservice",
+   "file": "microservice.md",
+   "blocks": [
+    {
+     "type": "mindmap",
+     "root": {
+      "text": "微服务 + 云原生",
+      "children": [
+       {
+        "text": "设计原则",
+        "children": [
+         {
+          "text": "DDD 领域驱动",
+          "children": [
+           {
+            "text": "Bounded Context",
+            "children": []
+           },
+           {
+            "text": "Aggregate 聚合根",
+            "children": []
+           },
+           {
+            "text": "Domain Event",
+            "children": []
+           },
+           {
+            "text": "Anti-Corruption Layer",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "12-Factor App",
+          "children": [
+           {
+            "text": "代码库 / 依赖 / 配置",
+            "children": []
+           },
+           {
+            "text": "后端服务 / 构建发布运行",
+            "children": []
+           },
+           {
+            "text": "进程 / 端口 / 并发",
+            "children": []
+           },
+           {
+            "text": "易处理 / 开发生产对等",
+            "children": []
+           },
+           {
+            "text": "日志 / 管理进程",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "高内聚 低耦合",
+          "children": []
+         },
+         {
+          "text": "围绕业务能力",
+          "children": []
+         },
+         {
+          "text": "去中心化治理",
+          "children": []
+         },
+         {
+          "text": "智能端点 哑管道",
+          "children": []
+         },
+         {
+          "text": "故障容忍",
+          "children": []
+         },
+         {
+          "text": "演进式设计",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "通信",
+        "children": [
+         {
+          "text": "同步 RPC",
+          "children": [
+           {
+            "text": "gRPC HTTP/2",
+            "children": []
+           },
+           {
+            "text": "Dubbo",
+            "children": []
+           },
+           {
+            "text": "REST",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "异步 MQ",
+          "children": [
+           {
+            "text": "Kafka",
+            "children": []
+           },
+           {
+            "text": "RocketMQ",
+            "children": []
+           },
+           {
+            "text": "RabbitMQ",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Service Mesh",
+          "children": [
+           {
+            "text": "Istio",
+            "children": []
+           },
+           {
+            "text": "Sidecar 模式",
+            "children": []
+           },
+           {
+            "text": "Envoy",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "治理",
+        "children": [
+         {
+          "text": "服务注册发现",
+          "children": [
+           {
+            "text": "Eureka / Nacos / Consul",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "配置中心",
+          "children": [
+           {
+            "text": "Apollo / Nacos",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "API Gateway",
+          "children": [
+           {
+            "text": "Kong / Spring Cloud Gateway",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "熔断 降级",
+          "children": [
+           {
+            "text": "Hystrix / Sentinel / Resilience4j",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "限流",
+          "children": [
+           {
+            "text": "令牌桶 / 漏桶",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "链路追踪",
+          "children": [
+           {
+            "text": "SkyWalking / Jaeger / Zipkin",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "日志聚合",
+          "children": [
+           {
+            "text": "ELK / Loki",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "指标监控",
+          "children": [
+           {
+            "text": "Prometheus / Grafana",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "容器与编排",
+        "children": [
+         {
+          "text": "Docker",
+          "children": [
+           {
+            "text": "镜像 / 容器",
+            "children": []
+           },
+           {
+            "text": "Dockerfile / Compose",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Kubernetes",
+          "children": [
+           {
+            "text": "Pod / Service / Ingress",
+            "children": []
+           },
+           {
+            "text": "Deployment / StatefulSet",
+            "children": []
+           },
+           {
+            "text": "ConfigMap / Secret",
+            "children": []
+           },
+           {
+            "text": "Volume / PV / PVC",
+            "children": []
+           },
+           {
+            "text": "Namespace / RBAC",
+            "children": []
+           },
+           {
+            "text": "Operator / CRD",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "镜像仓库 Harbor",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "部署与发布",
+        "children": [
+         {
+          "text": "CI/CD Pipeline",
+          "children": []
+         },
+         {
+          "text": "蓝绿部署",
+          "children": []
+         },
+         {
+          "text": "金丝雀发布",
+          "children": []
+         },
+         {
+          "text": "A/B 测试",
+          "children": []
+         },
+         {
+          "text": "滚动更新",
+          "children": []
+         },
+         {
+          "text": "回滚机制",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "云原生",
+        "children": [
+         {
+          "text": "CNCF 生态",
+          "children": []
+         },
+         {
+          "text": "Serverless / FaaS",
+          "children": []
+         },
+         {
+          "text": "IaC Terraform / Ansible",
+          "children": []
+         },
+         {
+          "text": "GitOps ArgoCD / Flux",
+          "children": []
+         },
+         {
+          "text": "可观测性 三柱",
+          "children": [
+           {
+            "text": "Metrics",
+            "children": []
+           },
+           {
+            "text": "Logs",
+            "children": []
+           },
+           {
+            "text": "Traces",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "数据",
+        "children": [
+         {
+          "text": "Database per Service",
+          "children": []
+         },
+         {
+          "text": "Saga / TCC 分布式事务",
+          "children": []
+         },
+         {
+          "text": "事件溯源 Event Sourcing",
+          "children": []
+         },
+         {
+          "text": "CQRS 读写分离",
+          "children": []
+         },
+         {
+          "text": "最终一致性",
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "type": "graph",
+     "direction": "LR",
+     "nodes": [
+      {
+       "id": "A",
+       "shape": "[]",
+       "label": "单体 Monolith\n简单 难扩展"
+      },
+      {
+       "id": "B",
+       "shape": "[]",
+       "label": "垂直拆分\n按业务模块"
+      },
+      {
+       "id": "C",
+       "shape": "[]",
+       "label": "SOA + ESB\n中心化集成"
+      },
+      {
+       "id": "D",
+       "shape": "[]",
+       "label": "微服务\n独立部署 去中心"
+      },
+      {
+       "id": "E",
+       "shape": "[]",
+       "label": "Service Mesh\n基础设施下沉"
+      },
+      {
+       "id": "F",
+       "shape": "[]",
+       "label": "Serverless\n事件驱动 按需付费"
+      }
+     ],
+     "edges": [
+      {
+       "from": "A",
+       "to": "B",
+       "rel": "-->",
+       "label": "",
+       "from_label": "单体 Monolith\n简单 难扩展",
+       "to_label": "垂直拆分\n按业务模块"
+      },
+      {
+       "from": "B",
+       "to": "C",
+       "rel": "-->",
+       "label": "",
+       "from_label": "垂直拆分\n按业务模块",
+       "to_label": "SOA + ESB\n中心化集成"
+      },
+      {
+       "from": "C",
+       "to": "D",
+       "rel": "-->",
+       "label": "",
+       "from_label": "SOA + ESB\n中心化集成",
+       "to_label": "微服务\n独立部署 去中心"
+      },
+      {
+       "from": "D",
+       "to": "E",
+       "rel": "-->",
+       "label": "",
+       "from_label": "微服务\n独立部署 去中心",
+       "to_label": "Service Mesh\n基础设施下沉"
+      },
+      {
+       "from": "E",
+       "to": "F",
+       "rel": "-->",
+       "label": "",
+       "from_label": "Service Mesh\n基础设施下沉",
+       "to_label": "Serverless\n事件驱动 按需付费"
+      }
+     ]
+    },
+    {
+     "type": "graph",
+     "direction": "TD",
+     "nodes": [
+      {
+       "id": "Q",
+       "shape": "{}",
+       "label": "业务复杂度"
+      },
+      {
+       "id": "M",
+       "shape": "[]",
+       "label": "单体即可"
+      },
+      {
+       "id": "Big",
+       "shape": "{}",
+       "label": "团队规模"
+      },
+      {
+       "id": "MM",
+       "shape": "[]",
+       "label": "模块化单体"
+      },
+      {
+       "id": "MS",
+       "shape": "[]",
+       "label": "微服务"
+      },
+      {
+       "id": "MS2",
+       "shape": "[]",
+       "label": "微服务 + Service Mesh"
+      }
+     ],
+     "edges": [
+      {
+       "from": "Q",
+       "to": "M",
+       "rel": "-->",
+       "label": "低 单产品",
+       "from_label": "业务复杂度",
+       "to_label": "单体即可"
+      },
+      {
+       "from": "Q",
+       "to": "Big",
+       "rel": "-->",
+       "label": "高 多团队",
+       "from_label": "业务复杂度",
+       "to_label": "团队规模"
+      },
+      {
+       "from": "Big",
+       "to": "MM",
+       "rel": "-->",
+       "label": "< 10 人",
+       "from_label": "团队规模",
+       "to_label": "模块化单体"
+      },
+      {
+       "from": "Big",
+       "to": "MS",
+       "rel": "-->",
+       "label": "10-50 人",
+       "from_label": "团队规模",
+       "to_label": "微服务"
+      },
+      {
+       "from": "Big",
+       "to": "MS2",
+       "rel": "-->",
+       "label": "> 50 人 多业务",
+       "from_label": "团队规模",
+       "to_label": "微服务 + Service Mesh"
+      }
+     ]
+    },
+    {
+     "type": "graph",
+     "direction": "TB",
+     "nodes": [
+      {
+       "id": "D",
+       "shape": "[]",
+       "label": "Deployment"
+      },
+      {
+       "id": "RS",
+       "shape": "[]",
+       "label": "ReplicaSet"
+      },
+      {
+       "id": "P",
+       "shape": "[]",
+       "label": "Pod"
+      },
+      {
+       "id": "C",
+       "shape": "[]",
+       "label": "Container"
+      },
+      {
+       "id": "S",
+       "shape": "[]",
+       "label": "Service"
+      },
+      {
+       "id": "I",
+       "shape": "[]",
+       "label": "Ingress"
+      },
+      {
+       "id": "CM",
+       "shape": "[]",
+       "label": "ConfigMap"
+      },
+      {
+       "id": "Sec",
+       "shape": "[]",
+       "label": "Secret"
+      },
+      {
+       "id": "V",
+       "shape": "[]",
+       "label": "Volume"
+      },
+      {
+       "id": "PVC",
+       "shape": "[]",
+       "label": "PVC"
+      },
+      {
+       "id": "PV",
+       "shape": "[]",
+       "label": "PV"
+      }
+     ],
+     "edges": [
+      {
+       "from": "D",
+       "to": "RS",
+       "rel": "-->",
+       "label": "管理",
+       "from_label": "Deployment",
+       "to_label": "ReplicaSet"
+      },
+      {
+       "from": "RS",
+       "to": "P",
+       "rel": "-->",
+       "label": "创建",
+       "from_label": "ReplicaSet",
+       "to_label": "Pod"
+      },
+      {
+       "from": "P",
+       "to": "C",
+       "rel": "-->",
+       "label": "包含",
+       "from_label": "Pod",
+       "to_label": "Container"
+      },
+      {
+       "from": "S",
+       "to": "P",
+       "rel": "-->",
+       "label": "路由到",
+       "from_label": "Service",
+       "to_label": "Pod"
+      },
+      {
+       "from": "I",
+       "to": "S",
+       "rel": "-->",
+       "label": "外部入口",
+       "from_label": "Ingress",
+       "to_label": "Service"
+      },
+      {
+       "from": "P",
+       "to": "CM",
+       "rel": "-->",
+       "label": "挂载",
+       "from_label": "Pod",
+       "to_label": "ConfigMap"
+      },
+      {
+       "from": "P",
+       "to": "Sec",
+       "rel": "-->",
+       "label": "挂载",
+       "from_label": "Pod",
+       "to_label": "Secret"
+      },
+      {
+       "from": "P",
+       "to": "V",
+       "rel": "-->",
+       "label": "挂载",
+       "from_label": "Pod",
+       "to_label": "Volume"
+      },
+      {
+       "from": "V",
+       "to": "PVC",
+       "rel": "-.->",
+       "label": "",
+       "from_label": "Volume",
+       "to_label": "PVC"
+      },
+      {
+       "from": "PVC",
+       "to": "PV",
+       "rel": "-.->",
+       "label": "",
+       "from_label": "PVC",
+       "to_label": "PV"
+      }
+     ]
+    },
+    {
+     "type": "mnemonic",
+     "items": [
+      {
+       "term": "DDD 四要素",
+       "text": "限界上下文 / 聚合根 / 领域事件 / 防腐层"
+      },
+      {
+       "term": "12-Factor",
+       "text": "12 条戒律记不全没事，配置外化 / 无状态 / 日志即流这三条最关键"
+      },
+      {
+       "term": "微服务通信",
+       "text": "同步用 gRPC，异步用 Kafka，治理用 Service Mesh"
+      },
+      {
+       "term": "可观测三柱",
+       "text": "Metrics（聚合指标）/ Logs（事件流水）/ Traces（请求链路）"
+      }
+     ]
+    }
+   ],
+   "skip_on_import": false,
+   "source": {
+    "repo": "senior-software-architect-review",
+    "license": "none",
+    "file": "mind-maps/microservice.md",
+    "ref": "microservice",
+    "url": "https://github.com/PeterGuy326/senior-software-architect-review/blob/main/mind-maps/microservice.md"
+   }
+  },
+  {
+   "knowledge_codes": [
+    "2.5"
+   ],
+   "title": "project-management",
+   "file": "project-management.md",
+   "blocks": [
+    {
+     "type": "mindmap",
+     "root": {
+      "text": "项目管理",
+      "children": [
+       {
+        "text": "5 大过程组",
+        "children": [
+         {
+          "text": "启动 Initiating",
+          "children": [
+           {
+            "text": "立项 章程",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "规划 Planning",
+          "children": [
+           {
+            "text": "WBS / 计划制定",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "执行 Executing",
+          "children": [
+           {
+            "text": "团队建设",
+            "children": []
+           },
+           {
+            "text": "采购",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "监控 Monitoring",
+          "children": [
+           {
+            "text": "EVM 挣值",
+            "children": []
+           },
+           {
+            "text": "变更控制",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "收尾 Closing",
+          "children": [
+           {
+            "text": "经验教训",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "10 大知识域",
+        "children": [
+         {
+          "text": "整合管理",
+          "children": [
+           {
+            "text": "项目章程",
+            "children": []
+           },
+           {
+            "text": "变更控制",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "范围管理",
+          "children": [
+           {
+            "text": "WBS / 范围蔓延控制",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "进度管理",
+          "children": [
+           {
+            "text": "CPM / PERT",
+            "children": []
+           },
+           {
+            "text": "关键路径",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "成本管理",
+          "children": [
+           {
+            "text": "EVM / 预算",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "质量管理",
+          "children": [
+           {
+            "text": "QA 过程 / QC 产品",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "资源管理",
+          "children": [
+           {
+            "text": "团队建设",
+            "children": []
+           },
+           {
+            "text": "Tuckman 5 阶段",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "沟通管理",
+          "children": [
+           {
+            "text": "交互式 / 推 / 拉",
+            "children": []
+           },
+           {
+            "text": "渠道数 n(n-1)/2",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "风险管理",
+          "children": [
+           {
+            "text": "识别 / 定性 / 定量",
+            "children": []
+           },
+           {
+            "text": "应对 4 策略",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "采购管理",
+          "children": [
+           {
+            "text": "合同类型",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "相关方管理",
+          "children": [
+           {
+            "text": "Power-Interest 矩阵",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "进度计算",
+        "children": [
+         {
+          "text": "CPM 关键路径",
+          "children": [
+           {
+            "text": "ES EF LS LF",
+            "children": []
+           },
+           {
+            "text": "TF=LS-ES",
+            "children": []
+           },
+           {
+            "text": "FF<=TF",
+            "children": []
+           },
+           {
+            "text": "TF=0 关键活动",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "PERT 三点估算",
+          "children": [
+           {
+            "text": "te=(O+4M+P)/6",
+            "children": []
+           },
+           {
+            "text": "sigma=(P-O)/6",
+            "children": []
+           },
+           {
+            "text": "正态分布 68 95 99.7",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "工期压缩",
+          "children": [
+           {
+            "text": "赶工 Crashing 加成本",
+            "children": []
+           },
+           {
+            "text": "快速跟进 Fast Tracking 加风险",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "成本管理 EVM",
+        "children": [
+         {
+          "text": "三基础值",
+          "children": [
+           {
+            "text": "PV 计划价值",
+            "children": []
+           },
+           {
+            "text": "EV 挣值",
+            "children": []
+           },
+           {
+            "text": "AC 实际成本",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "偏差",
+          "children": [
+           {
+            "text": "CV=EV-AC 负超支",
+            "children": []
+           },
+           {
+            "text": "SV=EV-PV 负滞后",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "指数",
+          "children": [
+           {
+            "text": "CPI=EV/AC",
+            "children": []
+           },
+           {
+            "text": "SPI=EV/PV",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "预测",
+          "children": [
+           {
+            "text": "EAC=BAC/CPI",
+            "children": []
+           },
+           {
+            "text": "ETC=EAC-AC",
+            "children": []
+           },
+           {
+            "text": "VAC=BAC-EAC",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "风险管理",
+        "children": [
+         {
+          "text": "过程",
+          "children": [
+           {
+            "text": "识别 -> 定性 -> 定量 -> 应对 -> 监控",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "消极风险",
+          "children": [
+           {
+            "text": "规避 Avoid",
+            "children": []
+           },
+           {
+            "text": "转移 Transfer",
+            "children": []
+           },
+           {
+            "text": "减轻 Mitigate",
+            "children": []
+           },
+           {
+            "text": "接受 Accept",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "积极风险",
+          "children": [
+           {
+            "text": "开拓 / 分享 / 提高 / 接受",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "人力资源",
+        "children": [
+         {
+          "text": "Tuckman 5 阶段",
+          "children": [
+           {
+            "text": "形成 Forming",
+            "children": []
+           },
+           {
+            "text": "震荡 Storming",
+            "children": []
+           },
+           {
+            "text": "规范 Norming",
+            "children": []
+           },
+           {
+            "text": "执行 Performing",
+            "children": []
+           },
+           {
+            "text": "解散 Adjourning",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "激励理论",
+          "children": [
+           {
+            "text": "马斯洛 5 层",
+            "children": []
+           },
+           {
+            "text": "赫兹伯格 双因素",
+            "children": []
+           },
+           {
+            "text": "X-Y 理论",
+            "children": []
+           },
+           {
+            "text": "期望理论",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "冲突管理 5 法",
+          "children": [
+           {
+            "text": "撤退 / 缓解 / 妥协",
+            "children": []
+           },
+           {
+            "text": "强迫 / 解决问题 推荐",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "配置管理",
+        "children": [
+         {
+          "text": "基线 Baseline",
+          "children": []
+         },
+         {
+          "text": "变更控制 CCB",
+          "children": []
+         },
+         {
+          "text": "配置审计",
+          "children": []
+         },
+         {
+          "text": "版本管理",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "采购合同",
+        "children": [
+         {
+          "text": "固定总价 FFP",
+          "children": [
+           {
+            "text": "风险在卖方",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "成本补偿 CPFF",
+          "children": [
+           {
+            "text": "风险在买方",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "工料合同 T&M",
+          "children": [
+           {
+            "text": "中间形态",
+            "children": []
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "type": "graph",
+     "direction": "LR",
+     "nodes": [
+      {
+       "id": "A",
+       "shape": "[]",
+       "label": "ES 最早开始"
+      },
+      {
+       "id": "B",
+       "shape": "[]",
+       "label": "EF 最早完成"
+      },
+      {
+       "id": "C",
+       "shape": "[]",
+       "label": "紧后活动"
+      },
+      {
+       "id": "D",
+       "shape": "[]",
+       "label": "LF 最晚完成"
+      },
+      {
+       "id": "E",
+       "shape": "[]",
+       "label": "LS 最晚开始"
+      },
+      {
+       "id": "F",
+       "shape": "[]",
+       "label": "紧前活动"
+      },
+      {
+       "id": "G",
+       "shape": "[]",
+       "label": "TF 总时差"
+      },
+      {
+       "id": "H",
+       "shape": "[]",
+       "label": "TF=0 关键活动"
+      }
+     ],
+     "edges": [
+      {
+       "from": "A",
+       "to": "B",
+       "rel": "-->",
+       "label": "+ 工期",
+       "from_label": "ES 最早开始",
+       "to_label": "EF 最早完成"
+      },
+      {
+       "from": "B",
+       "to": "C",
+       "rel": "-->",
+       "label": "紧后 ES = 紧前 EF max",
+       "from_label": "EF 最早完成",
+       "to_label": "紧后活动"
+      },
+      {
+       "from": "D",
+       "to": "E",
+       "rel": "-->",
+       "label": "- 工期",
+       "from_label": "LF 最晚完成",
+       "to_label": "LS 最晚开始"
+      },
+      {
+       "from": "E",
+       "to": "F",
+       "rel": "-->",
+       "label": "紧前 LF = 紧后 LS min",
+       "from_label": "LS 最晚开始",
+       "to_label": "紧前活动"
+      },
+      {
+       "from": "G",
+       "to": "H",
+       "rel": "-->",
+       "label": "= LS-ES = LF-EF",
+       "from_label": "TF 总时差",
+       "to_label": "TF=0 关键活动"
+      }
+     ]
+    },
+    {
+     "type": "graph",
+     "direction": "TB",
+     "nodes": [
+      {
+       "id": "PV",
+       "shape": "[]",
+       "label": "PV 计划价值\n该花多少"
+      },
+      {
+       "id": "SV",
+       "shape": "{}",
+       "label": "对比"
+      },
+      {
+       "id": "EV",
+       "shape": "[]",
+       "label": "EV 挣值\n实际完成的价值"
+      },
+      {
+       "id": "CV",
+       "shape": "{}",
+       "label": "对比"
+      },
+      {
+       "id": "AC",
+       "shape": "[]",
+       "label": "AC 实际成本\n实际花了多少"
+      },
+      {
+       "id": "SVR",
+       "shape": "[]",
+       "label": "SV 负=滞后"
+      },
+      {
+       "id": "CVR",
+       "shape": "[]",
+       "label": "CV 负=超支"
+      },
+      {
+       "id": "CPI",
+       "shape": "[]",
+       "label": "CPI=EV/AC"
+      },
+      {
+       "id": "SPI",
+       "shape": "[]",
+       "label": "SPI=EV/PV"
+      },
+      {
+       "id": "EAC",
+       "shape": "[]",
+       "label": "EAC=BAC/CPI"
+      }
+     ],
+     "edges": [
+      {
+       "from": "PV",
+       "to": "SV",
+       "rel": "-->",
+       "label": "",
+       "from_label": "PV 计划价值\n该花多少",
+       "to_label": "对比"
+      },
+      {
+       "from": "EV",
+       "to": "SV",
+       "rel": "-->",
+       "label": "",
+       "from_label": "EV 挣值\n实际完成的价值",
+       "to_label": "对比"
+      },
+      {
+       "from": "EV",
+       "to": "CV",
+       "rel": "-->",
+       "label": "",
+       "from_label": "EV 挣值\n实际完成的价值",
+       "to_label": "对比"
+      },
+      {
+       "from": "AC",
+       "to": "CV",
+       "rel": "-->",
+       "label": "",
+       "from_label": "AC 实际成本\n实际花了多少",
+       "to_label": "对比"
+      },
+      {
+       "from": "SV",
+       "to": "SVR",
+       "rel": "-->",
+       "label": "EV-PV",
+       "from_label": "对比",
+       "to_label": "SV 负=滞后"
+      },
+      {
+       "from": "CV",
+       "to": "CVR",
+       "rel": "-->",
+       "label": "EV-AC",
+       "from_label": "对比",
+       "to_label": "CV 负=超支"
+      },
+      {
+       "from": "EV",
+       "to": "CPI",
+       "rel": "-->",
+       "label": "",
+       "from_label": "EV 挣值\n实际完成的价值",
+       "to_label": "CPI=EV/AC"
+      },
+      {
+       "from": "EV",
+       "to": "SPI",
+       "rel": "-->",
+       "label": "",
+       "from_label": "EV 挣值\n实际完成的价值",
+       "to_label": "SPI=EV/PV"
+      },
+      {
+       "from": "CPI",
+       "to": "EAC",
+       "rel": "-->",
+       "label": "",
+       "from_label": "CPI=EV/AC",
+       "to_label": "EAC=BAC/CPI"
+      }
+     ]
+    },
+    {
+     "type": "graph",
+     "direction": "LR",
+     "nodes": [
+      {
+       "id": "Risk",
+       "shape": "[]",
+       "label": "识别出威胁"
+      },
+      {
+       "id": "Avoid",
+       "shape": "[]",
+       "label": "规避\n改方案消除"
+      },
+      {
+       "id": "Transfer",
+       "shape": "[]",
+       "label": "转移\n保险/外包"
+      },
+      {
+       "id": "Mitigate",
+       "shape": "[]",
+       "label": "减轻\n降低概率或影响"
+      },
+      {
+       "id": "Accept",
+       "shape": "[]",
+       "label": "接受\n设应急储备"
+      }
+     ],
+     "edges": [
+      {
+       "from": "Risk",
+       "to": "Avoid",
+       "rel": "-->",
+       "label": "",
+       "from_label": "识别出威胁",
+       "to_label": "规避\n改方案消除"
+      },
+      {
+       "from": "Risk",
+       "to": "Transfer",
+       "rel": "-->",
+       "label": "",
+       "from_label": "识别出威胁",
+       "to_label": "转移\n保险/外包"
+      },
+      {
+       "from": "Risk",
+       "to": "Mitigate",
+       "rel": "-->",
+       "label": "",
+       "from_label": "识别出威胁",
+       "to_label": "减轻\n降低概率或影响"
+      },
+      {
+       "from": "Risk",
+       "to": "Accept",
+       "rel": "-->",
+       "label": "",
+       "from_label": "识别出威胁",
+       "to_label": "接受\n设应急储备"
+      }
+     ]
+    },
+    {
+     "type": "mnemonic",
+     "items": [
+      {
+       "term": "5 过程组",
+       "text": "启 → 规 → 执 → 监 → 收"
+      },
+      {
+       "term": "10 知识域",
+       "text": "整范进成质资沟风采相（口诀\"整饭进城，制资沟风采想\"）"
+      },
+      {
+       "term": "EVM 三基础",
+       "text": "PV/EV/AC ——计划/挣得/花费"
+      },
+      {
+       "term": "威胁四策略",
+       "text": "避 / 转 / 减 / 接"
+      }
+     ]
+    }
+   ],
+   "skip_on_import": false,
+   "source": {
+    "repo": "senior-software-architect-review",
+    "license": "none",
+    "file": "mind-maps/project-management.md",
+    "ref": "project-management",
+    "url": "https://github.com/PeterGuy326/senior-software-architect-review/blob/main/mind-maps/project-management.md"
+   }
+  },
+  {
+   "knowledge_codes": [
+    "3.2"
+   ],
+   "title": "quality-attributes",
+   "file": "quality-attributes.md",
+   "blocks": [
+    {
+     "type": "mindmap",
+     "root": {
+      "text": "质量属性",
+      "children": [
+       {
+        "text": "可用性",
+        "children": [
+         {
+          "text": "错误检测",
+          "children": [
+           {
+            "text": "Ping/Echo",
+            "children": []
+           },
+           {
+            "text": "心跳",
+            "children": []
+           },
+           {
+            "text": "异常检测",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "错误恢复",
+          "children": [
+           {
+            "text": "冗余 主备",
+            "children": []
+           },
+           {
+            "text": "投票",
+            "children": []
+           },
+           {
+            "text": "事务回滚",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "错误预防",
+          "children": [
+           {
+            "text": "移除服务",
+            "children": []
+           },
+           {
+            "text": "事务",
+            "children": []
+           },
+           {
+            "text": "进程监视",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "性能",
+        "children": [
+         {
+          "text": "资源需求",
+          "children": [
+           {
+            "text": "减少计算",
+            "children": []
+           },
+           {
+            "text": "降低频率",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "资源管理",
+          "children": [
+           {
+            "text": "并发",
+            "children": []
+           },
+           {
+            "text": "增加资源",
+            "children": []
+           },
+           {
+            "text": "副本",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "资源仲裁",
+          "children": [
+           {
+            "text": "FIFO",
+            "children": []
+           },
+           {
+            "text": "优先级",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "安全性",
+        "children": [
+         {
+          "text": "抵抗攻击",
+          "children": [
+           {
+            "text": "认证授权",
+            "children": []
+           },
+           {
+            "text": "加密",
+            "children": []
+           },
+           {
+            "text": "最小暴露",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "检测攻击",
+          "children": [
+           {
+            "text": "IDS",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "恢复",
+          "children": [
+           {
+            "text": "审计",
+            "children": []
+           },
+           {
+            "text": "备份",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "可修改性",
+        "children": [
+         {
+          "text": "局部化",
+          "children": [
+           {
+            "text": "高内聚",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "防连锁",
+          "children": [
+           {
+            "text": "信息隐藏",
+            "children": []
+           },
+           {
+            "text": "中介",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "延迟绑定",
+          "children": [
+           {
+            "text": "配置",
+            "children": []
+           },
+           {
+            "text": "多态",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "可测试性",
+        "children": [
+         {
+          "text": "记录回放",
+          "children": []
+         },
+         {
+          "text": "内置监测",
+          "children": []
+         },
+         {
+          "text": "接口分离",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "易用性",
+        "children": [
+         {
+          "text": "设计时",
+          "children": [
+           {
+            "text": "界面一致",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "运行时",
+          "children": [
+           {
+            "text": "撤销 取消",
+            "children": []
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "type": "graph",
+     "direction": "LR",
+     "nodes": [
+      {
+       "id": "A",
+       "shape": "[]",
+       "label": "刺激源"
+      },
+      {
+       "id": "B",
+       "shape": "[]",
+       "label": "刺激"
+      },
+      {
+       "id": "C",
+       "shape": "[]",
+       "label": "制品"
+      },
+      {
+       "id": "D",
+       "shape": "[]",
+       "label": "环境"
+      },
+      {
+       "id": "E",
+       "shape": "[]",
+       "label": "响应"
+      },
+      {
+       "id": "F",
+       "shape": "[]",
+       "label": "响应度量"
+      }
+     ],
+     "edges": [
+      {
+       "from": "A",
+       "to": "B",
+       "rel": "-->",
+       "label": "",
+       "from_label": "刺激源",
+       "to_label": "刺激"
+      },
+      {
+       "from": "B",
+       "to": "C",
+       "rel": "-->",
+       "label": "",
+       "from_label": "刺激",
+       "to_label": "制品"
+      },
+      {
+       "from": "C",
+       "to": "D",
+       "rel": "-->",
+       "label": "",
+       "from_label": "制品",
+       "to_label": "环境"
+      },
+      {
+       "from": "D",
+       "to": "E",
+       "rel": "-->",
+       "label": "",
+       "from_label": "环境",
+       "to_label": "响应"
+      },
+      {
+       "from": "E",
+       "to": "F",
+       "rel": "-->",
+       "label": "",
+       "from_label": "响应",
+       "to_label": "响应度量"
+      }
+     ]
+    }
+   ],
+   "skip_on_import": false,
+   "source": {
+    "repo": "senior-software-architect-review",
+    "license": "none",
+    "file": "mind-maps/quality-attributes.md",
+    "ref": "quality-attributes",
+    "url": "https://github.com/PeterGuy326/senior-software-architect-review/blob/main/mind-maps/quality-attributes.md"
+   }
+  },
+  {
+   "knowledge_codes": [
+    "5.1"
+   ],
+   "title": "security",
+   "file": "security.md",
+   "blocks": [
+    {
+     "type": "mindmap",
+     "root": {
+      "text": "信息安全",
+      "children": [
+       {
+        "text": "CIA 三要素",
+        "children": [
+         {
+          "text": "机密性 Confidentiality",
+          "children": [
+           {
+            "text": "加密",
+            "children": []
+           },
+           {
+            "text": "访问控制",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "完整性 Integrity",
+          "children": [
+           {
+            "text": "哈希 / HMAC",
+            "children": []
+           },
+           {
+            "text": "数字签名",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "可用性 Availability",
+          "children": [
+           {
+            "text": "冗余 / 备份",
+            "children": []
+           },
+           {
+            "text": "抗 DDoS",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "威胁建模 STRIDE",
+        "children": [
+         {
+          "text": "Spoofing 伪装",
+          "children": [
+           {
+            "text": "对策 认证",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Tampering 篡改",
+          "children": [
+           {
+            "text": "对策 哈希签名",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Repudiation 否认",
+          "children": [
+           {
+            "text": "对策 审计日志 不可否认",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Information disclosure 信息泄露",
+          "children": [
+           {
+            "text": "对策 加密 访问控制",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Denial of Service 拒绝服务",
+          "children": [
+           {
+            "text": "对策 限流 高可用 抗 DDoS",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Elevation of privilege 提权",
+          "children": [
+           {
+            "text": "对策 最小权限 沙箱",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "密码学",
+        "children": [
+         {
+          "text": "对称加密",
+          "children": [
+           {
+            "text": "DES / 3DES / AES",
+            "children": []
+           },
+           {
+            "text": "国密 SM1 SM4 SM7",
+            "children": []
+           },
+           {
+            "text": "快 适合大数据",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "非对称加密",
+          "children": [
+           {
+            "text": "RSA / ECC / DSA",
+            "children": []
+           },
+           {
+            "text": "国密 SM2 SM9",
+            "children": []
+           },
+           {
+            "text": "慢 解决密钥分发",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "哈希",
+          "children": [
+           {
+            "text": "MD5 已破解",
+            "children": []
+           },
+           {
+            "text": "SHA-1 / SHA-256",
+            "children": []
+           },
+           {
+            "text": "国密 SM3",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "数字签名",
+          "children": [
+           {
+            "text": "私钥签 公钥验",
+            "children": []
+           },
+           {
+            "text": "防抵赖 + 完整性",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "PKI / CA",
+          "children": [
+           {
+            "text": "数字证书 X.509",
+            "children": []
+           },
+           {
+            "text": "证书链",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "身份认证",
+        "children": [
+         {
+          "text": "Authentication 你是谁",
+          "children": [
+           {
+            "text": "密码 + 多因素 MFA",
+            "children": []
+           },
+           {
+            "text": "生物识别",
+            "children": []
+           },
+           {
+            "text": "证书认证",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "Authorization 你能做什么",
+          "children": [
+           {
+            "text": "RBAC 角色",
+            "children": []
+           },
+           {
+            "text": "ABAC 属性",
+            "children": []
+           },
+           {
+            "text": "ACL 访问控制列表",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "SSO 单点登录",
+          "children": [
+           {
+            "text": "SAML",
+            "children": []
+           },
+           {
+            "text": "OAuth 2.0",
+            "children": []
+           },
+           {
+            "text": "OIDC",
+            "children": []
+           },
+           {
+            "text": "JWT Token",
+            "children": []
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "text": "网络安全",
+        "children": [
+         {
+          "text": "防火墙",
+          "children": [
+           {
+            "text": "包过滤",
+            "children": []
+           },
+           {
+            "text": "状态检测",
+            "children": []
+           },
+           {
+            "text": "应用代理",
+            "children": []
+           },
+           {
+            "text": "WAF Web 防火墙",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "IDS / IPS",
+          "children": [
+           {
+            "text": "入侵检测 / 防御",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "VPN",
+          "children": [
+           {
+            "text": "IPSec",
+            "children": []
+           },
+           {
+            "text": "SSL VPN",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "DMZ 隔离区",
+          "children": []
+         },
+         {
+          "text": "零信任 ZTNA",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "应用安全",
+        "children": [
+         {
+          "text": "OWASP Top 10",
+          "children": [
+           {
+            "text": "注入 SQL/Command",
+            "children": []
+           },
+           {
+            "text": "失效身份认证",
+            "children": []
+           },
+           {
+            "text": "敏感数据暴露",
+            "children": []
+           },
+           {
+            "text": "XXE",
+            "children": []
+           },
+           {
+            "text": "失效访问控制",
+            "children": []
+           },
+           {
+            "text": "安全配置错误",
+            "children": []
+           },
+           {
+            "text": "XSS",
+            "children": []
+           },
+           {
+            "text": "不安全反序列化",
+            "children": []
+           },
+           {
+            "text": "组件漏洞",
+            "children": []
+           },
+           {
+            "text": "日志监控不足",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "安全开发 SDL",
+          "children": [
+           {
+            "text": "S-SDLC",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "代码审计",
+          "children": []
+         },
+         {
+          "text": "渗透测试",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "国家标准",
+        "children": [
+         {
+          "text": "等级保护 2.0",
+          "children": [
+           {
+            "text": "一级 自主保护",
+            "children": []
+           },
+           {
+            "text": "二级 指导保护",
+            "children": []
+           },
+           {
+            "text": "三级 监督保护 核心",
+            "children": []
+           },
+           {
+            "text": "四级 强制保护",
+            "children": []
+           },
+           {
+            "text": "五级 专控保护",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "国密算法",
+          "children": [
+           {
+            "text": "SM1 SM4 SM7 对称",
+            "children": []
+           },
+           {
+            "text": "SM2 SM9 非对称",
+            "children": []
+           },
+           {
+            "text": "SM3 哈希",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "网络安全法 / 数据安全法 / 个人信息保护法",
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "type": "graph",
+     "direction": "LR",
+     "nodes": [
+      {
+       "id": "C",
+       "shape": "[]",
+       "label": "机密性"
+      },
+      {
+       "id": "C1",
+       "shape": "[]",
+       "label": "加密 AES/SM4"
+      },
+      {
+       "id": "C2",
+       "shape": "[]",
+       "label": "访问控制 RBAC"
+      },
+      {
+       "id": "I",
+       "shape": "[]",
+       "label": "完整性"
+      },
+      {
+       "id": "I1",
+       "shape": "[]",
+       "label": "哈希 SHA-256/SM3"
+      },
+      {
+       "id": "I2",
+       "shape": "[]",
+       "label": "数字签名"
+      },
+      {
+       "id": "A",
+       "shape": "[]",
+       "label": "可用性"
+      },
+      {
+       "id": "A1",
+       "shape": "[]",
+       "label": "冗余高可用"
+      },
+      {
+       "id": "A2",
+       "shape": "[]",
+       "label": "限流抗DDoS"
+      }
+     ],
+     "edges": [
+      {
+       "from": "C",
+       "to": "C1",
+       "rel": "-->",
+       "label": "对策",
+       "from_label": "机密性",
+       "to_label": "加密 AES/SM4"
+      },
+      {
+       "from": "C",
+       "to": "C2",
+       "rel": "-->",
+       "label": "对策",
+       "from_label": "机密性",
+       "to_label": "访问控制 RBAC"
+      },
+      {
+       "from": "I",
+       "to": "I1",
+       "rel": "-->",
+       "label": "对策",
+       "from_label": "完整性",
+       "to_label": "哈希 SHA-256/SM3"
+      },
+      {
+       "from": "I",
+       "to": "I2",
+       "rel": "-->",
+       "label": "对策",
+       "from_label": "完整性",
+       "to_label": "数字签名"
+      },
+      {
+       "from": "A",
+       "to": "A1",
+       "rel": "-->",
+       "label": "对策",
+       "from_label": "可用性",
+       "to_label": "冗余高可用"
+      },
+      {
+       "from": "A",
+       "to": "A2",
+       "rel": "-->",
+       "label": "对策",
+       "from_label": "可用性",
+       "to_label": "限流抗DDoS"
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "headers": [
+      "威胁",
+      "含义",
+      "对策"
+     ],
+     "rows": [
+      [
+       "Spoofing",
+       "伪装身份",
+       "强认证 + MFA"
+      ],
+      [
+       "Tampering",
+       "数据篡改",
+       "哈希 + 签名"
+      ],
+      [
+       "Repudiation",
+       "否认操作",
+       "审计日志 + 不可否认签名"
+      ],
+      [
+       "Info disclosure",
+       "信息泄露",
+       "加密 + 访问控制"
+      ],
+      [
+       "DoS",
+       "拒绝服务",
+       "限流 + 高可用 + WAF"
+      ],
+      [
+       "Elev of privilege",
+       "提权",
+       "最小权限 + 沙箱"
+      ]
+     ]
+    },
+    {
+     "type": "graph",
+     "direction": "TD",
+     "nodes": [
+      {
+       "id": "Q",
+       "shape": "{}",
+       "label": "需求"
+      },
+      {
+       "id": "Sym",
+       "shape": "[]",
+       "label": "对称: AES-256 / SM4"
+      },
+      {
+       "id": "Asym",
+       "shape": "[]",
+       "label": "非对称: RSA-2048 / ECC / SM2"
+      },
+      {
+       "id": "Hash",
+       "shape": "[]",
+       "label": "哈希: SHA-256 / SM3"
+      },
+      {
+       "id": "Sig",
+       "shape": "[]",
+       "label": "签名: 私钥签+公钥验"
+      },
+      {
+       "id": "GM",
+       "shape": "[]",
+       "label": "国密 SM 系列"
+      }
+     ],
+     "edges": [
+      {
+       "from": "Q",
+       "to": "Sym",
+       "rel": "-->",
+       "label": "大量数据加密",
+       "from_label": "需求",
+       "to_label": "对称: AES-256 / SM4"
+      },
+      {
+       "from": "Q",
+       "to": "Asym",
+       "rel": "-->",
+       "label": "密钥协商/数字签名",
+       "from_label": "需求",
+       "to_label": "非对称: RSA-2048 / ECC / SM2"
+      },
+      {
+       "from": "Q",
+       "to": "Hash",
+       "rel": "-->",
+       "label": "数据指纹/完整性",
+       "from_label": "需求",
+       "to_label": "哈希: SHA-256 / SM3"
+      },
+      {
+       "from": "Q",
+       "to": "Sig",
+       "rel": "-->",
+       "label": "防抵赖",
+       "from_label": "需求",
+       "to_label": "签名: 私钥签+公钥验"
+      },
+      {
+       "from": "Q",
+       "to": "GM",
+       "rel": "-->",
+       "label": "国密合规",
+       "from_label": "需求",
+       "to_label": "国密 SM 系列"
+      }
+     ]
+    },
+    {
+     "type": "text",
+     "content": "一级 自主 → 二级 指导 → 三级 监督（互联网企业核心系统主流） → 四级 强制 → 五级 专控"
+    },
+    {
+     "type": "mnemonic",
+     "items": [
+      {
+       "term": "CIA",
+       "text": "机密 / 完整 / 可用——一切安全设计的初心"
+      },
+      {
+       "term": "STRIDE",
+       "text": "伪 / 篡 / 抵 / 泄 / 拒 / 提——威胁建模的标准锤"
+      },
+      {
+       "term": "国密",
+       "text": "SM2 非对称 / SM3 哈希 / SM4 对称——这三个最常考"
+      },
+      {
+       "term": "AuthN ≠ AuthZ",
+       "text": "认证（你是谁）≠ 授权（你能做什么）"
+      }
+     ]
+    }
+   ],
+   "skip_on_import": false,
+   "source": {
+    "repo": "senior-software-architect-review",
+    "license": "none",
+    "file": "mind-maps/security.md",
+    "ref": "security",
+    "url": "https://github.com/PeterGuy326/senior-software-architect-review/blob/main/mind-maps/security.md"
+   }
+  },
+  {
+   "knowledge_codes": [
+    "2.3.1"
+   ],
+   "title": "uml",
+   "file": "uml.md",
+   "blocks": [
+    {
+     "type": "mindmap",
+     "root": {
+      "text": "UML 2.x",
+      "children": [
+       {
+        "text": "结构图 7",
+        "children": [
+         {
+          "text": "类图 Class",
+          "children": [
+           {
+            "text": "类 属性 操作",
+            "children": []
+           },
+           {
+            "text": "关系 6种",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "对象图 Object",
+          "children": []
+         },
+         {
+          "text": "包图 Package",
+          "children": []
+         },
+         {
+          "text": "组件图 Component",
+          "children": []
+         },
+         {
+          "text": "部署图 Deployment",
+          "children": []
+         },
+         {
+          "text": "组合结构图 Composite",
+          "children": []
+         },
+         {
+          "text": "制品图 Artifact",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "行为图 7",
+        "children": [
+         {
+          "text": "用例图 Use Case",
+          "children": [
+           {
+            "text": "参与者 用例 系统边界",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "活动图 Activity",
+          "children": [
+           {
+            "text": "泳道 决策 并发",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "状态图 State",
+          "children": [
+           {
+            "text": "状态 转换 触发",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "序列图 Sequence",
+          "children": [
+           {
+            "text": "生命线 消息 激活",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "通信图 Communication",
+          "children": [
+           {
+            "text": "Collaboration",
+            "children": []
+           }
+          ]
+         },
+         {
+          "text": "时序图 Timing",
+          "children": []
+         },
+         {
+          "text": "交互概览图",
+          "children": []
+         }
+        ]
+       },
+       {
+        "text": "交互图 4子类",
+        "children": [
+         {
+          "text": "序列 通信 时序 交互概览",
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "type": "graph",
+     "direction": "LR",
+     "nodes": [
+      {
+       "id": "A",
+       "shape": "[]",
+       "label": "类关系"
+      },
+      {
+       "id": "B",
+       "shape": "[]",
+       "label": "泛化 Generalization\nis-a 继承\n实线空心三角"
+      },
+      {
+       "id": "C",
+       "shape": "[]",
+       "label": "实现 Realization\n实现接口\n虚线空心三角"
+      },
+      {
+       "id": "D",
+       "shape": "[]",
+       "label": "依赖 Dependency\nuse 临时使用\n虚线箭头"
+      },
+      {
+       "id": "E",
+       "shape": "[]",
+       "label": "关联 Association\nhas-a 长期持有\n实线箭头"
+      },
+      {
+       "id": "F",
+       "shape": "[]",
+       "label": "聚合 Aggregation\n整体-部分 弱\n实线空心菱形"
+      },
+      {
+       "id": "G",
+       "shape": "[]",
+       "label": "组合 Composition\n整体-部分 强\n实线实心菱形"
+      }
+     ],
+     "edges": [
+      {
+       "from": "A",
+       "to": "B",
+       "rel": "-->",
+       "label": "",
+       "from_label": "类关系",
+       "to_label": "泛化 Generalization\nis-a 继承\n实线空心三角"
+      },
+      {
+       "from": "A",
+       "to": "C",
+       "rel": "-->",
+       "label": "",
+       "from_label": "类关系",
+       "to_label": "实现 Realization\n实现接口\n虚线空心三角"
+      },
+      {
+       "from": "A",
+       "to": "D",
+       "rel": "-->",
+       "label": "",
+       "from_label": "类关系",
+       "to_label": "依赖 Dependency\nuse 临时使用\n虚线箭头"
+      },
+      {
+       "from": "A",
+       "to": "E",
+       "rel": "-->",
+       "label": "",
+       "from_label": "类关系",
+       "to_label": "关联 Association\nhas-a 长期持有\n实线箭头"
+      },
+      {
+       "from": "A",
+       "to": "F",
+       "rel": "-->",
+       "label": "",
+       "from_label": "类关系",
+       "to_label": "聚合 Aggregation\n整体-部分 弱\n实线空心菱形"
+      },
+      {
+       "from": "A",
+       "to": "G",
+       "rel": "-->",
+       "label": "",
+       "from_label": "类关系",
+       "to_label": "组合 Composition\n整体-部分 强\n实线实心菱形"
+      }
+     ]
+    },
+    {
+     "type": "text",
+     "content": "依赖 < 关联 < 聚合 < 组合 < 泛化 / 实现\n（耦合从弱到强）"
+    },
+    {
+     "type": "graph",
+     "direction": "TD",
+     "nodes": [
+      {
+       "id": "Q",
+       "shape": "{}",
+       "label": "要表达什么?"
+      },
+      {
+       "id": "UC",
+       "shape": "[]",
+       "label": "用例图"
+      },
+      {
+       "id": "CD",
+       "shape": "[]",
+       "label": "类图"
+      },
+      {
+       "id": "SD",
+       "shape": "[]",
+       "label": "序列图"
+      },
+      {
+       "id": "ST",
+       "shape": "[]",
+       "label": "状态图"
+      },
+      {
+       "id": "AD",
+       "shape": "[]",
+       "label": "活动图"
+      },
+      {
+       "id": "DP",
+       "shape": "[]",
+       "label": "部署图"
+      },
+      {
+       "id": "CP",
+       "shape": "[]",
+       "label": "组件图"
+      }
+     ],
+     "edges": [
+      {
+       "from": "Q",
+       "to": "UC",
+       "rel": "-->",
+       "label": "系统功能 用户视角",
+       "from_label": "要表达什么?",
+       "to_label": "用例图"
+      },
+      {
+       "from": "Q",
+       "to": "CD",
+       "rel": "-->",
+       "label": "静态结构 类与关系",
+       "from_label": "要表达什么?",
+       "to_label": "类图"
+      },
+      {
+       "from": "Q",
+       "to": "SD",
+       "rel": "-->",
+       "label": "对象间消息时序",
+       "from_label": "要表达什么?",
+       "to_label": "序列图"
+      },
+      {
+       "from": "Q",
+       "to": "ST",
+       "rel": "-->",
+       "label": "对象状态变化",
+       "from_label": "要表达什么?",
+       "to_label": "状态图"
+      },
+      {
+       "from": "Q",
+       "to": "AD",
+       "rel": "-->",
+       "label": "业务流程 并发",
+       "from_label": "要表达什么?",
+       "to_label": "活动图"
+      },
+      {
+       "from": "Q",
+       "to": "DP",
+       "rel": "-->",
+       "label": "部署节点 物理拓扑",
+       "from_label": "要表达什么?",
+       "to_label": "部署图"
+      },
+      {
+       "from": "Q",
+       "to": "CP",
+       "rel": "-->",
+       "label": "模块依赖 编译单元",
+       "from_label": "要表达什么?",
+       "to_label": "组件图"
+      }
+     ]
+    },
+    {
+     "type": "graph",
+     "direction": "LR",
+     "nodes": [
+      {
+       "id": "A",
+       "shape": "[]",
+       "label": "参与者\nActor"
+      },
+      {
+       "id": "B",
+       "shape": "[]",
+       "label": "用例\nUse Case"
+      },
+      {
+       "id": "C",
+       "shape": "[]",
+       "label": "系统边界"
+      },
+      {
+       "id": "D",
+       "shape": "[]",
+       "label": "基本用例"
+      },
+      {
+       "id": "E",
+       "shape": "[]",
+       "label": "扩展用例"
+      }
+     ],
+     "edges": [
+      {
+       "from": "A",
+       "to": "B",
+       "rel": "-->",
+       "label": "交互",
+       "from_label": "参与者\nActor",
+       "to_label": "用例\nUse Case"
+      },
+      {
+       "from": "B",
+       "to": "C",
+       "rel": "-->",
+       "label": "位于",
+       "from_label": "用例\nUse Case",
+       "to_label": "系统边界"
+      },
+      {
+       "from": "B",
+       "to": "D",
+       "rel": "-.->",
+       "label": "<<include>>",
+       "from_label": "用例\nUse Case",
+       "to_label": "基本用例"
+      },
+      {
+       "from": "B",
+       "to": "E",
+       "rel": "-.->",
+       "label": "<<extend>>",
+       "from_label": "用例\nUse Case",
+       "to_label": "扩展用例"
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "headers": [
+      "想表达",
+      "选"
+     ],
+     "rows": [
+      [
+       "对象间消息时序（谁调用谁、什么顺序）",
+       "序列图"
+      ],
+      [
+       "流程/工作流（决策、并发、分支）",
+       "活动图"
+      ],
+      [
+       "单个对象的生命周期",
+       "状态图"
+      ],
+      [
+       "同一时刻多对象交互结构",
+       "通信图"
+      ]
+     ]
+    },
+    {
+     "type": "mnemonic",
+     "items": [
+      {
+       "term": "结构 7 类",
+       "text": "类 / 对象 / 包 / 组件 / 部署 / 组合 / 制品"
+      },
+      {
+       "term": "行为 7 图",
+       "text": "用例 / 活动 / 状态 / 序列 / 通信 / 时序 / 交互概览"
+      },
+      {
+       "term": "6 种关系",
+       "text": "依赖 / 关联 / 聚合 / 组合 / 泛化 / 实现"
+      },
+      {
+       "term": "聚合 vs 组合",
+       "text": "聚合可分离（部门-员工）、组合同生死（人-心脏）"
+      }
+     ]
+    }
+   ],
+   "skip_on_import": false,
+   "source": {
+    "repo": "senior-software-architect-review",
+    "license": "none",
+    "file": "mind-maps/uml.md",
+    "ref": "uml",
+    "url": "https://github.com/PeterGuy326/senior-software-architect-review/blob/main/mind-maps/uml.md"
+   }
+  }
+ ]
+}

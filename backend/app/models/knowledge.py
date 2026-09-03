@@ -11,6 +11,7 @@ class KnowledgePoint(Base):
     subject = Column(Integer, default=0)  # 0=通用 1=综合知识 2=案例分析 3=论文
     description = Column(Text, default="")
     memo = Column(Text, default="")
+    card = Column(Text, default="")  # 知识点速查卡:结构化 JSON(系统预置,只读,不入 PUT 白名单)
     mastery = Column(Float, default=0.0)  # 0-100 计算值
 
 

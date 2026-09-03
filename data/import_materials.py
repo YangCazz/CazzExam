@@ -20,6 +20,7 @@ from app.models.question import Question, QuestionItem, QuestionKnowledge
 SYLLABUS = os.path.join(REPO, "data", "syllabus", "architecture-syllabus.json")
 QUESTIONS = os.path.join(REPO, "data", "questions", "architecture-questions.json")
 MATERIALS_GLOB = os.path.join(REPO, "data", "materials", "*", "questions.nif.json")
+CARDS_GLOB = os.path.join(REPO, "data", "materials", "*", "cards.nif.json")
 
 
 def seed_knowledge(db, code2id):
@@ -129,6 +130,33 @@ def seed_materials(db, code2id):
     print(f"materials questions added: {total}")
 
 
+def seed_cards(db, code2id):
+    """把 data/materials/*/cards.nif.json 的结构化速查卡按 code 幂等覆盖到 knowledge_points.card。"""
+    total = 0
+    for nif_path in sorted(glob.glob(CARDS_GLOB)):
+        with open(nif_path, encoding="utf-8") as f:
+            data = json.load(f)
+        src = data.get("source", nif_path)
+        for card in data.get("cards", []):
+            if card.get("skip_on_import") or not card.get("knowledge_codes"):
+                if card.get("skip_on_import"):
+                    print(f"  [{src}] 跳过(无挂点): {card.get('file')}")
+                continue
+            for kc in card["knowledge_codes"]:
+                kid = code2id.get(kc)
+                if not kid:
+                    print(f"  [{src}] 未知名知识点 code: {kc} -> {card.get('file')}")
+                    continue
+                kp = db.get(KnowledgePoint, kid)
+                if kp:
+                    kp.card = json.dumps(card, ensure_ascii=False)
+                    total += 1
+                else:
+                    print(f"  [{src}] 知识点行缺失: {kc}")
+    db.commit()
+    print(f"cards written: {total}")
+
+
 def main():
     db = SessionLocal()
     code2id = {k.code: k.id for k in db.query(KnowledgePoint).all()}
@@ -136,6 +164,7 @@ def main():
     seed_knowledge(db, code2id)
     seed_questions(db, code2id)
     seed_materials(db, code2id)
+    seed_cards(db, code2id)
     db.close()
     print("done.")
 

@@ -14,13 +14,15 @@ data/
 │   └── architecture-syllabus.json                 最新考纲 → knowledge_points 树（136 节点）
 ├── questions/
 │   └── architecture-questions.json                自产练习题库 → questions 表（102 题）
-├── materials/                                     外部来源（经 normalize.py 解析的 NIF）
+├── materials/                                     外部来源（经 normalize.py / cards.py 解析的 NIF）
 │   └── <source_id>/
 │       ├── questions.nif.json                     该来源的题目（NIF 格式）
+│       ├── cards.nif.json                         该来源的知识点速查卡（NIF 格式，见下文）
 │       └── ATTRIBUTION.md                         来源与署名
 └── sources/                                       多来源吸收的基础设施
     ├── catalog.json                               外部来源索引（许可/结构/吸收策略）
-    ├── normalize.py                               许可门控的标准化解析器
+    ├── normalize.py                               许可门控的标准化解析器（题目）
+    ├── cards.py                                   许可门控的速查卡解析器（mind-maps → card）
     └── README.md                                  多来源 schema + 导入策略说明
 ```
 
@@ -36,6 +38,56 @@ data/
 
 - `questions/architecture-questions.json` 全部是依据官方大纲知识范围、按真题题型与难度**原创**的原题，标注 `source_type:"self"`。
 - `materials/` 里的外部真题由各开源仓库解析而来，且受其**许可/授权门控**约束（见 `sources/README.md` 的 `provenance_policy`）。我是在判断来源可导入后才落盘的，并保留「来源 + 署名」（`ATTRIBUTION.md`）以便追溯。每一题都带了 `source.repo / source.file / source.license` 溯源，不做无出处搬运。
+
+## 知识点速查卡（mind-maps → card）
+
+部分外部来源仓库自带高价值的 Mermaid 思维导图（本仓库引用的 `peterGuy326` 下 `mind-maps/`），经 `source/cards.py` 解析成**结构化速查卡**，挂到具体的 `knowledge_points` 上，供前端在「架构师能力星图」的详情面板里速览。**内容仅自用**（`authorized_for_self_use`），不对外分发，每张卡保留 `source` 溯源 + 仓库级 `ATTRIBUTION.md`。
+
+数据流向（单向，无回写）：
+
+```
+ref/<repo>/mind-maps/*.md               本地 `ref/` 已 gitignore，只做源
+  → data/sources/cards.py              解析器（复用 catalog 授权门控 + 脑图→块）
+  → data/materials/<id>/cards.nif.json 提交产物（含 source 溯源）
+  → data/import_materials.py #seed_cards()  按 code 幂等覆盖
+  → knowledge_points.card              只读 TEXT（JSON），不入 PUT 白名单
+  → GET /api/knowledge/points/{kpid}   返回解析后的 card 对象
+  → frontend .../KnowledgeCard.vue     渲染（mindmap 树 / graph 边 / 表格 / 口诀 / 纯文本）
+```
+
+`card` 是一张 JSON 对象，字段：`{title, file, blocks, source, skip_on_import, knowledge_codes}`，`blocks` 按类型混排：
+
+| `type` | 内容 | 渲染 |
+|---|---|---|
+| `mindmap` | `root:{text,children[]}` 递归树 | 可折叠 `<details>` 树 |
+| `graph` | `nodes[]` + `edges[]`（`from/to/rel/label/from_label/to_label`） | 紧凑边行 `from —(label)→ to`（窄面板不画图） |
+| `table` | `headers[]` + `rows[][]` | `<table>` |
+| `mnemonic` | `items:[{term,text}]` 速记口诀 | `<dl>` |
+| `text` | `content` 纯文本 | `<pre>` |
+
+### 脑图 → 知识点 code 映射
+
+`00-overall.md`（整卷复习总览，无离散 code、唯一内容是 `quadrantChart`）标为 `knowledge_codes:[]` + `skip_on_import:true`，放入产物但**不挂点**；其余 9 张各挂 1 个 code：
+
+| 文件 | code | 考纲名称 |
+|---|---|---|
+| architecture-styles.md | 3.1 | 架构风格与复用 |
+| database.md | 1.3 | 数据库系统 |
+| design-patterns.md | 2.3.2 | 设计模式 |
+| microservice.md | 3.4 | 微服务与分布式架构 |
+| project-management.md | 2.5 | 项目管理 |
+| quality-attributes.md | 3.2 | 质量属性 |
+| security.md | 5.1 | 网络安全技术 |
+| uml.md | 2.3.1 | UML 建模 |
+| big-data.md | 3.8 | 大数据架构 |
+
+用法（与题目同款门控）：
+
+```bash
+tools/python/python.exe data/sources/cards.py peterGuy326 --dry-run              # 试跑，只打印统计
+tools/python/python.exe data/sources/cards.py peterGuy326 --authorized --out-into data/materials/peterGuy326/
+tools/python/python.exe data/import_materials.py                                  # 幂等灌入 card 列
+```
 
 ## 与后端表结构的对应
 
