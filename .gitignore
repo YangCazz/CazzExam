@@ -14,6 +14,9 @@ tools/python/
 tools/npm-cache/
 tools/pip-cache/
 
+# Cloned external reference repos (NOT our content — keep out of the repo)
+ref/
+
 # Test, cache, and temporary output
 .pytest_cache/
 backend/.pytest_cache/

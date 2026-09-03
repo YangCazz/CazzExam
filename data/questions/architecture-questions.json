@@ -1,128 +1,2287 @@
 {
-  "_meta": {
-    "title": "系统架构设计师 · 覆盖考纲的练习题库",
-    "provenance": "本文件题目为根据《系统架构设计师考试大纲（2022 第二版）》知识范围与历年真题（2009-2024）真实题型、难度原创整理的练习原题，非任何真题卷面的逐字复制。故 source_type 统一标注为 self。如需接入自购的正版真题 PDF/XLSX，可用 backend/scripts/pdf_extract.py + import_tool.py xlsx2json 转换后按同 schema 合并。",
-    "schema": "qtype 取值 choice/case/essay；subject 1=综合知识 2=案例分析 3=论文；difficulty 1-5；knowledge_codes 关联 ../syllabus/architecture-syllabus.json 中的 code；items 仅 case/essay 使用子问或写作提纲。"
+ "_meta": {
+  "title": "系统架构设计师 · 覆盖考纲的练习题库",
+  "provenance": "本文件题目为根据《系统架构设计师考试大纲（2022 第二版）》知识范围与历年真题（2009-2024）真实题型、难度原创整理的练习原题，非任何真题卷面的逐字复制。故 source_type 统一标注为 self。如需接入自购的正版真题 PDF/XLSX，可用 backend/scripts/pdf_extract.py + import_tool.py xlsx2json 转换后按同 schema 合并。",
+  "schema": "qtype 取值 choice/case/essay；subject 1=综合知识 2=案例分析 3=论文；difficulty 1-5；knowledge_codes 关联 ../syllabus/architecture-syllabus.json 中的 code；items 仅 case/essay 使用子问或写作提纲。",
+  "note": " (merged 44 choice from legacy seed_content)"
+ },
+ "questions": [
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "以下哪种架构风格以共享数据仓库为中心，所有构件围绕数据进行交互？",
+   "options": [
+    "管道-过滤器",
+    "仓库风格",
+    "调用-返回风格",
+    "事件驱动风格"
+   ],
+   "answer": "B",
+   "analysis": "仓库风格（Repository/黑板）以中心共享数据为主，构件围绕数据变更协作。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.1",
+    "3.1.2"
+   ]
   },
-  "questions": [
-    {"qtype": "choice", "subject": 1, "stem": "以下哪种架构风格以共享数据仓库为中心，所有构件围绕数据进行交互？", "options": ["管道-过滤器", "仓库风格", "调用-返回风格", "事件驱动风格"], "answer": "B", "analysis": "仓库风格（Repository/黑板）以中心共享数据为主，构件围绕数据变更协作。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["3.1", "3.1.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "分层架构的主要优点不包括？", "options": ["某一层易于独立修改", "层间通过接口交互，结构清晰", "跨层调用开销小、性能通常最优", "促进分工与可维护性"], "answer": "C", "analysis": "分层会引入跨层转发开销，性能未必优于扁平或数据流风格。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["3.1", "3.1.3"]},
-    {"qtype": "choice", "subject": 1, "stem": "微内核（Microkernel）架构中，核心内核通常只保留哪类功能？", "options": ["进程管理与通信等最小机制", "全部业务插件", "持久化存储", "用户界面渲染"], "answer": "A", "analysis": "微内核只提供最小核心机制（进程、消息、调度），其余以插件形式加载。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["3.1", "3.1.4"]},
-    {"qtype": "choice", "subject": 1, "stem": "质量属性场景（Quality Attribute Scenario）的六个要素中，“响应度量”指的是？", "options": ["触发场景的刺激源", "被测的制品（系统）", "系统对该刺激的反应指标", "所处的运行环境"], "answer": "C", "analysis": "刺激源-刺激-制品-环境-响应-响应度量，响应度量量化了系统响应（如延迟 < 2s）。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["3.2", "3.2.3"]},
-    {"qtype": "choice", "subject": 1, "stem": "ATAM 架构评估方法的核心输入是？", "options": ["质量属性场景", "源代码清单", "数据库表结构", "用户手册"], "answer": "A", "analysis": "ATAM 以质量属性场景为主线，识别架构敏感点与权衡点并输出风险。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["3.3", "3.3.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "4+1 视图模型中，用来验证其余四个视图、承载用例的视图是？", "options": ["逻辑视图", "进程视图", "场景视图", "物理视图"], "answer": "C", "analysis": "“+1”为场景（用例）视图，用于验证且贯穿其余视图。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["3.3", "3.3.3"]},
-    {"qtype": "choice", "subject": 1, "stem": "微服务架构中，服务实例的注册与发现通常由哪个组件承担？", "options": ["API 网关", "注册中心", "消息队列", "配置中心"], "answer": "B", "analysis": "注册中心（Nacos/Eureka/Consul）提供服务注册与心跳发现。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["3.4", "3.4.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "为防止依赖服务故障引起级联雪崩，微服务常用哪种治理机制？", "options": ["熔断降级", "数据库分库", "全量冗余", "定时重启"], "answer": "A", "analysis": "熔断器在依赖故障时快速失败并降级（如 Sentinel/Hystrix），避免雪崩。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["3.4", "3.4.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "下列哪种方案最适合实现跨服务的数据最终一致性？", "options": ["本地事务", "消息事件驱动 + 幂等补偿", "仅数据库外键约束", "全表加锁串行化"], "answer": "B", "analysis": "跨服务用分布式事务（TCC/Saga）或消息事件 + 幂等补偿实现最终一致性。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["3.4", "3.4.3"]},
-    {"qtype": "choice", "subject": 1, "stem": "SOA 中承担异构系统协议转换与消息路由的组件是？", "options": ["ESB", "WSDL", "UDDI", "SOAP"], "answer": "A", "analysis": "企业服务总线 ESB 提供服务接入、协议转换、路由与编排。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["3.5", "3.5.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "云原生体系中负责容器编排与自动伸缩的平台是？", "options": ["Docker", "Kubernetes", "Istio", "Prometheus"], "answer": "B", "analysis": "Kubernetes 负责容器编排调度与扩缩容；Istio 为服务网格，Prometheus 负责监控。", "difficulty": 1, "source_type": "self", "source_year": null, "knowledge_codes": ["3.6", "3.6.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "服务网格（如 Istio）通过 Sidecar 模式主要解决什么？", "options": ["服务间通信治理与可观测性", "镜像构建", "容器调度", "数据存储分配"], "answer": "A", "analysis": "服务网格在基础设施层治理服务通信（限流/身份/重试/链路追踪）。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["3.6", "3.6.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "消息中间件的主要优势不包括？", "options": ["异步解耦", "削峰填谷", "保证跨服务强一致事务", "应用间可靠通信"], "answer": "C", "analysis": "消息擅长异步与最终一致性；强一致事务通常由分布式事务框架承担。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["3.7", "3.7.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "Lambda 架构由批处理层、速度层和哪一层组成？", "options": ["存储层", "服务层", "展示层", "编排层"], "answer": "B", "analysis": "Lambda = 批处理层 + 速度层 + 服务层（合并底层与实时结果对外服务）。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["3.8", "3.8.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "物联网系统的四层结构从下到上通常为？", "options": ["感知层-网络层-平台层-应用层", "应用层-平台层-网络层-感知层", "网络层-感知层-应用层-平台层", "平台层-应用层-网络层-感知层"], "answer": "A", "analysis": "感知层采集，网络层传输，平台层汇聚处理，应用层对外服务。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["3.9", "3.9.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "数字孪生的核心思想是？", "options": ["为物理实体建立实时映射的数字化镜像", "将物理设备直接上网", "仅做数据备份", "替代物理对象运行"], "answer": "A", "analysis": "数字孪生通过对物理对象建模与实时数据驱动，形成可推理的数字化双胞胎。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["3.11", "3.11.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "产生死锁的必要条件不包括？", "options": ["互斥", "占有且等待", "不可剥夺", "系统资源绝对充足"], "answer": "D", "analysis": "死锁四条件：互斥、占有且等待、不可剥夺、循环等待；资源充足不是必要条件。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["1.2", "1.2.3"]},
-    {"qtype": "choice", "subject": 1, "stem": "采用虚拟内存的主要目的是？", "options": ["使进程逻辑地址空间可超过物理内存", "加快磁盘 I/O", "增加进程数量", "提高 CPU 主频"], "answer": "A", "analysis": "虚拟内存通过按需调页，使逻辑空间大于物理内存并实现隔离。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["1.2", "1.2.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "事务的原子性（Atomicity）指？", "options": ["要么全部执行要么全部不执行", "并发事务互不可见", "提交后永久保存", "满足合法数据约束"], "answer": "A", "analysis": "原子性保证操作全做或全不做（失败回滚）。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["1.3", "1.3.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "可防止脏读的最低数据库隔离级别是？", "options": ["READ UNCOMMITTED", "READ COMMITTED", "REPEATABLE READ", "SERIALIZABLE"], "answer": "B", "analysis": "READ COMMITTED 保证读到已提交数据，能防脏读；REPEATABLE READ 进一步防不可重复读。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["1.3", "1.3.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "消除非主属性对候选键的部分函数依赖，应至少达到第几范式？", "options": ["1NF", "2NF", "3NF", "BCNF"], "answer": "B", "analysis": "2NF 在 1NF 基础上消除部分依赖；3NF 消除传递依赖；BCNF 更强。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["1.3", "1.3.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "NoSQL 中适合存储社交关系、节点连接的数据库模型是？", "options": ["图数据库", "键值库", "文档库", "列族库"], "answer": "A", "analysis": "图数据库以节点与边建模复杂关联，适合关系分析场景。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["1.3", "1.3.5"]},
-    {"qtype": "choice", "subject": 1, "stem": "TCP 建立连接采用几次握手？", "options": ["1 次", "2 次", "3 次", "4 次"], "answer": "C", "analysis": "TCP 三次握手建立连接，四次挥手释放连接。", "difficulty": 1, "source_type": "self", "source_year": null, "knowledge_codes": ["1.4", "1.4.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "工作在 OSI 第三层（网络层）的设备是？", "options": ["集线器", "交换机", "路由器", "网桥"], "answer": "C", "analysis": "路由器在网络层依据 IP 转发；交换机在数据链路层。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["1.4", "1.4.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "CDN 加速主要基于以下哪个原理？", "options": ["边缘缓存就近分发", "中心数据库复制", "仅压缩图片", "改用 UDP 传输"], "answer": "A", "analysis": "CDN 将内容缓存到边缘节点，就近响应用户请求。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["1.4", "1.4.4"]},
-    {"qtype": "choice", "subject": 1, "stem": "嵌入式实时系统常采用哪种策略避免任务间互相阻塞导致关键任务错过截止期？", "options": ["优先级继承/天花板协议", "随机调度", "无限期轮询", "降低所有任务优先级"], "answer": "A", "analysis": "优先级继承避免优先级反转，保证关键实时任务可被及时调度。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["1.5", "1.5.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "敏捷宣言强调下列哪一项更重要？", "options": ["个体与交互重于流程与工具", "完整文档重于可运行软件", "合同谈判重于客户协作", "遵循计划重于响应变化"], "answer": "A", "analysis": "敏捷宣言权衡：个体与交互、可运行软件、客户协作、响应变化优先。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["2.1", "2.1.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "界限值分析法属于哪类测试设计技术？", "options": ["黑盒测试", "白盒测试", "静态分析", "探索式测试"], "answer": "A", "analysis": "边界值基于输入/输出域边界设计用例，属于黑盒方法。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["2.4", "2.4.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "UML 中描述对象间消息交互时序的图是？", "options": ["序列图", "类图", "用例图", "构件图"], "answer": "A", "analysis": "序列图按时间顺序描述对象间消息交互。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["2.3", "2.3.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "策略模式的核心思想是？", "options": ["封装一组算法并使其可互换", "保证唯一实例", "适配不兼容接口", "记录操作历史"], "answer": "A", "analysis": "策略模式定义算法族并封装，运行时可切换。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["2.3", "2.3.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "依赖倒置原则（DIP）要求？", "options": ["高层模块依赖抽象而非具体实现", "尽量使用继承", "接口尽量少的方法", "只为扩展提供实现"], "answer": "A", "analysis": "DIP 让高层依赖抽象，利于解耦与替换。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["2.3", "2.3.3"]},
-    {"qtype": "choice", "subject": 1, "stem": "挣值管理中，CPI < 1 表示？", "options": ["成本超支", "进度滞后", "成本节省", "进度提前"], "answer": "A", "analysis": "CPI = EV / AC，小于 1 说明实际成本高于已挣价值，即成本超支。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["2.5", "2.5.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "关键路径法（CPM）中，总时差为 0 的活动构成？", "options": ["关键路径", "里程碑", "工作包", "紧前活动集合"], "answer": "A", "analysis": "关键路径活动总时差为 0，决定项目最短工期。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["4.1", "4.1.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "配置管理中的“基线”指的是？", "options": ["经正式评审确认的配置项状态快照", "代码仓库", "测试报告", "发布的二进制包"], "answer": "A", "analysis": "基线是经评审的配置项集合，后续变更须走变更控制流程。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["2.6", "2.6.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "构件化开发（CBSD）强调？", "options": ["通过可复用构件组装系统", "一切从零编写", "只用面向对象", "避免接口契约"], "answer": "A", "analysis": "CBSD 依赖具备明确接口契约的可复用构件组装系统。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["2.8", "2.8.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "大型网站在演进中从单体拆分出独立服务，首要关注的是？", "options": ["按业务能力/领域边界进行服务拆分", "尽可能拆分到最小粒度", "所有服务共用一个数据库", "消除所有网络交互"], "answer": "A", "analysis": "按业务领域边界拆分，保持单一职责与服务自治，是合理演进策略。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["2.9", "2.9.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "以下属于非对称加密算法的是？", "options": ["AES", "RSA", "DES", "3DES"], "answer": "B", "analysis": "RSA 为非对称（公钥）体系；AES/DES/3DES 为对称加密。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["5.1", "5.1.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "数字签名主要保证信息的？", "options": ["完整性与不可抵赖性", "机密性", "可用性", "实时性"], "answer": "A", "analysis": "数字签名用私钥签名、公钥验证，保证完整性与不可抵赖，不保证机密。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["5.1", "5.1.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "网络安全等级保护中，信息系统的最高安全保护等级为？", "options": ["第二级", "第三级", "第四级", "第五级"], "answer": "D", "analysis": "等保分五级，第五级最高（涉国家秘密的极端重要系统）。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["5.3", "5.3.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "可用性公式 A = MTBF / (MTBF + MTTR) 中，MTTR 指？", "options": ["平均修复时间", "平均无故障运行时间", "平均响应时间", "平均攻击间隔"], "answer": "A", "analysis": "MTBF 为平均无故障时间，MTTR 为平均修复时间。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["5.2", "5.2.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "两个可靠度均为 R 的组件并联，系统可靠度为？", "options": ["R × R", "1 - (1-R)^2", "2R", "R / 2"], "answer": "B", "analysis": "并联系统有任一可用即可，可靠度 = 1 - (1-R)^2，比单组件更可靠。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["5.2", "5.2.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "RAID 5 至少需要几块磁盘？", "options": ["2 块", "3 块", "4 块", "5 块"], "answer": "B", "analysis": "RAID 5 采用分布式奇偶校验，至少 3 块磁盘，允许坏一块。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["5.2", "5.2.3"]},
-    {"qtype": "choice", "subject": 1, "stem": "线性规划问题的最优解一定出现在？", "options": ["可行域内部", "可行域的某个顶点", "目标函数零点", "任意位置"], "answer": "B", "analysis": "线性规划最优解在可行域顶点（基本可行解）处取得。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["4.1", "4.1.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "两个独立事件 A、B，P(A)=0.6，P(B)=0.5，则 P(A∪B) 为？", "options": ["0.3", "0.8", "0.9", "1.0"], "answer": "B", "analysis": "P(A∪B)=P(A)+P(B)-P(A)P(B)=0.6+0.5-0.3=0.8。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["4.2", "4.2.2"]},
-    {"qtype": "choice", "subject": 1, "stem": "二分查找的时间复杂度是？", "options": ["O(log n)", "O(n)", "O(n log n)", "O(n^2)"], "answer": "A", "analysis": "二分查找每次排除一半，复杂度 O(log n)。", "difficulty": 1, "source_type": "self", "source_year": null, "knowledge_codes": ["4.3", "4.3.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "项目投资中，净现值（NPV）为正值通常表示？", "options": ["投资方案可行，回报超过折现率", "方案亏损", "盈亏平衡", "无法判断"], "answer": "A", "analysis": "NPV > 0 说明按折现率计算的净收益为正，方案经济上可行。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["4.4", "4.4.1"]},
-    {"qtype": "choice", "subject": 1, "stem": "Which architectural style is best described as “a data-centered style where components interact through a shared data store”?", "options": ["Pipe-and-filter", "Repository", "Layered", "Event-driven"], "answer": "B", "analysis": "Repository/data-centered（仓库/数据共享）风格以共享数据仓库为中心。", "difficulty": 2, "source_type": "self", "source_year": null, "knowledge_codes": ["6", "6.1"]},
-    {"qtype": "case", "subject": 2, "stem": "阅读以下关于某在线教育平台的架构设计说明，回答问题 1 至问题 3。\n[说明] 平台用户量快速增长，高峰期在线人数达 200 万。直播课程频繁卡顿，订单系统偶发超时，且新功能上线周期过长。", "options": [], "answer": "", "analysis": "围绕非功能性需求定位、直播性能方案、订单一致性三类设计展开。", "difficulty": 4, "source_type": "self", "source_year": null, "knowledge_codes": ["3.2", "3.2.1", "3.4", "3.4.2"],
-      "items": [
-        {"seq": 1, "stem": "指出该平台面临的主要非功能性需求（至少 3 个），并说明理由。", "answer": "性能（卡顿/超时）、可用性（偶发不可用）、可扩展性（用户增长）、可维护性（上线周期长）", "score": 10},
-        {"seq": 2, "stem": "针对直播卡顿，提出至少两种架构层面的解决方案。", "answer": "CDN/边缘分发、流媒体多码率与协议优化、就近接入与 QoS、网关限流、监控告警", "score": 15},
-        {"seq": 3, "stem": "针对订单偶发超时，给出至少两种可靠性与一致性方案。", "answer": "消息队列异步化 + 重试、幂等设计、分布式事务（TCC/最终一致性）、限流降级", "score": 15}
-      ]},
-    {"qtype": "case", "subject": 2, "stem": "阅读以下关于某传统单体系统微服务化改造的说明，回答问题 1 至问题 3。\n[说明] 系统各模块耦合度高，任何改动都需整体发布；高峰期出现单点性能瓶颈。公司决定进行微服务化改造。", "options": [], "answer": "", "analysis": "围绕服务拆分原则、基础设施组件、跨服务数据一致性展开。", "difficulty": 4, "source_type": "self", "source_year": null, "knowledge_codes": ["3.4", "3.4.1", "3.4.2", "3.4.3", "3.4.5"],
-      "items": [
-        {"seq": 1, "stem": "微服务拆分的主要原则有哪些？", "answer": "按业务能力/领域边界拆分、单一职责、服务自治（独立部署/独立数据）、避免循环依赖", "score": 10},
-        {"seq": 2, "stem": "改造后通常需要引入哪些基础设施组件？", "answer": "注册中心、API 网关（路由/限流）、配置中心、链路追踪与监控、CI/CD 流水线", "score": 15},
-        {"seq": 3, "stem": "跨服务的数据一致性可采用哪些方案？", "answer": "分布式事务（TCC/Saga）、消息事件驱动最终一致性、幂等设计、补偿机制", "score": 15}
-      ]},
-    {"qtype": "case", "subject": 2, "stem": "阅读以下关于某电商秒杀系统的说明，回答问题 1 至问题 3。\n[说明] 秒杀活动瞬间产生海量请求，系统需保证高可用、高性能与最终一致性，同时防止超卖。", "options": [], "answer": "", "analysis": "围绕高并发挑战、削峰限流手段、防超卖一致性展开。", "difficulty": 5, "source_type": "self", "source_year": null, "knowledge_codes": ["3.2", "3.2.1", "3.4", "3.4.2", "5.2"],
-      "items": [
-        {"seq": 1, "stem": "秒杀系统面临的主要技术挑战是什么？", "answer": "高并发冲击、防超卖、防刷、防止服务雪崩、数据库压力", "score": 10},
-        {"seq": 2, "stem": "设计至少三种应对高并发的架构手段。", "answer": "限流（令牌桶/漏桶）、削峰（消息队列异步化）、多级缓存（Redis/本地缓存）、页面静态化、读写分离", "score": 15},
-        {"seq": 3, "stem": "如何防止超卖？", "answer": "库存预扣/Redis 原子操作（Lua/INCR）、数据库乐观锁（版本号）、下单与支付异步解耦、最终一致性补偿", "score": 15}
-      ]},
-    {"qtype": "case", "subject": 2, "stem": "阅读以下关于某数据处理系统的说明，回答问题 1 至问题 3。\n[说明] 系统从多个数据源采集数据，经清洗、转换、分析后输出报表；各处理步骤相互独立、可并行执行，处理结果以数据流方式在步骤间传递。", "options": [], "answer": "", "analysis": "围绕数据流架构风格识别、优缺点与交互改进展开。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["3.1", "3.1.1"],
-      "items": [
-        {"seq": 1, "stem": "该系统最可能采用哪种架构风格？请说明理由。", "answer": "管道-过滤器；处理步骤独立、结果以数据流传递、可并行", "score": 10},
-        {"seq": 2, "stem": "该风格的主要优点有哪些？（至少 3 点）", "answer": "结构清晰、过滤器可复用、支持并行与增量处理、易维护易测试", "score": 15},
-        {"seq": 3, "stem": "若要支持人机交互与回退，该风格有何局限？应如何改进？", "answer": "难以实现交互与回退；可引入黑板/仓库承载共享状态，或增加状态管理与控制流机制", "score": 15}
-      ]},
-    {"qtype": "case", "subject": 2, "stem": "阅读以下关于某企业应用 SOA 改造的说明，回答问题 1 至问题 3。\n[说明] 企业内部存在多个异构系统，系统间接口私有、难以复用，新业务集成需大量定制开发。计划通过 SOA 理念进行改造。", "options": [], "answer": "", "analysis": "围绕 SOA/ESB 的作用、服务接口标准化、服务复用与治理展开。", "difficulty": 3, "source_type": "self", "source_year": null, "knowledge_codes": ["3.5", "3.5.1", "3.5.2"],
-      "items": [
-        {"seq": 1, "stem": "引入企业服务总线（ESB）的价值是什么？", "answer": "协议转换、消息与数据路由、服务接入、配置化编排，降低点对点集成的复杂度", "score": 10},
-        {"seq": 2, "stem": "服务接口应遵循哪些标准化原则？", "answer": "定义明确契约（WSDL/接口文档）、松耦合、无状态、面向消息的通信、粗粒度", "score": 15},
-        {"seq": 3, "stem": "结合本项目说明如何提升系统间复用能力。", "answer": "把可复用业务能力封装为服务、统一接口标准、建立服务注册与目录、服务版本管理", "score": 15}
-      ]},
-    {"qtype": "essay", "subject": 3, "stem": "论高可用架构的设计与实现\n请围绕系统高可用（HA），从冗余设计、故障转移、负载均衡、监控告警等方面，结合你参与的项目进行论述（正文 2500 字左右）。", "options": [], "answer": "提纲：1 项目背景与高可用需求 2 设计原则（冗余/无单点/故障转移） 3 具体方案（集群/双活/读写分离/消息队列/监控告警） 4 验证与效果 5 总结", "analysis": "论文须结合亲身项目实践，说明量化效果与权衡。", "difficulty": 5, "source_type": "self", "source_year": null, "knowledge_codes": ["3.2", "3.2.1", "5.2"],
-      "items": [
-        {"seq": 1, "stem": "论点 1：明确高可用目标与量化指标（如可用性 99.99%，RTO/RPO）", "answer": "", "score": 0},
-        {"seq": 2, "stem": "论点 2：冗余与无单点设计（应用多实例、数据库主备/多活）", "answer": "", "score": 0},
-        {"seq": 3, "stem": "论点 3：故障转移与负载均衡策略", "answer": "", "score": 0},
-        {"seq": 4, "stem": "论点 4：监控告警与自愈机制", "answer": "", "score": 0}
-      ]},
-    {"qtype": "essay", "subject": 3, "stem": "论数据存储架构设计\n请结合你参与的项目，论述关系型与非关系型数据库的选型、分库分表、读写分离、缓存与冷热分层等存储架构设计（正文 2500 字左右）。", "options": [], "answer": "提纲：1 项目背景与数据特征 2 存储选型（SQL/NoSQL） 3 分库分表与读写分离 4 缓存与冷热分层 5 总结", "analysis": "须结合真实数据规模与访问模式说明选型理由与权衡。", "difficulty": 4, "source_type": "self", "source_year": null, "knowledge_codes": ["1.3", "1.3.4", "1.3.5", "3.8"],
-      "items": [
-        {"seq": 1, "stem": "论点 1：数据特征与一致性需求分析", "answer": "", "score": 0},
-        {"seq": 2, "stem": "论点 2：SQL 与 NoSQL 选型依据", "answer": "", "score": 0},
-        {"seq": 3, "stem": "论点 3：分库分表与读写分离设计", "answer": "", "score": 0},
-        {"seq": 4, "stem": "论点 4：缓存与冷热数据治理", "answer": "", "score": 0}
-      ]},
-    {"qtype": "essay", "subject": 3, "stem": "论安全架构设计\n请结合你参与的项目，论述安全威胁分析、安全架构（认证、授权、加密、审计）与合规要求（正文 2500 字左右）。", "options": [], "answer": "提纲：1 项目背景与安全需求 2 威胁建模 3 安全架构（认证/授权/传输加密/数据加密/审计日志） 4 合规与等级保护 5 总结", "analysis": "安全设计须说明与性能/易用性的权衡。", "difficulty": 4, "source_type": "self", "source_year": null, "knowledge_codes": ["5.1", "5.1.2", "5.1.4", "5.3.1"],
-      "items": [
-        {"seq": 1, "stem": "论点 1：业务与合规安全需求识别", "answer": "", "score": 0},
-        {"seq": 2, "stem": "论点 2：威胁建模与风险分析", "answer": "", "score": 0},
-        {"seq": 3, "stem": "论点 3：分层安全架构落地（认证/授权/加密/审计）", "answer": "", "score": 0},
-        {"seq": 4, "stem": "论点 4：合规与安全运营", "answer": "", "score": 0}
-      ]},
-    {"qtype": "essay", "subject": 3, "stem": "论分布式系统的可靠性与一致性设计\n请结合你参与的项目，论述分布式事务、幂等、补偿、最终一致性等设计实践（正文 2500 字左右）。", "options": [], "answer": "提纲：1 项目背景与一致性需求 2 分布式事务方案（TCC/Saga/消息） 3 幂等与补偿 4 最终一致性实践 5 总结", "analysis": "须说明不同场景下的一致性与可用性权衡（强一致 vs 最终一致）。", "difficulty": 5, "source_type": "self", "source_year": null, "knowledge_codes": ["3.4", "3.4.3", "1.3.2"],
-      "items": [
-        {"seq": 1, "stem": "论点 1：业务场景与一致性分级", "answer": "", "score": 0},
-        {"seq": 2, "stem": "论点 2：分布式事务选型对比", "answer": "", "score": 0},
-        {"seq": 3, "stem": "论点 3：幂等与补偿机制", "answer": "", "score": 0},
-        {"seq": 4, "stem": "论点 4：最终一致性的监控与对账", "answer": "", "score": 0}
-      ]},
-    {"qtype": "essay", "subject": 3, "stem": "论云原生架构\n请结合你参与的项目，论述容器化、服务网格、不可变基础设施、DevOps 等云原生实践（正文 2500 字左右）。", "options": [], "answer": "提纲：1 项目背景与上云诉求 2 容器化与编排 3 服务网格与可观测性 4 不可变基础设施与 DevOps 5 总结", "analysis": "须说明云原生改造带来的收益与挑战。", "difficulty": 4, "source_type": "self", "source_year": null, "knowledge_codes": ["3.6", "3.6.1", "3.6.2", "3.6.3"],
-      "items": [
-        {"seq": 1, "stem": "论点 1：业务背景与上云动因", "answer": "", "score": 0},
-        {"seq": 2, "stem": "论点 2：容器化与编排架构", "answer": "", "score": 0},
-        {"seq": 3, "stem": "论点 3：服务网格与可观测性建设", "answer": "", "score": 0},
-        {"seq": 4, "stem": "论点 4：DevOps 与不可变基础设施", "answer": "", "score": 0}
-      ]},
-    {"qtype": "essay", "subject": 3, "stem": "论软件架构建模\n请结合你参与的项目，论述软件架构建模的方法（如 4+1 视图、UML）、建模过程及工具应用（正文 2500 字左右）。", "options": [], "answer": "提纲：1 项目背景与建模目标 2 建模方法（4+1 视图/逻辑/开发/进程/物理/场景） 3 建模过程与关键视图 4 建模工具应用 5 建模对架构质量的作用与总结", "analysis": "论文需结合亲身项目实践，说明视图如何支撑架构决策。", "difficulty": 4, "source_type": "self", "source_year": null, "knowledge_codes": ["2.3", "2.3.1", "3.3", "3.3.3"],
-      "items": [
-        {"seq": 1, "stem": "论点 1：项目背景与建模目标", "answer": "", "score": 0},
-        {"seq": 2, "stem": "论点 2：4+1 视图与建模方法的选用", "answer": "", "score": 0},
-        {"seq": 3, "stem": "论点 3：建模过程与关键视图设计", "answer": "", "score": 0},
-        {"seq": 4, "stem": "论点 4：建模工具与对架构质量的支撑", "answer": "", "score": 0}
-      ]}
-  ]
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "分层架构的主要优点不包括？",
+   "options": [
+    "某一层易于独立修改",
+    "层间通过接口交互，结构清晰",
+    "跨层调用开销小、性能通常最优",
+    "促进分工与可维护性"
+   ],
+   "answer": "C",
+   "analysis": "分层会引入跨层转发开销，性能未必优于扁平或数据流风格。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.1",
+    "3.1.3"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "微内核（Microkernel）架构中，核心内核通常只保留哪类功能？",
+   "options": [
+    "进程管理与通信等最小机制",
+    "全部业务插件",
+    "持久化存储",
+    "用户界面渲染"
+   ],
+   "answer": "A",
+   "analysis": "微内核只提供最小核心机制（进程、消息、调度），其余以插件形式加载。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.1",
+    "3.1.4"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "质量属性场景（Quality Attribute Scenario）的六个要素中，“响应度量”指的是？",
+   "options": [
+    "触发场景的刺激源",
+    "被测的制品（系统）",
+    "系统对该刺激的反应指标",
+    "所处的运行环境"
+   ],
+   "answer": "C",
+   "analysis": "刺激源-刺激-制品-环境-响应-响应度量，响应度量量化了系统响应（如延迟 < 2s）。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.2",
+    "3.2.3"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "ATAM 架构评估方法的核心输入是？",
+   "options": [
+    "质量属性场景",
+    "源代码清单",
+    "数据库表结构",
+    "用户手册"
+   ],
+   "answer": "A",
+   "analysis": "ATAM 以质量属性场景为主线，识别架构敏感点与权衡点并输出风险。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.3",
+    "3.3.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "4+1 视图模型中，用来验证其余四个视图、承载用例的视图是？",
+   "options": [
+    "逻辑视图",
+    "进程视图",
+    "场景视图",
+    "物理视图"
+   ],
+   "answer": "C",
+   "analysis": "“+1”为场景（用例）视图，用于验证且贯穿其余视图。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.3",
+    "3.3.3"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "微服务架构中，服务实例的注册与发现通常由哪个组件承担？",
+   "options": [
+    "API 网关",
+    "注册中心",
+    "消息队列",
+    "配置中心"
+   ],
+   "answer": "B",
+   "analysis": "注册中心（Nacos/Eureka/Consul）提供服务注册与心跳发现。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4",
+    "3.4.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "为防止依赖服务故障引起级联雪崩，微服务常用哪种治理机制？",
+   "options": [
+    "熔断降级",
+    "数据库分库",
+    "全量冗余",
+    "定时重启"
+   ],
+   "answer": "A",
+   "analysis": "熔断器在依赖故障时快速失败并降级（如 Sentinel/Hystrix），避免雪崩。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4",
+    "3.4.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "下列哪种方案最适合实现跨服务的数据最终一致性？",
+   "options": [
+    "本地事务",
+    "消息事件驱动 + 幂等补偿",
+    "仅数据库外键约束",
+    "全表加锁串行化"
+   ],
+   "answer": "B",
+   "analysis": "跨服务用分布式事务（TCC/Saga）或消息事件 + 幂等补偿实现最终一致性。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4",
+    "3.4.3"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "SOA 中承担异构系统协议转换与消息路由的组件是？",
+   "options": [
+    "ESB",
+    "WSDL",
+    "UDDI",
+    "SOAP"
+   ],
+   "answer": "A",
+   "analysis": "企业服务总线 ESB 提供服务接入、协议转换、路由与编排。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.5",
+    "3.5.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "云原生体系中负责容器编排与自动伸缩的平台是？",
+   "options": [
+    "Docker",
+    "Kubernetes",
+    "Istio",
+    "Prometheus"
+   ],
+   "answer": "B",
+   "analysis": "Kubernetes 负责容器编排调度与扩缩容；Istio 为服务网格，Prometheus 负责监控。",
+   "difficulty": 1,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.6",
+    "3.6.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "服务网格（如 Istio）通过 Sidecar 模式主要解决什么？",
+   "options": [
+    "服务间通信治理与可观测性",
+    "镜像构建",
+    "容器调度",
+    "数据存储分配"
+   ],
+   "answer": "A",
+   "analysis": "服务网格在基础设施层治理服务通信（限流/身份/重试/链路追踪）。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.6",
+    "3.6.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "消息中间件的主要优势不包括？",
+   "options": [
+    "异步解耦",
+    "削峰填谷",
+    "保证跨服务强一致事务",
+    "应用间可靠通信"
+   ],
+   "answer": "C",
+   "analysis": "消息擅长异步与最终一致性；强一致事务通常由分布式事务框架承担。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.7",
+    "3.7.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "Lambda 架构由批处理层、速度层和哪一层组成？",
+   "options": [
+    "存储层",
+    "服务层",
+    "展示层",
+    "编排层"
+   ],
+   "answer": "B",
+   "analysis": "Lambda = 批处理层 + 速度层 + 服务层（合并底层与实时结果对外服务）。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.8",
+    "3.8.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "物联网系统的四层结构从下到上通常为？",
+   "options": [
+    "感知层-网络层-平台层-应用层",
+    "应用层-平台层-网络层-感知层",
+    "网络层-感知层-应用层-平台层",
+    "平台层-应用层-网络层-感知层"
+   ],
+   "answer": "A",
+   "analysis": "感知层采集，网络层传输，平台层汇聚处理，应用层对外服务。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.9",
+    "3.9.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "数字孪生的核心思想是？",
+   "options": [
+    "为物理实体建立实时映射的数字化镜像",
+    "将物理设备直接上网",
+    "仅做数据备份",
+    "替代物理对象运行"
+   ],
+   "answer": "A",
+   "analysis": "数字孪生通过对物理对象建模与实时数据驱动，形成可推理的数字化双胞胎。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.11",
+    "3.11.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "产生死锁的必要条件不包括？",
+   "options": [
+    "互斥",
+    "占有且等待",
+    "不可剥夺",
+    "系统资源绝对充足"
+   ],
+   "answer": "D",
+   "analysis": "死锁四条件：互斥、占有且等待、不可剥夺、循环等待；资源充足不是必要条件。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.2",
+    "1.2.3"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "采用虚拟内存的主要目的是？",
+   "options": [
+    "使进程逻辑地址空间可超过物理内存",
+    "加快磁盘 I/O",
+    "增加进程数量",
+    "提高 CPU 主频"
+   ],
+   "answer": "A",
+   "analysis": "虚拟内存通过按需调页，使逻辑空间大于物理内存并实现隔离。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.2",
+    "1.2.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "事务的原子性（Atomicity）指？",
+   "options": [
+    "要么全部执行要么全部不执行",
+    "并发事务互不可见",
+    "提交后永久保存",
+    "满足合法数据约束"
+   ],
+   "answer": "A",
+   "analysis": "原子性保证操作全做或全不做（失败回滚）。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.3",
+    "1.3.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "可防止脏读的最低数据库隔离级别是？",
+   "options": [
+    "READ UNCOMMITTED",
+    "READ COMMITTED",
+    "REPEATABLE READ",
+    "SERIALIZABLE"
+   ],
+   "answer": "B",
+   "analysis": "READ COMMITTED 保证读到已提交数据，能防脏读；REPEATABLE READ 进一步防不可重复读。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.3",
+    "1.3.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "消除非主属性对候选键的部分函数依赖，应至少达到第几范式？",
+   "options": [
+    "1NF",
+    "2NF",
+    "3NF",
+    "BCNF"
+   ],
+   "answer": "B",
+   "analysis": "2NF 在 1NF 基础上消除部分依赖；3NF 消除传递依赖；BCNF 更强。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.3",
+    "1.3.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "NoSQL 中适合存储社交关系、节点连接的数据库模型是？",
+   "options": [
+    "图数据库",
+    "键值库",
+    "文档库",
+    "列族库"
+   ],
+   "answer": "A",
+   "analysis": "图数据库以节点与边建模复杂关联，适合关系分析场景。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.3",
+    "1.3.5"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "TCP 建立连接采用几次握手？",
+   "options": [
+    "1 次",
+    "2 次",
+    "3 次",
+    "4 次"
+   ],
+   "answer": "C",
+   "analysis": "TCP 三次握手建立连接，四次挥手释放连接。",
+   "difficulty": 1,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.4",
+    "1.4.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "工作在 OSI 第三层（网络层）的设备是？",
+   "options": [
+    "集线器",
+    "交换机",
+    "路由器",
+    "网桥"
+   ],
+   "answer": "C",
+   "analysis": "路由器在网络层依据 IP 转发；交换机在数据链路层。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.4",
+    "1.4.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "CDN 加速主要基于以下哪个原理？",
+   "options": [
+    "边缘缓存就近分发",
+    "中心数据库复制",
+    "仅压缩图片",
+    "改用 UDP 传输"
+   ],
+   "answer": "A",
+   "analysis": "CDN 将内容缓存到边缘节点，就近响应用户请求。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.4",
+    "1.4.4"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "嵌入式实时系统常采用哪种策略避免任务间互相阻塞导致关键任务错过截止期？",
+   "options": [
+    "优先级继承/天花板协议",
+    "随机调度",
+    "无限期轮询",
+    "降低所有任务优先级"
+   ],
+   "answer": "A",
+   "analysis": "优先级继承避免优先级反转，保证关键实时任务可被及时调度。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.5",
+    "1.5.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "敏捷宣言强调下列哪一项更重要？",
+   "options": [
+    "个体与交互重于流程与工具",
+    "完整文档重于可运行软件",
+    "合同谈判重于客户协作",
+    "遵循计划重于响应变化"
+   ],
+   "answer": "A",
+   "analysis": "敏捷宣言权衡：个体与交互、可运行软件、客户协作、响应变化优先。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.1",
+    "2.1.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "界限值分析法属于哪类测试设计技术？",
+   "options": [
+    "黑盒测试",
+    "白盒测试",
+    "静态分析",
+    "探索式测试"
+   ],
+   "answer": "A",
+   "analysis": "边界值基于输入/输出域边界设计用例，属于黑盒方法。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.4",
+    "2.4.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "UML 中描述对象间消息交互时序的图是？",
+   "options": [
+    "序列图",
+    "类图",
+    "用例图",
+    "构件图"
+   ],
+   "answer": "A",
+   "analysis": "序列图按时间顺序描述对象间消息交互。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.3",
+    "2.3.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "策略模式的核心思想是？",
+   "options": [
+    "封装一组算法并使其可互换",
+    "保证唯一实例",
+    "适配不兼容接口",
+    "记录操作历史"
+   ],
+   "answer": "A",
+   "analysis": "策略模式定义算法族并封装，运行时可切换。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.3",
+    "2.3.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "依赖倒置原则（DIP）要求？",
+   "options": [
+    "高层模块依赖抽象而非具体实现",
+    "尽量使用继承",
+    "接口尽量少的方法",
+    "只为扩展提供实现"
+   ],
+   "answer": "A",
+   "analysis": "DIP 让高层依赖抽象，利于解耦与替换。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.3",
+    "2.3.3"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "挣值管理中，CPI < 1 表示？",
+   "options": [
+    "成本超支",
+    "进度滞后",
+    "成本节省",
+    "进度提前"
+   ],
+   "answer": "A",
+   "analysis": "CPI = EV / AC，小于 1 说明实际成本高于已挣价值，即成本超支。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.5",
+    "2.5.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "关键路径法（CPM）中，总时差为 0 的活动构成？",
+   "options": [
+    "关键路径",
+    "里程碑",
+    "工作包",
+    "紧前活动集合"
+   ],
+   "answer": "A",
+   "analysis": "关键路径活动总时差为 0，决定项目最短工期。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "4.1",
+    "4.1.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "配置管理中的“基线”指的是？",
+   "options": [
+    "经正式评审确认的配置项状态快照",
+    "代码仓库",
+    "测试报告",
+    "发布的二进制包"
+   ],
+   "answer": "A",
+   "analysis": "基线是经评审的配置项集合，后续变更须走变更控制流程。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.6",
+    "2.6.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "构件化开发（CBSD）强调？",
+   "options": [
+    "通过可复用构件组装系统",
+    "一切从零编写",
+    "只用面向对象",
+    "避免接口契约"
+   ],
+   "answer": "A",
+   "analysis": "CBSD 依赖具备明确接口契约的可复用构件组装系统。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.8",
+    "2.8.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "大型网站在演进中从单体拆分出独立服务，首要关注的是？",
+   "options": [
+    "按业务能力/领域边界进行服务拆分",
+    "尽可能拆分到最小粒度",
+    "所有服务共用一个数据库",
+    "消除所有网络交互"
+   ],
+   "answer": "A",
+   "analysis": "按业务领域边界拆分，保持单一职责与服务自治，是合理演进策略。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.9",
+    "2.9.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "以下属于非对称加密算法的是？",
+   "options": [
+    "AES",
+    "RSA",
+    "DES",
+    "3DES"
+   ],
+   "answer": "B",
+   "analysis": "RSA 为非对称（公钥）体系；AES/DES/3DES 为对称加密。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.1",
+    "5.1.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "数字签名主要保证信息的？",
+   "options": [
+    "完整性与不可抵赖性",
+    "机密性",
+    "可用性",
+    "实时性"
+   ],
+   "answer": "A",
+   "analysis": "数字签名用私钥签名、公钥验证，保证完整性与不可抵赖，不保证机密。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.1",
+    "5.1.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "网络安全等级保护中，信息系统的最高安全保护等级为？",
+   "options": [
+    "第二级",
+    "第三级",
+    "第四级",
+    "第五级"
+   ],
+   "answer": "D",
+   "analysis": "等保分五级，第五级最高（涉国家秘密的极端重要系统）。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.3",
+    "5.3.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "可用性公式 A = MTBF / (MTBF + MTTR) 中，MTTR 指？",
+   "options": [
+    "平均修复时间",
+    "平均无故障运行时间",
+    "平均响应时间",
+    "平均攻击间隔"
+   ],
+   "answer": "A",
+   "analysis": "MTBF 为平均无故障时间，MTTR 为平均修复时间。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.2",
+    "5.2.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "两个可靠度均为 R 的组件并联，系统可靠度为？",
+   "options": [
+    "R × R",
+    "1 - (1-R)^2",
+    "2R",
+    "R / 2"
+   ],
+   "answer": "B",
+   "analysis": "并联系统有任一可用即可，可靠度 = 1 - (1-R)^2，比单组件更可靠。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.2",
+    "5.2.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "RAID 5 至少需要几块磁盘？",
+   "options": [
+    "2 块",
+    "3 块",
+    "4 块",
+    "5 块"
+   ],
+   "answer": "B",
+   "analysis": "RAID 5 采用分布式奇偶校验，至少 3 块磁盘，允许坏一块。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.2",
+    "5.2.3"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "线性规划问题的最优解一定出现在？",
+   "options": [
+    "可行域内部",
+    "可行域的某个顶点",
+    "目标函数零点",
+    "任意位置"
+   ],
+   "answer": "B",
+   "analysis": "线性规划最优解在可行域顶点（基本可行解）处取得。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "4.1",
+    "4.1.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "两个独立事件 A、B，P(A)=0.6，P(B)=0.5，则 P(A∪B) 为？",
+   "options": [
+    "0.3",
+    "0.8",
+    "0.9",
+    "1.0"
+   ],
+   "answer": "B",
+   "analysis": "P(A∪B)=P(A)+P(B)-P(A)P(B)=0.6+0.5-0.3=0.8。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "4.2",
+    "4.2.2"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "二分查找的时间复杂度是？",
+   "options": [
+    "O(log n)",
+    "O(n)",
+    "O(n log n)",
+    "O(n^2)"
+   ],
+   "answer": "A",
+   "analysis": "二分查找每次排除一半，复杂度 O(log n)。",
+   "difficulty": 1,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "4.3",
+    "4.3.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "项目投资中，净现值（NPV）为正值通常表示？",
+   "options": [
+    "投资方案可行，回报超过折现率",
+    "方案亏损",
+    "盈亏平衡",
+    "无法判断"
+   ],
+   "answer": "A",
+   "analysis": "NPV > 0 说明按折现率计算的净收益为正，方案经济上可行。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "4.4",
+    "4.4.1"
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "Which architectural style is best described as “a data-centered style where components interact through a shared data store”?",
+   "options": [
+    "Pipe-and-filter",
+    "Repository",
+    "Layered",
+    "Event-driven"
+   ],
+   "answer": "B",
+   "analysis": "Repository/data-centered（仓库/数据共享）风格以共享数据仓库为中心。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "6",
+    "6.1"
+   ]
+  },
+  {
+   "qtype": "case",
+   "subject": 2,
+   "stem": "阅读以下关于某在线教育平台的架构设计说明，回答问题 1 至问题 3。\n[说明] 平台用户量快速增长，高峰期在线人数达 200 万。直播课程频繁卡顿，订单系统偶发超时，且新功能上线周期过长。",
+   "options": [],
+   "answer": "",
+   "analysis": "围绕非功能性需求定位、直播性能方案、订单一致性三类设计展开。",
+   "difficulty": 4,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.2",
+    "3.2.1",
+    "3.4",
+    "3.4.2"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "指出该平台面临的主要非功能性需求（至少 3 个），并说明理由。",
+     "answer": "性能（卡顿/超时）、可用性（偶发不可用）、可扩展性（用户增长）、可维护性（上线周期长）",
+     "score": 10
+    },
+    {
+     "seq": 2,
+     "stem": "针对直播卡顿，提出至少两种架构层面的解决方案。",
+     "answer": "CDN/边缘分发、流媒体多码率与协议优化、就近接入与 QoS、网关限流、监控告警",
+     "score": 15
+    },
+    {
+     "seq": 3,
+     "stem": "针对订单偶发超时，给出至少两种可靠性与一致性方案。",
+     "answer": "消息队列异步化 + 重试、幂等设计、分布式事务（TCC/最终一致性）、限流降级",
+     "score": 15
+    }
+   ]
+  },
+  {
+   "qtype": "case",
+   "subject": 2,
+   "stem": "阅读以下关于某传统单体系统微服务化改造的说明，回答问题 1 至问题 3。\n[说明] 系统各模块耦合度高，任何改动都需整体发布；高峰期出现单点性能瓶颈。公司决定进行微服务化改造。",
+   "options": [],
+   "answer": "",
+   "analysis": "围绕服务拆分原则、基础设施组件、跨服务数据一致性展开。",
+   "difficulty": 4,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4",
+    "3.4.1",
+    "3.4.2",
+    "3.4.3",
+    "3.4.5"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "微服务拆分的主要原则有哪些？",
+     "answer": "按业务能力/领域边界拆分、单一职责、服务自治（独立部署/独立数据）、避免循环依赖",
+     "score": 10
+    },
+    {
+     "seq": 2,
+     "stem": "改造后通常需要引入哪些基础设施组件？",
+     "answer": "注册中心、API 网关（路由/限流）、配置中心、链路追踪与监控、CI/CD 流水线",
+     "score": 15
+    },
+    {
+     "seq": 3,
+     "stem": "跨服务的数据一致性可采用哪些方案？",
+     "answer": "分布式事务（TCC/Saga）、消息事件驱动最终一致性、幂等设计、补偿机制",
+     "score": 15
+    }
+   ]
+  },
+  {
+   "qtype": "case",
+   "subject": 2,
+   "stem": "阅读以下关于某电商秒杀系统的说明，回答问题 1 至问题 3。\n[说明] 秒杀活动瞬间产生海量请求，系统需保证高可用、高性能与最终一致性，同时防止超卖。",
+   "options": [],
+   "answer": "",
+   "analysis": "围绕高并发挑战、削峰限流手段、防超卖一致性展开。",
+   "difficulty": 5,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.2",
+    "3.2.1",
+    "3.4",
+    "3.4.2",
+    "5.2"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "秒杀系统面临的主要技术挑战是什么？",
+     "answer": "高并发冲击、防超卖、防刷、防止服务雪崩、数据库压力",
+     "score": 10
+    },
+    {
+     "seq": 2,
+     "stem": "设计至少三种应对高并发的架构手段。",
+     "answer": "限流（令牌桶/漏桶）、削峰（消息队列异步化）、多级缓存（Redis/本地缓存）、页面静态化、读写分离",
+     "score": 15
+    },
+    {
+     "seq": 3,
+     "stem": "如何防止超卖？",
+     "answer": "库存预扣/Redis 原子操作（Lua/INCR）、数据库乐观锁（版本号）、下单与支付异步解耦、最终一致性补偿",
+     "score": 15
+    }
+   ]
+  },
+  {
+   "qtype": "case",
+   "subject": 2,
+   "stem": "阅读以下关于某数据处理系统的说明，回答问题 1 至问题 3。\n[说明] 系统从多个数据源采集数据，经清洗、转换、分析后输出报表；各处理步骤相互独立、可并行执行，处理结果以数据流方式在步骤间传递。",
+   "options": [],
+   "answer": "",
+   "analysis": "围绕数据流架构风格识别、优缺点与交互改进展开。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.1",
+    "3.1.1"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "该系统最可能采用哪种架构风格？请说明理由。",
+     "answer": "管道-过滤器；处理步骤独立、结果以数据流传递、可并行",
+     "score": 10
+    },
+    {
+     "seq": 2,
+     "stem": "该风格的主要优点有哪些？（至少 3 点）",
+     "answer": "结构清晰、过滤器可复用、支持并行与增量处理、易维护易测试",
+     "score": 15
+    },
+    {
+     "seq": 3,
+     "stem": "若要支持人机交互与回退，该风格有何局限？应如何改进？",
+     "answer": "难以实现交互与回退；可引入黑板/仓库承载共享状态，或增加状态管理与控制流机制",
+     "score": 15
+    }
+   ]
+  },
+  {
+   "qtype": "case",
+   "subject": 2,
+   "stem": "阅读以下关于某企业应用 SOA 改造的说明，回答问题 1 至问题 3。\n[说明] 企业内部存在多个异构系统，系统间接口私有、难以复用，新业务集成需大量定制开发。计划通过 SOA 理念进行改造。",
+   "options": [],
+   "answer": "",
+   "analysis": "围绕 SOA/ESB 的作用、服务接口标准化、服务复用与治理展开。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.5",
+    "3.5.1",
+    "3.5.2"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "引入企业服务总线（ESB）的价值是什么？",
+     "answer": "协议转换、消息与数据路由、服务接入、配置化编排，降低点对点集成的复杂度",
+     "score": 10
+    },
+    {
+     "seq": 2,
+     "stem": "服务接口应遵循哪些标准化原则？",
+     "answer": "定义明确契约（WSDL/接口文档）、松耦合、无状态、面向消息的通信、粗粒度",
+     "score": 15
+    },
+    {
+     "seq": 3,
+     "stem": "结合本项目说明如何提升系统间复用能力。",
+     "answer": "把可复用业务能力封装为服务、统一接口标准、建立服务注册与目录、服务版本管理",
+     "score": 15
+    }
+   ]
+  },
+  {
+   "qtype": "essay",
+   "subject": 3,
+   "stem": "论高可用架构的设计与实现\n请围绕系统高可用（HA），从冗余设计、故障转移、负载均衡、监控告警等方面，结合你参与的项目进行论述（正文 2500 字左右）。",
+   "options": [],
+   "answer": "提纲：1 项目背景与高可用需求 2 设计原则（冗余/无单点/故障转移） 3 具体方案（集群/双活/读写分离/消息队列/监控告警） 4 验证与效果 5 总结",
+   "analysis": "论文须结合亲身项目实践，说明量化效果与权衡。",
+   "difficulty": 5,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.2",
+    "3.2.1",
+    "5.2"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "论点 1：明确高可用目标与量化指标（如可用性 99.99%，RTO/RPO）",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 2,
+     "stem": "论点 2：冗余与无单点设计（应用多实例、数据库主备/多活）",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 3,
+     "stem": "论点 3：故障转移与负载均衡策略",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 4,
+     "stem": "论点 4：监控告警与自愈机制",
+     "answer": "",
+     "score": 0
+    }
+   ]
+  },
+  {
+   "qtype": "essay",
+   "subject": 3,
+   "stem": "论数据存储架构设计\n请结合你参与的项目，论述关系型与非关系型数据库的选型、分库分表、读写分离、缓存与冷热分层等存储架构设计（正文 2500 字左右）。",
+   "options": [],
+   "answer": "提纲：1 项目背景与数据特征 2 存储选型（SQL/NoSQL） 3 分库分表与读写分离 4 缓存与冷热分层 5 总结",
+   "analysis": "须结合真实数据规模与访问模式说明选型理由与权衡。",
+   "difficulty": 4,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.3",
+    "1.3.4",
+    "1.3.5",
+    "3.8"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "论点 1：数据特征与一致性需求分析",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 2,
+     "stem": "论点 2：SQL 与 NoSQL 选型依据",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 3,
+     "stem": "论点 3：分库分表与读写分离设计",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 4,
+     "stem": "论点 4：缓存与冷热数据治理",
+     "answer": "",
+     "score": 0
+    }
+   ]
+  },
+  {
+   "qtype": "essay",
+   "subject": 3,
+   "stem": "论安全架构设计\n请结合你参与的项目，论述安全威胁分析、安全架构（认证、授权、加密、审计）与合规要求（正文 2500 字左右）。",
+   "options": [],
+   "answer": "提纲：1 项目背景与安全需求 2 威胁建模 3 安全架构（认证/授权/传输加密/数据加密/审计日志） 4 合规与等级保护 5 总结",
+   "analysis": "安全设计须说明与性能/易用性的权衡。",
+   "difficulty": 4,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.1",
+    "5.1.2",
+    "5.1.4",
+    "5.3.1"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "论点 1：业务与合规安全需求识别",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 2,
+     "stem": "论点 2：威胁建模与风险分析",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 3,
+     "stem": "论点 3：分层安全架构落地（认证/授权/加密/审计）",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 4,
+     "stem": "论点 4：合规与安全运营",
+     "answer": "",
+     "score": 0
+    }
+   ]
+  },
+  {
+   "qtype": "essay",
+   "subject": 3,
+   "stem": "论分布式系统的可靠性与一致性设计\n请结合你参与的项目，论述分布式事务、幂等、补偿、最终一致性等设计实践（正文 2500 字左右）。",
+   "options": [],
+   "answer": "提纲：1 项目背景与一致性需求 2 分布式事务方案（TCC/Saga/消息） 3 幂等与补偿 4 最终一致性实践 5 总结",
+   "analysis": "须说明不同场景下的一致性与可用性权衡（强一致 vs 最终一致）。",
+   "difficulty": 5,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4",
+    "3.4.3",
+    "1.3.2"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "论点 1：业务场景与一致性分级",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 2,
+     "stem": "论点 2：分布式事务选型对比",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 3,
+     "stem": "论点 3：幂等与补偿机制",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 4,
+     "stem": "论点 4：最终一致性的监控与对账",
+     "answer": "",
+     "score": 0
+    }
+   ]
+  },
+  {
+   "qtype": "essay",
+   "subject": 3,
+   "stem": "论云原生架构\n请结合你参与的项目，论述容器化、服务网格、不可变基础设施、DevOps 等云原生实践（正文 2500 字左右）。",
+   "options": [],
+   "answer": "提纲：1 项目背景与上云诉求 2 容器化与编排 3 服务网格与可观测性 4 不可变基础设施与 DevOps 5 总结",
+   "analysis": "须说明云原生改造带来的收益与挑战。",
+   "difficulty": 4,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.6",
+    "3.6.1",
+    "3.6.2",
+    "3.6.3"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "论点 1：业务背景与上云动因",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 2,
+     "stem": "论点 2：容器化与编排架构",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 3,
+     "stem": "论点 3：服务网格与可观测性建设",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 4,
+     "stem": "论点 4：DevOps 与不可变基础设施",
+     "answer": "",
+     "score": 0
+    }
+   ]
+  },
+  {
+   "qtype": "essay",
+   "subject": 3,
+   "stem": "论软件架构建模\n请结合你参与的项目，论述软件架构建模的方法（如 4+1 视图、UML）、建模过程及工具应用（正文 2500 字左右）。",
+   "options": [],
+   "answer": "提纲：1 项目背景与建模目标 2 建模方法（4+1 视图/逻辑/开发/进程/物理/场景） 3 建模过程与关键视图 4 建模工具应用 5 建模对架构质量的作用与总结",
+   "analysis": "论文需结合亲身项目实践，说明视图如何支撑架构决策。",
+   "difficulty": 4,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.3",
+    "2.3.1",
+    "3.3",
+    "3.3.3"
+   ],
+   "items": [
+    {
+     "seq": 1,
+     "stem": "论点 1：项目背景与建模目标",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 2,
+     "stem": "论点 2：4+1 视图与建模方法的选用",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 3,
+     "stem": "论点 3：建模过程与关键视图设计",
+     "answer": "",
+     "score": 0
+    },
+    {
+     "seq": 4,
+     "stem": "论点 4：建模工具与对架构质量的支撑",
+     "answer": "",
+     "score": 0
+    }
+   ]
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "以下哪种架构风格以数据为中心，所有构件通过共享数据仓库交互？",
+   "options": [
+    "管道-过滤器",
+    "仓库风格",
+    "解释器风格",
+    "调用-返回风格"
+   ],
+   "answer": "B",
+   "analysis": "仓库风格（Repository）以共享数据为中心，其余风格各有侧重。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.1"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "关于微服务与 SOA 的区别，下列说法错误的是？",
+   "options": [
+    "微服务强调服务粒度更细",
+    "SOA 常用 ESB 做服务集成",
+    "微服务支持独立部署",
+    "微服务必须依赖统一数据库"
+   ],
+   "answer": "D",
+   "analysis": "微服务强调去中心化数据管理，各服务可拥有独立数据库。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4",
+    "3.5"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "系统在压力下的响应时间与吞吐量属于哪种质量属性？",
+   "options": [
+    "可用性",
+    "性能",
+    "安全性",
+    "可修改性"
+   ],
+   "answer": "B",
+   "analysis": "性能关注响应时间、吞吐量、资源利用率等。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "某系统年运行 8760 小时，其中计划内停机 24 小时，其可用性约为？",
+   "options": [
+    "99%",
+    "99.7%",
+    "99.9%",
+    "99.97%"
+   ],
+   "answer": "B",
+   "analysis": "可用性 = 可用时间 / 总时间 = 8736 / 8760 ≈ 99.7%。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.2",
+    "5.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "ATAM 架构评估的核心输入是？",
+   "options": [
+    "源代码",
+    "质量属性场景",
+    "数据库设计",
+    "用户手册"
+   ],
+   "answer": "B",
+   "analysis": "ATAM 以质量属性场景（刺激/环境/响应）驱动评估。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.3"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "质量属性场景由刺激源、刺激、环境、制品、响应、响应度量组成，其中“制品”指？",
+   "options": [
+    "系统的一部分",
+    "用户",
+    "外部事件",
+    "度量单位"
+   ],
+   "answer": "A",
+   "analysis": "制品是被评估的系统（或其一部分），场景描述作用于制品的刺激与响应。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.2",
+    "3.3"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "微服务架构中，服务实例动态注册与查找通常由哪个组件承担？",
+   "options": [
+    "API网关",
+    "注册中心",
+    "消息队列",
+    "配置中心"
+   ],
+   "answer": "B",
+   "analysis": "注册中心（如 Nacos/Eureka/Consul）负责服务注册与发现。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "为防止依赖服务故障级联扩散，微服务常用哪种机制？",
+   "options": [
+    "熔断降级",
+    "数据库分库",
+    "全量复制",
+    "定时重启"
+   ],
+   "answer": "A",
+   "analysis": "熔断器（如 Sentinel/Hystrix）在依赖故障时快速失败并降级，防止雪崩。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "SOA 中承担协议转换与消息路由的组件是？",
+   "options": [
+    "ESB",
+    "SOAP",
+    "WSDL",
+    "UDDI"
+   ],
+   "answer": "A",
+   "analysis": "企业服务总线 ESB 负责异构系统间的集成与路由。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.5"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "云原生体系中，负责容器调度与自动伸缩的平台是？",
+   "options": [
+    "Docker",
+    "Kubernetes",
+    "Prometheus",
+    "Istio"
+   ],
+   "answer": "B",
+   "analysis": "Kubernetes 是容器编排调度平台；Prometheus 负责监控。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.6"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "云原生体系中，服务网格（如 Istio）主要解决什么问题？",
+   "options": [
+    "服务间通信治理",
+    "容器调度",
+    "镜像构建",
+    "日志收集"
+   ],
+   "answer": "A",
+   "analysis": "服务网格在基础设施层治理服务间通信（限流/熔断/可观测）。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.6"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "操作系统中，线程与进程的关系是？",
+   "options": [
+    "线程是进程内的执行单元，共享进程资源",
+    "进程是线程内的执行单元",
+    "线程之间不能通信",
+    "线程拥有独立地址空间"
+   ],
+   "answer": "A",
+   "analysis": "线程共享所属进程的地址空间与资源，是调度的基本单位。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "消除非主属性对候选键的部分函数依赖，应达到第几范式？",
+   "options": [
+    "1NF",
+    "2NF",
+    "3NF",
+    "BCNF"
+   ],
+   "answer": "B",
+   "analysis": "2NF 在 1NF 基础上消除部分依赖；3NF 消除传递依赖。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.3"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "OSI 参考模型中，负责端到端可靠传输的是？",
+   "options": [
+    "物理层",
+    "网络层",
+    "传输层",
+    "会话层"
+   ],
+   "answer": "C",
+   "analysis": "传输层（TCP）提供端到端的可靠传输服务。",
+   "difficulty": 1,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.4"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "以下属于对称加密算法的是？",
+   "options": [
+    "RSA",
+    "AES",
+    "ECC",
+    "DSA"
+   ],
+   "answer": "B",
+   "analysis": "AES 为对称加密；RSA/ECC/DSA 为非对称（公钥）体系。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.1"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "网络安全等级保护中，信息系统安全保护等级最高为？",
+   "options": [
+    "第二级",
+    "第三级",
+    "第四级",
+    "第五级"
+   ],
+   "answer": "D",
+   "analysis": "等保分五级，第五级为最高（涉及国家秘密的极端重要系统）。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.1"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "消息中间件的主要作用不包括？",
+   "options": [
+    "异步解耦",
+    "削峰填谷",
+    "保证强一致性事务",
+    "应用间可靠通信"
+   ],
+   "answer": "C",
+   "analysis": "消息中间件擅长异步与最终一致性；强一致事务通常用分布式事务框架。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.7"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "两个独立事件 A、B，P(A)=0.6，P(B)=0.5，则 P(A∪B)=？",
+   "options": [
+    "0.3",
+    "0.8",
+    "1.0",
+    "0.9"
+   ],
+   "answer": "B",
+   "analysis": "P(A∪B)=P(A)+P(B)-P(A)P(B)=0.6+0.5-0.3=0.8。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "4.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "观察者模式的意图是？",
+   "options": [
+    "定义对象间一对多的依赖关系",
+    "封装算法族",
+    "提供创建对象的接口",
+    "适配不兼容接口"
+   ],
+   "answer": "A",
+   "analysis": "观察者模式定义一对多依赖，主题变化时自动通知所有观察者。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.3"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "Which of the following best describes “scalability”?",
+   "options": [
+    "安全性",
+    "可扩展性",
+    "可维护性",
+    "可靠性"
+   ],
+   "answer": "B",
+   "analysis": "scalability 即可扩展性/伸缩性。",
+   "difficulty": 1,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "6"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "操作系统中，LRU 页面置换算法依据的是？",
+   "options": [
+    "最近最久未使用",
+    "先进先出",
+    "最不经常使用",
+    "随机置换"
+   ],
+   "answer": "A",
+   "analysis": "LRU 淘汰最久未被访问的页面。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "银行家算法用于解决？",
+   "options": [
+    "死锁避免",
+    "死锁检测",
+    "死锁预防",
+    "死锁解除"
+   ],
+   "answer": "A",
+   "analysis": "银行家算法在资源分配前判断安全性，属于死锁避免。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "数据库事务隔离级别中，可防止脏读的最低级别是？",
+   "options": [
+    "READ UNCOMMITTED",
+    "READ COMMITTED",
+    "REPEATABLE READ",
+    "SERIALIZABLE"
+   ],
+   "answer": "B",
+   "analysis": "READ COMMITTED 保证读到的都是已提交数据，可防脏读。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.3",
+    "1.3.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "InnoDB 引擎中，聚簇索引的叶子节点存放的是？",
+   "options": [
+    "完整行数据",
+    "指向行的指针",
+    "主键的哈希",
+    "索引键列表"
+   ],
+   "answer": "A",
+   "analysis": "聚簇索引按主键排序，叶子节点直接存放行数据。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.3",
+    "1.3.3"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "DNS 的主要作用是？",
+   "options": [
+    "将域名解析为 IP 地址",
+    "加密传输",
+    "路由选择",
+    "动态地址分配"
+   ],
+   "answer": "A",
+   "analysis": "DNS 完成域名到 IP 的解析。",
+   "difficulty": 1,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.4",
+    "1.4.1"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "HTTPS 相比 HTTP 增加的安全机制基于？",
+   "options": [
+    "TLS/SSL",
+    "IPsec",
+    "SSH",
+    "PGP"
+   ],
+   "answer": "A",
+   "analysis": "HTTPS = HTTP + TLS/SSL，提供加密与身份认证。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.4",
+    "5.1"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "数字签名可以保证信息的？",
+   "options": [
+    "完整性与不可抵赖性",
+    "机密性",
+    "可用性",
+    "实时性"
+   ],
+   "answer": "A",
+   "analysis": "数字签名用私钥签名、公钥验证，保证完整性与不可抵赖。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.1",
+    "5.1.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "哈希算法的主要特点是？",
+   "options": [
+    "不可逆、定长输出",
+    "可逆",
+    "输出长度可变",
+    "需要密钥对称"
+   ],
+   "answer": "A",
+   "analysis": "哈希函数将任意长度输入映射为定长摘要，且不可逆。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.1",
+    "5.1.1"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "可用性公式 A = MTBF/(MTBF+MTTR) 中，MTBF 指？",
+   "options": [
+    "平均无故障工作时间",
+    "平均修复时间",
+    "平均响应时间",
+    "平均周转时间"
+   ],
+   "answer": "A",
+   "analysis": "MTBF 为平均故障间隔（无故障工作时间），MTTR 为平均修复时间。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "两个可靠性均为 R 的组件并联，系统可靠性为？",
+   "options": [
+    "R*R",
+    "1-(1-R)^2",
+    "2R",
+    "R/2"
+   ],
+   "answer": "B",
+   "analysis": "并联系统任一可用即可，可靠度 = 1-(1-R)^2。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "5.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "敏捷宣言强调？",
+   "options": [
+    "个体与交互重于流程和工具",
+    "文档重于可运行软件",
+    "合同谈判重于客户协作",
+    "遵循计划重于响应变化"
+   ],
+   "answer": "A",
+   "analysis": "敏捷宣言：个体与交互、可运行软件、客户协作、响应变化。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.1"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "边界值分析法属于哪类测试设计技术？",
+   "options": [
+    "黑盒测试",
+    "白盒测试",
+    "静态分析",
+    "探索式测试"
+   ],
+   "answer": "A",
+   "analysis": "边界值分析基于输入域边界设计用例，属于黑盒方法。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.4"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "UML 中表示对象间交互时序的图是？",
+   "options": [
+    "序列图",
+    "类图",
+    "用例图",
+    "状态图"
+   ],
+   "answer": "A",
+   "analysis": "序列图描述对象间的消息交互时序。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.3",
+    "2.3.1"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "配置管理中的基线（Baseline）指？",
+   "options": [
+    "经过评审确认的配置项状态快照",
+    "代码仓库",
+    "测试计划",
+    "发布包"
+   ],
+   "answer": "A",
+   "analysis": "基线是经正式评审的配置项集合，后续变更须走变更控制。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.6"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "关键路径法（CPM）中，总时差为 0 的活动组成？",
+   "options": [
+    "关键路径",
+    "里程碑",
+    "工作包",
+    "紧前活动"
+   ],
+   "answer": "A",
+   "analysis": "关键路径上活动总时差为 0，决定项目最短工期。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.5"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "网络计划中，某活动的最早开始时间取决于？",
+   "options": [
+    "所有紧前活动最早完成时间的最大值",
+    "紧后活动",
+    "资源限制",
+    "随机确定"
+   ],
+   "answer": "A",
+   "analysis": "最早开始 = 所有紧前活动最早完成的最大值。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "4.1"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "随机变量 X 的期望 E[X] 反映的是？",
+   "options": [
+    "平均水平",
+    "波动程度",
+    "最大值",
+    "分布形状"
+   ],
+   "answer": "A",
+   "analysis": "期望是随机变量的加权平均，反映平均水平；方差反映波动。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "4.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "CAP 定理中，分布式系统最多同时保证？",
+   "options": [
+    "一致性、可用性、分区容错性三者",
+    "一致性与可用性",
+    "其中任意两项",
+    "分区容错性与可用性"
+   ],
+   "answer": "C",
+   "analysis": "CAP：一致性、可用性、分区容错性最多同时满足两项。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4",
+    "3.4.3"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "为保证接口幂等，通常采用？",
+   "options": [
+    "唯一请求号 + 结果去重",
+    "增加超时",
+    "增加重试次数",
+    "全表扫描"
+   ],
+   "answer": "A",
+   "analysis": "幂等设计用唯一请求标识，重复请求返回相同结果。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4",
+    "3.4.3"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "单例模式保证？",
+   "options": [
+    "类只有一个实例并提供全局访问点",
+    "一个工厂创建多种对象",
+    "对象间一对多通知",
+    "算法族可互换"
+   ],
+   "answer": "A",
+   "analysis": "单例模式限制实例化次数为 1。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "2.3",
+    "2.3.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "UNIX 中的管道命令（如 grep | sort）体现的架构风格是？",
+   "options": [
+    "管道-过滤器",
+    "仓库风格",
+    "分层风格",
+    "微内核风格"
+   ],
+   "answer": "A",
+   "analysis": "管道-过滤器风格中，过滤器处理数据流，管道传递数据。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.1",
+    "3.1.1"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "API 网关的典型功能不包括？",
+   "options": [
+    "请求路由",
+    "限流熔断",
+    "服务注册发现",
+    "协议转换"
+   ],
+   "answer": "C",
+   "analysis": "服务注册发现由注册中心承担，网关侧重路由与流量治理。",
+   "difficulty": 2,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.4",
+    "3.4.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "两段锁协议（2PL）主要解决？",
+   "options": [
+    "并发事务调度的正确性",
+    "数据冗余",
+    "查询性能",
+    "备份恢复"
+   ],
+   "answer": "A",
+   "analysis": "2PL 通过加锁/解锁两阶段保证可串行化调度。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "1.3",
+    "1.3.2"
+   ],
+   "items": []
+  },
+  {
+   "qtype": "choice",
+   "subject": 1,
+   "stem": "不可变基础设施（Immutable Infrastructure）强调？",
+   "options": [
+    "实例不可修改，变更即重建",
+    "实例可随意修改",
+    "不使用镜像",
+    "单机部署"
+   ],
+   "answer": "A",
+   "analysis": "不可变基础设施中，实例一旦创建不可变，升级通过重建实现。",
+   "difficulty": 3,
+   "source_type": "self",
+   "source_year": null,
+   "knowledge_codes": [
+    "3.6",
+    "3.4.4"
+   ],
+   "items": []
+  }
+ ]
 }

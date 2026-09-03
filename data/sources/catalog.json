@@ -1,0 +1,134 @@
+{
+  "generated": "2026-09-02",
+  "purpose": "外部开源备考资料索引：仅记录每个来源的元数据、许可、内容结构与可映射到本 app 的部分，用于决定哪些来源可合法吸收进 data/。本文件不搬运任何外部内容。",
+  "schema_note": "所有可导入内容统一走 data/sources/README.md 定义的标准化中间格式(NIF)。导入前必须满足 provenance_policy。",
+  "sources": [
+    {
+      "id": "peterGuy326",
+      "name": "senior-software-architect-review",
+      "owner": "PeterGuy326",
+      "url": "https://github.com/PeterGuy326/senior-software-architect-review",
+      "clone_dir": "ref/senior-software-architect-review",
+      "license": "none",
+      "stars": 101,
+      "updated": "2026-09-02",
+      "content_type": "structured-markdown",
+      "structure": {
+        "SYLLABUS.md": "官方 2022 大纲蒸馏 · 权威骨架",
+        "notes/": "按 13 知识域 + 9 案例主题的知识笔记(23 个目录)",
+        "exam-bank/": "综合知识自命题 · 26 个主题文件",
+        "past-papers/comprehensive-by-year/": "历年真题结构化 md(2018-2026, 带 §N.M 知识标签, ~75 题/年)",
+        "past-papers/case-types/": "案例 13 大题型 + 完整模拟题",
+        "past-papers/paper-topics/": "论文 13 大主题 + 仿真模拟题",
+        "past-papers/essay-questions-by-year.md": "2009-2024 历年论文真题清单",
+        "past-papers/SURVIVAL_CARD.md": "272 条综合知识保命卡",
+        "past-papers/HIGH_FREQ.md": "高频考点统计",
+        "knowledge-index/": "22 个知识点 → 例题双向索引",
+        "cheatsheets/": "24 张速查表",
+        "mind-maps/": "10 张核心知识域 Mermaid 脑图"
+      },
+      "maps_to_schema": {
+        "questions.choice": "exam-bank/*.md、past-papers/comprehensive-by-year/*.md(带 §N.M 知识标签)",
+        "questions.case": "past-papers/case-types/*.md",
+        "questions.essay": "past-papers/paper-topics/*.md、essay-questions-by-year.md",
+        "knowledge_points": "SYLLABUS.md、notes/*、knowledge-index/*",
+        "cheatsheets": "cheatsheets/*.md(可作为提示/速查材料,非题目)"
+      },
+      "provenance_policy": "needs_permission",
+      "attribution_required": true,
+      "authorized_for_self_use": true,
+      "authorized_date": "2026-09-02",
+      "authorized_note": "项目为作者 YangCazz 本人学习自用，已确认「用于自己对照复习、不对外分发」，据此授权导入并在 data/materials/peterGuy326/ 落盘（含 ATTRIBUTION.md 保留原始署名）。仅保留来源试题与命名，未逐字搬运商业站卷面。",
+      "note": "结构最完整、最贴合本 app 的数据模型，是「丰富题库」的首选。但无 LICENSE（默认保留所有权利），且真题底层来源为希赛等商业站。本仓库用于本人自用复习，已按 self-use 授权导入，见 authorized_for_self_use。"
+    },
+    {
+      "id": "xxlllq_system_architect",
+      "name": "system_architect",
+      "owner": "xxlllq",
+      "url": "https://github.com/xxlllq/system_architect",
+      "clone_dir": "ref/system_architect",
+      "license": "none",
+      "stars": 8761,
+      "updated": "2026-09-02",
+      "content_type": "pdf+images+links",
+      "structure": {
+        "1. 视频[...2026年全套视频]": "全套精讲视频(链接)",
+        "2. 教材[清华第2版+大纲+全程指导]": "官方教材",
+        "3. 历年真题及解析[2009-2025年]": "真题，多为 .png 图片 + 资源链接 txt",
+        "4. 论文[真题范文+模板]": "论文",
+        "5. 讲义": "讲义",
+        "9.1. 刷题软件": "刷题软件"
+      },
+      "maps_to_schema": {
+        "questions": "真题多为图片(png)与外部链接，非结构化，需 OCR/人工转换",
+        "knowledge_points": "仅有少量 md 讲义"
+      },
+      "provenance_policy": "reference_only",
+      "attribution_required": true,
+      "note": "star 最高、资料全，但无 LICENSE；真题以图片与链接形式存在(还有商业站资源保护记录)，难以直接结构化，也不建议搬运。适合作为「官方教材目录+视频索引」的外部参考。"
+    },
+    {
+      "id": "ruankao",
+      "name": "ruankao",
+      "owner": "ruankaodaren",
+      "url": "https://github.com/ruankaodaren/ruankao",
+      "clone_dir": "ref/ruankao",
+      "license": "MIT",
+      "stars": 1967,
+      "updated": "2026-09-01",
+      "content_type": "pdf-textbooks",
+      "structure": {
+        "00/": "软考大纲及培训指南汇总(pdf)",
+        "01/02/03 官方教材": "中级/高级/初级官方教材 pdf",
+        "LICENSE": "MIT"
+      },
+      "maps_to_schema": {
+        "questions": "无结构化题目数据(json/csv=0)",
+        "knowledge_points": "官方教材 pdf(底层版权属出版社)"
+      },
+      "provenance_policy": "limited",
+      "attribution_required": true,
+      "note": "唯一带 MIT LICENSE。但内容以官方教材 PDF 为主——教材版权归出版社/作者，不在该仓库 MIT 覆盖范围内；且无结构化题目数据。可参考大纲与知识框架，不直接导入。"
+    },
+    {
+      "id": "mosoft521",
+      "name": "system_architect_mosoft",
+      "owner": "mosoft521",
+      "url": "https://github.com/mosoft521/system_architect",
+      "clone_dir": "ref/system_architect_mosoft",
+      "license": "none",
+      "stars": 0,
+      "updated": "2026-07-06",
+      "content_type": "pdf+images+links",
+      "structure": "同 xxlllq/system_architect（同源镜像）",
+      "maps_to_schema": {},
+      "provenance_policy": "reference_only",
+      "attribution_required": true,
+      "note": "与 xxlllq 同源的镜像，无 LICENSE，真题为图片/链接，不导入。"
+    },
+    {
+      "id": "xxlllq_ruankao_exam",
+      "name": "ruankao_exam",
+      "owner": "xxlllq",
+      "url": "https://github.com/xxlllq/ruankao_exam",
+      "clone_dir": "ref/ruankao_exam",
+      "license": "none",
+      "stars": 275,
+      "updated": "2026-08-03",
+      "content_type": "images",
+      "structure": { "README.md": "说明", "img/": "图片" },
+      "maps_to_schema": {},
+      "provenance_policy": "reference_only",
+      "attribution_required": true,
+      "note": "仅图片+说明，无结构化内容，不导入。"
+    }
+  ],
+  "import_decision": {
+    "imported": ["peterGuy326"],
+    "currently_importable": ["peterGuy326"],
+    "needs_permission": [],
+    "reference_only": ["xxlllq_system_architect", "mosoft521", "xxlllq_ruankao_exam"],
+    "limited": ["ruankao"],
+    "policy": "只有 provenance_policy 为 importable 或已获作者明确授权(且生成 provenance 记录)的来源，才能被 normalize.py 真正导入。所有导入项必须保留 source.repo/source.file/source.license 溯源。"
+  }
+}
