@@ -2,6 +2,7 @@
 import { onMounted, ref, computed } from 'vue';
 import { http } from '../api/client';
 import BaseButton from '../components/base/BaseButton.vue';
+import KnowledgeCard from '../components/knowledge/KnowledgeCard.vue';
 const points = ref([]);
 const selected = ref(null);
 const detail = ref(null);
@@ -42,7 +43,8 @@ async function add() {
 function masteryClass(m) { return m < 40 ? 'err' : (m < 70 ? 'warn' : ''); }
 </script>
 <template>
-  <div class="card">
+  <div class="knowledge-layout">
+    <div class="card list-col">
     <div class="toolbar">
       <b class="tb-title">章-节-知识点</b>
       <span class="spacer"></span>
@@ -65,7 +67,7 @@ function masteryClass(m) { return m < 40 ? 'err' : (m < 70 ? 'warn' : ''); }
     </div>
   </div>
 
-  <div class="card" v-if="detail">
+    <div class="card detail-col" v-if="detail">
     <div class="row detail-head">
       <h2 class="detail-title">{{ detail.name }} <span class="muted detail-code">{{ detail.code }}</span></h2>
       <div class="row">
@@ -85,6 +87,11 @@ function masteryClass(m) { return m < 40 ? 'err' : (m < 70 ? 'warn' : ''); }
     <p class="sub-head"><b>要点 / 易错点备忘</b></p>
     <textarea v-model="editMemo" rows="3" class="field-input"></textarea>
     <BaseButton size="sm" variant="ghost" class="field-save" @click="saveField('memo')">保存备忘</BaseButton>
+
+    <div class="divider"></div>
+    <p class="sub-block"><b>速查卡</b><span v-if="detail.card" class="badge accent kcard-badge">已归一化脑图</span></p>
+    <KnowledgeCard v-if="detail.card" :card="detail.card" />
+    <p v-else class="muted sub-block">该知识点暂无速查卡（仅部分来自脑图的知识点已归一化）。</p>
 
     <template v-if="detail.children.length">
       <p class="sub-block"><b>子节点</b></p>
@@ -108,6 +115,7 @@ function masteryClass(m) { return m < 40 ? 'err' : (m < 70 ? 'warn' : ''); }
       </table>
     </template>
     <p v-else class="muted sub-block">还没有关联题目——在「题库」录题时填写知识点 ID 即可关联。</p>
+    </div>
   </div>
 
   <div class="card">
@@ -151,4 +159,14 @@ function masteryClass(m) { return m < 40 ? 'err' : (m < 70 ? 'warn' : ''); }
 .parent-select { max-width: 200px; }
 .col-id { width: 50px; }
 .col-qtype { width: 80px; }
+.kcard-badge { margin-left: 8px; }
+/* 知识点库页：左列表 / 右详情两栏 */
+.knowledge-layout { display: grid; grid-template-columns: minmax(0, 372px) minmax(0, 1fr); gap: 14px; align-items: start; }
+.list-col { max-height: calc(100vh - 220px); overflow-y: auto; }
+.detail-col { max-height: calc(100vh - 220px); overflow-y: auto; }
+@media (max-width: 900px) {
+  .knowledge-layout { grid-template-columns: 1fr; }
+  .list-col { max-height: 40vh; }
+  .detail-col { max-height: none; }
+}
 </style>
