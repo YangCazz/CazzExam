@@ -1,5 +1,7 @@
 # 软考·系统架构设计师备考系统
 
+> A self-hosted full-stack exam-prep workspace for system architecture study.
+
 > 面向中国计算机技术与软件专业技术资格（水平）考试——**高级·系统架构设计师**的全栈备考工作台。
 > 以知识树为骨架，把「学、练、考、复盘、诊断」闭环到一套本地自托管应用里，目标 2026-11 考试。
 
