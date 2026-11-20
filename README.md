@@ -1,187 +1,50 @@
-# 软考·系统架构设计师备考系统
+# CazzExam Next
 
-> A self-hosted full-stack exam-prep workspace for system architecture study.
+一个从问题出发、顺着概念关系学下去的软考备考工作台。**以知识探索为主，考试是可切换的视角，不是每天必须做完的任务。**
 
-> 面向中国计算机技术与软件专业技术资格（水平）考试——**高级·系统架构设计师**的全栈备考工作台。
-> 以知识树为骨架，把「学、练、考、复盘、诊断」闭环到一套本地自托管应用里，目标 2026-11 考试。
+> 分支：`dev/cazzexam-next`。此 README 描述新版。旧版仍在 [`master`](https://github.com/YangCazz/CazzExam/tree/master)，题源核验记录独立维护在 [`docs/question-bank-audit`](https://github.com/YangCazz/CazzExam/tree/docs/question-bank-audit)。
 
-本地化部署、无需联网即可使用；前端按「单色纪律」设计（唯一蓝色 accent、无渐变/光环/玻璃），可控可改。
+## 产品范围
 
----
+- **探索知识**：希望用户从问题、术语或场景开始，能找到简明解释、取舍和下一条值得读的关联。
+- **多资格可选**：概念本身不属于某一套卷；考纲版本和资格是额外的阅读视角。首批内容优先系统架构设计师，不强制用户选定资格。
+- **练习按需**：将来可从概念进入单题、案例或论文表达练习，清楚区分原创练习、来源已核和回忆待核。不把错题自动变成待办。
+- **低压力体验**：不设置每日任务、打卡、首页倒计时或强制诊断。桌面与手机都要能完成同一条主路径。
 
-## 功能特性
+## 交付状态
 
-- **知识库 + 知识树** — 136 个大纲知识点，按考纲「计算机基础 / 工程与管理 / 架构设计主线 / 数学与管理 / 信息与安全 / 专业英语」六大域组织，可增删改、记掌握度。
-- **能力星图** — 知识图谱画布（Canvas 力导向）：节点大小 = 主线权重 + 薄弱度 + 关联度；支持搜索、类型过滤、点击查看详情。
-- **知识点速查卡** — 将高价值 Mermaid 思维导图解析成结构化卡（脑图树 / 关系边 / 表格 / 速记口诀），挂到对应知识点上，选中即速览（仅自用授权来源）。
-- **练习模式** — 按知识点定向刷题，覆盖 综合知识 / 案例分析 / 论文 三种题型。
-- **三科模拟考试** — 单选 / 案例 / 论文分科出卷、限时作答、自动判分。
-- **错题本（SM-2 间隔复习）** — 错题自动归集，按间隔重复算法排期复习，并附**归因反思**（为何错、如何改）。
-- **论文专项 + AI 批改** — 论文提纲打分（ADR），可选 AI 辅助批改（需配置 key）。
-- **统计画像与学习计划** — 掌握度画像、薄弱点分析、阶段计划。
+| 范围 | 当前状态 |
+| --- | --- |
+| 可用范围、设计原则、Web／手机主流程 | 设计基线已提交 |
+| 探索首页 → 搜索 → 概念阅读 → 关联知识 | 首个实现目标 |
+| 官方考纲映射与趋势解读 | 先核证据，尚不可视为前台能力 |
+| 自由练习、笔记、收藏、跨设备同步 | 后续，不在首个切片内 |
+| 部署、旧数据迁移 | 暂未进行；新版不覆盖旧版 |
 
----
+设计与验收详见 [产品、架构和 UI 基线](docs/cazzexam-next/product-architecture-ui.md)。
 
-## 架构
+## 架构与目录
 
-前后端分离，单库自托管；数据为**单向流**：原始来源 → 解析/标准化 → 导入 → 存储 → 呈现，可随时重建。
+新版采用 **模块化单体**，先用 Vue + TypeScript/Vite 和 FastAPI，内容用可版本化种子，持久化采用独立、可迁移的 SQLite。按能力分开知识、资格映射、题源核验、个人数据。首批只实现跑通主路径所必需的模块，不引入微服务或向量数据库。
 
-```mermaid
-flowchart LR
-  subgraph FE["前端 · Vue3 SPA (5173)"]
-    UI[视图层 Views] --> ST[Pinia 状态]
-    UI --> CARD[速查卡/图表组件]
-  end
-
-  subgraph BE["后端 · FastAPI (8000)"]
-    API[API 层 /api/*] --> SVC[Services]
-    API --> MODEL[SQLAlchemy ORM]
-  end
-
-  subgraph DATA["数据 · SQLite"]
-    DB[(study.db)]
-  end
-
-  FE -->|HTTP/JSON| API
-  MODEL --> DB
-
-  subgraph ING["数据管道"]
-    NORM[normalize.py · 题目] --> NIF[(cards/questions.nif.json)]
-    CARDS[cards.py · 脑图速查卡] --> NIF
-    NIF --> IMPORT[import_materials.py]
-    IMPORT --> DB
-  end
+```text
+docs/cazzexam-next/  新版产品、架构与交互规格
+next/               新版应用目录（随首个可运行切片加入）
+frontend/          旧版 Vue 前端
+backend/           旧版 FastAPI 后端
+data/              旧版数据与导入流程，不自动迁入新版
 ```
 
-### 技术栈
+知识概念用稳定 ID，资格和考纲版本通过独立关系映射。题库把来源、原始编号、内容状态、答案证据和使用权分开保存。前端共享颜色、排版和组件规则，移动端优先阅读，不把桌面图谱硬塞进窄屏。
 
-| 层 | 技术 |
-|---|---|
-| 前端 | Vue 3（`<script setup>`）· Vite 5 · Pinia · Vue Router 4 · ECharts · lucide-vue-next |
-| 后端 | Python 3.12 · FastAPI · SQLAlchemy 2.0 · Pydantic v2 · uvicorn |
-| 存储 | SQLite（WAL、FK 开启） |
-| 数据 | 结构化 JSON（NIF）· 幂等导入管道 · 许可门控 |
+## 本地运行与验证
 
----
+本提交仅更新文档，没有新增可启动的 Next 应用。旧版运行方法见 [master README](https://github.com/YangCazz/CazzExam/blob/master/README.md)，不能用旧版启动成功替代新版验收。
 
-## 快速开始
+新版合入首个可运行切片时，在此补齐运行环境、安装和启动命令、示例数据、测试命令与实际验证结果。最低验收：桌面与手机完整走通主路径；刷新和回退不打断阅读；空搜索、无结果与读取失败可恢复；旧版独立不受影响。
 
-**一键启动（Windows）**：
+## 内容和授权
 
-```bat
-start.cmd
-```
+公开仓库只放原创内容、已确认可发布的内容、公开来源链接和核验元数据。公开可阅读并不等于可复制或再分发。缺图、缺选项、归属冲突、答案不一致或使用权不明的候选题不参与计分；没有核准的考纲映射与考试趋势不会在界面伪装成结论。项目代码许可证见 [LICENSE](LICENSE)，不据此扩大任何第三方材料授权。
 
-自动起后端 `:8000` 与前端 `:5173`，并打开浏览器访问 http://127.0.0.1:5173。
-
-**手动启动**：
-
-```bash
-# 1. 初始化数据库（会自动建表 + 补列迁移 + 种子数据）
-python backend/scripts/init_db.py
-
-# 2. 后端
-cd backend && python -m uvicorn app.main:app --port 8000
-
-# 3. 前端
-cd frontend && npm install && npm run dev
-```
-
-**健康自检**：
-
-```bash
-python backend/scripts/health_check.py
-```
-
-> `tools/` 内附内嵌 Python 与工具脚本（已 gitignore），无需全局安装即可跑通全链路。
-
----
-
-## 数据与内容现状
-
-| 内容 | 数量 | 说明 |
-|---|---|---|
-| 大纲知识点 | 136 | 来自《系统架构设计师考试说明（2022 第二版）》解析的代码树 |
-| 知识关系 | 33 | 前置 / 包含 / 冲突 / 主线 / 相关 |
-| 题库 | 1093 | 单选 1082 · 案例 5 · 论文 6；`source_type` 自研 563 + 授权自用来源 530 |
-| 知识点速查卡 | 9 | 由高价值 Mermaid 脑图解析，只读、挂具体知识点 |
-
-题目**不是真题卷面逐字照搬**：自产题按官方考纲知识范围、参考真题题型与难度原创整理；外部真题仅引入授权自用来源并保留出处（详见下文许可）。
-
----
-
-## 项目结构
-
-```
-.
-├── backend/                 FastAPI + SQLAlchemy + SQLite
-│   ├── app/
-│   │   ├── models/          知识树 / 题目 / 错题 / 计划 / 统计 等 ORM 模型
-│   │   ├── routers/         knowledge · questions · exams · wrong · plans · stats · essay · ai · learning …
-│   │   ├── services/        业务逻辑（间隔复习、组卷、批改等）
-│   │   ├── database.py      engine + 幂等迁移（补列）
-│   │   └── main.py          应用装配
-│   ├── scripts/             init_db / health_check / e2e_check / backup_db / pdf_extract / import_tool
-│   └── tests/               pytest（8 项全绿）
-├── frontend/                Vue3 + Vite
-│   └── src/
-│       ├── views/           Home / Graph / Knowledge / Practice / Case / Essay / Exam / Wrong / Plan / Stats / …
-│       ├── components/      base · chart · knowledge（速查卡/脑图节点）· shell · home
-│       ├── api/  router/  stores/  style.css（单色设计 token）
-├── data/                    内容唯一权威源（题库 + 速查卡 + 来源元数据）
-│   ├── syllabus/            architecture-syllabus.json（136 节点考纲树）
-│   ├── questions/           自产题
-│   ├── materials/<来源>/    questions.nif.json · cards.nif.json · ATTRIBUTION.md
-│   └── sources/             catalog.json · normalize.py · cards.py（解析器）
-├── docs/                    总纲 · PRD · 设计 · 需求 · 详细设计 · 使用指南
-└── tools/                   内嵌 Python / 脚本（gitignore）
-```
-
----
-
-## 测试与运维
-
-```bash
-# 单元/接口测试
-python -m pytest backend/tests
-
-# 端到端巡检（起服务后）
-python backend/scripts/e2e_check.py
-
-# 数据库备份（保留最近 20 份）
-python backend/scripts/backup_db.py
-```
-
-**数据幂等**：`data/import_materials.py` 是唯一跳板，知识点按 `code`、题目按 `stem` 去重，重复执行不产生脏数据。
-
-**接新内容源**：`git clone --depth 1` → 在 `data/sources/catalog.json` 登记许可与结构 → 写 `normalize.py`/`cards.py` 适配器 → 生成 NIF → 重新导入。详见 [data/sources/README.md](data/sources/README.md)。
-
----
-
-## 许可与版权
-
-本仓库中**本项目自主编写的代码、题纲与文档**采用 **MIT 许可证**，详见 [LICENSE](LICENSE)。
-
-### 内容来源与致谢
-
-题库与知识点速查卡的**部分原始内容**来自公开备考仓库，本仓库仅在其中**注明出处并致谢**；各来源的版权归其原作者所有：
-
-- [PeterGuy326/senior-software-architect-review](https://github.com/PeterGuy326/senior-software-architect-review)（`license: none`）—— 本项目**速查卡与部分题目**的内容来源；经作者授权学习自用，原始署名保留于 `data/materials/peterGuy326/ATTRIBUTION.md`。
-
-> 本地 `ref/` 下另克隆了 [ruankaodaren/ruankao](https://github.com/ruankaodaren/ruankao)（MIT）作为**官方教材 PDF 参考**，仅用于研读，未导入仓库内容。其余来源索引见 [data/sources/catalog.json](data/sources/catalog.json)。
-
-> 说明：本项目的 MIT 授权**不影响**第三方内容的自有版权；对其引用仅限学习自用，不在本项目许可内再分发。数据出处与授权策略详见 [data/sources/README.md](data/sources/README.md)。
-
----
-
-## 文档导航
-
-- [项目总纲与交接指南](docs/00-项目总纲与交接指南.md)
-- [产品需求（PRD）](docs/01-产品需求/PRD-系统架构设计师备考工作台-v1.md)
-- [产品设计：核心学习闭环与信息架构](docs/02-产品设计/核心学习闭环与信息架构-v1.md)
-- [关键页面线框与交互](docs/02-产品设计/关键页面线框与交互状态-v1.md)
-- [视觉与美术方案（单色纪律）](docs/02-产品设计/视觉与美术方案-v1.md)
-- [软件需求（SRS）](docs/03-软件需求/SRS-P0-P1-学习闭环-v1.md)
-- [概要技术设计与迁移方案](docs/04-技术设计/P0-P1-概要技术设计与迁移方案-v1.md)
-- [详细设计 · 现有实现基线](docs/软考架构师备考系统-详细设计v1.md)
-- [使用指南](docs/使用指南.md)
+每个完整交付单独提交，并确认能从 GitHub 读回；不让云电脑成为唯一副本。
