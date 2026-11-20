@@ -1,50 +1,72 @@
 # CazzExam Next
 
-一个从问题出发、顺着概念关系学下去的软考备考工作台。**以知识探索为主，考试是可切换的视角，不是每天必须做完的任务。**
+一个从问题出发、顺着概念关系学下去的软考备考工作台。**考试是可切换的阅读视角，不是每天要完成的任务。**
 
-> 分支：`dev/cazzexam-next`。此 README 描述新版。旧版仍在 [`master`](https://github.com/YangCazz/CazzExam/tree/master)，题源核验记录独立维护在 [`docs/question-bank-audit`](https://github.com/YangCazz/CazzExam/tree/docs/question-bank-audit)。
+这是 `dev/cazzexam-next` 分支的运行说明。旧版仍在 [`master`](https://github.com/YangCazz/CazzExam/tree/master)；试卷来源与缺口独立维护在 [题源核验分支](https://github.com/YangCazz/CazzExam/tree/docs/question-bank-audit)。新版不会读取或迁移旧版学习数据库。
 
-## 产品范围
+## 现在能用什么
 
-- **探索知识**：希望用户从问题、术语或场景开始，能找到简明解释、取舍和下一条值得读的关联。
-- **多资格可选**：概念本身不属于某一套卷；考纲版本和资格是额外的阅读视角。首批内容优先系统架构设计师，不强制用户选定资格。
-- **练习按需**：将来可从概念进入单题、案例或论文表达练习，清楚区分原创练习、来源已核和回忆待核。不把错题自动变成待办。
-- **低压力体验**：不设置每日任务、打卡、首页倒计时或强制诊断。桌面与手机都要能完成同一条主路径。
-
-## 交付状态
-
-| 范围 | 当前状态 |
+| 能力 | 状态 |
 | --- | --- |
-| 可用范围、设计原则、Web／手机主流程 | 设计基线已提交 |
-| 探索首页 → 搜索 → 概念阅读 → 关联知识 | 首个实现目标 |
-| 官方考纲映射与趋势解读 | 先核证据，尚不可视为前台能力 |
-| 自由练习、笔记、收藏、跨设备同步 | 后续，不在首个切片内 |
-| 部署、旧数据迁移 | 暂未进行；新版不覆盖旧版 |
+| 探索首页、搜索、概念阅读、关联跳转 | 已实现首个流程。可试「拆分」「ACID」「一致性」 |
+| 五类高级资格视角、知识关系浏览 | 已提供示例入口；内容为 7 个原创概念、10 条关系，不是完整或官方考纲 |
+| 可选自由练习、论文与案例、个人笔记、收藏 | 后续里程碑，不在本次实现范围 |
+| 历年真题、考纲全量、考频趋势 | 不随本版分发；尚未核实的材料不参与计分 |
+| 正式部署、旧版迁移 | 未进行 |
 
-设计与验收详见 [产品、架构和 UI 基线](docs/cazzexam-next/product-architecture-ui.md)。
+沿用浅底、现代蓝紫风，首页不放待办、打卡、倒计时或强制诊断。桌面和手机使用同一套页面，手机优先阅读，关联概念以可触控列表呈现。详见[设计基线](docs/cazzexam-next/product-architecture-ui.md)与[验收和路线图](docs/cazzexam-next/release-acceptance.md)。
 
-## 架构与目录
+## 本地启动
 
-新版采用 **模块化单体**，先用 Vue + TypeScript/Vite 和 FastAPI，内容用可版本化种子，持久化采用独立、可迁移的 SQLite。按能力分开知识、资格映射、题源核验、个人数据。首批只实现跑通主路径所必需的模块，不引入微服务或向量数据库。
+需要 Python 3.12、Node.js 22.12 或以上和 npm。切换到 `dev/cazzexam-next` 后，用两个终端分别启动。
 
-```text
-docs/cazzexam-next/  新版产品、架构与交互规格
-next/               新版应用目录（随首个可运行切片加入）
-frontend/          旧版 Vue 前端
-backend/           旧版 FastAPI 后端
-data/              旧版数据与导入流程，不自动迁入新版
+**终端 1：API（端口 8010）**
+
+```bash
+cd next/api
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-test.txt
+python -m uvicorn app:app --host 127.0.0.1 --port 8010
 ```
 
-知识概念用稳定 ID，资格和考纲版本通过独立关系映射。题库把来源、原始编号、内容状态、答案证据和使用权分开保存。前端共享颜色、排版和组件规则，移动端优先阅读，不把桌面图谱硬塞进窄屏。
+Windows PowerShell 把激活命令换成 `.\.venv\Scripts\Activate.ps1`；如果不激活，也可以用 `.\.venv\Scripts\python.exe` 运行后两条命令。
 
-## 本地运行与验证
+**终端 2：Web（端口 5174）**
 
-本提交仅更新文档，没有新增可启动的 Next 应用。旧版运行方法见 [master README](https://github.com/YangCazz/CazzExam/blob/master/README.md)，不能用旧版启动成功替代新版验收。
+```bash
+cd next/web
+npm ci
+npm run dev
+```
 
-新版合入首个可运行切片时，在此补齐运行环境、安装和启动命令、示例数据、测试命令与实际验证结果。最低验收：桌面与手机完整走通主路径；刷新和回退不打断阅读；空搜索、无结果与读取失败可恢复；旧版独立不受影响。
+打开 `http://127.0.0.1:5174`。开发服务器会把 API 请求转给 8010。若页面提示读取失败，先检查第一个终端是否仍在运行，再点重试。
 
-## 内容和授权
+## 架构与数据
 
-公开仓库只放原创内容、已确认可发布的内容、公开来源链接和核验元数据。公开可阅读并不等于可复制或再分发。缺图、缺选项、归属冲突、答案不一致或使用权不明的候选题不参与计分；没有核准的考纲映射与考试趋势不会在界面伪装成结论。项目代码许可证见 [LICENSE](LICENSE)，不据此扩大任何第三方材料授权。
+```text
+next/web/           Vue + TypeScript + Vite；探索、阅读、资格筛选与关系浏览
+next/api/           FastAPI；知识查询、资格和原始内容导入
+docs/cazzexam-next/ 产品、架构、跨端 UI 基线与验收
+frontend/           旧版前端，未迁移
+backend/            旧版后端，未迁移
+data/               旧版来源与导入流程，Next 不读取
+```
 
-每个完整交付单独提交，并确认能从 GitHub 读回；不让云电脑成为唯一副本。
+新版用版本化的原创内容种子启动独立的**内存 SQLite**，每次启动重建，提供只读查询；这一阶段没有账号、写入、跨设备同步或旧库迁移。概念与关联使用独立实体，同一概念可映射到不同资格。后续把用户数据、题源审核、内容许可和考纲版本分开建模，不让导航界面或搜索结果暗示尚未核实的考频。
+
+## 验证
+
+在 API 已激活的虚拟环境中执行 `cd next/api` 后，运行 `python -m unittest -v`。在 `next/web` 中运行：
+
+```bash
+npm ci
+npm run test:unit
+npm run build
+```
+
+本轮已通过 5 项 API 测试、6 项 Vue 组件测试、TypeScript 类型检查和 Vite 构建，并验证过实际 HTTP 接口。**真实浏览器的桌面及手机视口验收未完成**：云环境限制导致 Chromium 未能启动，组件测试不能代替跨屏验收。没有上线或声称像素级还原。可在浏览器环境可用时，保持 API 运行、关闭手动启动的 Web 服务，然后在 `next/web` 执行 `npx playwright install chromium` 和 `npm test`。详见[验证记录](next/VERIFICATION.md)。
+
+## 内容、版本与提交
+
+公开提交仅包含原创样例、可公开的索引、规则和可授权内容。公开可阅读不等于有权再分发；缺项、冲突或权利不明的题不计分。项目代码许可证见 [LICENSE](LICENSE)，不扩展到任何第三方资料。可发布内容逐批提交并验证远端 SHA，避免云电脑是唯一副本。
