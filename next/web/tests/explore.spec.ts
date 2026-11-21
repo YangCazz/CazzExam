@@ -1,4 +1,10 @@
 import { test, expect } from '@playwright/test'
+function gate() {
+ let resolve!: () => void
+ const promise = new Promise<void>(done => { resolve = done })
+ return {promise, resolve}
+}
+
 for (const width of [1440, 390, 320]) {
  test(`explore, read, relations and history ${width}px`, async ({page}) => {
   await page.setViewportSize({width,height:900}); await page.goto('/');
@@ -23,21 +29,104 @@ test('empty, unavailable qualifier and direct link',async ({page})=>{
  await page.goto('/#/concept/service-decomposition'); await expect(page.locator('article')).toContainText('边界与取舍');
  await page.goto('/#/concept/missing'); await expect(page.getByText('这个概念暂未收录。')).toBeVisible();
 });
-test('failure and retry are not empty state; keyboard search',async({page})=>{
- await page.route('**/api/v1/concepts?*',r=>r.abort()); await page.goto('/');
- await expect(page.getByRole('alert')).toContainText('暂时没能打开');
- await page.unroute('**/api/v1/concepts?*'); await page.getByRole('button',{name:'重试',exact:true}).click();
- await expect(page.locator('.concept-card')).toHaveCount(7);
- await page.getByRole('textbox').focus(); await page.keyboard.type('ACID'); await page.keyboard.press('Enter');
- await expect(page.locator('.concept-card')).not.toHaveCount(0);
-});
-test('new navigation aborts stale search',async({page})=>{
- await page.goto('/'); await expect(page.locator('.concept-card')).toHaveCount(7);
- await page.route('**/api/v1/concepts?q=slow',async r=>{await new Promise(resolve=>setTimeout(resolve,700));await r.fulfill({json:{items:[],content_version:'stale'}})});
- await page.getByRole('textbox').fill('slow'); await page.getByRole('button',{name:'搜索',exact:false}).click();
- await page.goto('/#/concept/service-decomposition'); await expect(page.locator('article')).toBeVisible();
- await page.waitForTimeout(800); await expect(page.locator('article')).toBeVisible();
-});
+test('failure and retry are not empty state; keyboard search commits the query', async ({page}) => {
+ const concepts = '**/api/v1/concepts?*'
+ const cards = page.locator('.concept-card')
+ const searchbox = page.getByRole('textbox')
+ await page.route(concepts, route => route.abort())
+ await page.goto('/')
+ await expect(page.getByRole('alert')).toContainText('暂时没能打开')
+ await expect(page.getByText('还没有找到这个方向')).toHaveCount(0)
+ await page.unroute(concepts)
+ await page.getByRole('button', {name:'重试',exact:true}).click()
+ await expect(cards).toHaveCount(7)
+ await expect(page.getByRole('alert')).toHaveCount(0)
+
+ await searchbox.focus()
+ await expect(searchbox).toBeFocused()
+ await page.keyboard.type('ACID')
+ await page.keyboard.press('Enter')
+ await expect(page).toHaveURL(/#\/\?q=ACID$/)
+ await expect(page.getByRole('heading', {name:'搜索结果',exact:true})).toBeVisible()
+ await expect(cards).toHaveCount(1)
+ await expect(cards.getByRole('heading', {name:'事务一致性',exact:true})).toBeVisible()
+})
+
+test('new navigation cancels the old search and keeps a late result out of the page', async ({page}) => {
+ const slow = '**/api/v1/concepts?q=slow'
+ const started = gate()
+ const release = gate()
+ const pageErrors: Error[] = []
+ page.on('pageerror', error => pageErrors.push(error))
+ await page.addInitScript(() => {
+  const realFetch = window.fetch.bind(window)
+  window.fetch = (input, init) => {
+   if (input !== '/api/v1/concepts?q=slow') return realFetch(input, init)
+   // Keep the browser request alive even after the app cancels it so the
+   // stale body actually arrives. Record cancellation by the app separately.
+   init?.signal?.addEventListener('abort', () => {
+    document.documentElement.dataset.slowSearchCanceled = 'true'
+   }, {once: true})
+   return realFetch(input, {...init, signal: undefined})
+  }
+ })
+ await page.route(slow, async route => {
+  started.resolve()
+  await release.promise
+  await route.fulfill({json:{items:[],content_version:'stale'}})
+ })
+ await page.goto('/')
+ await expect(page.locator('.concept-card')).toHaveCount(7)
+
+ try {
+  await page.getByRole('textbox').fill('slow')
+  await page.getByRole('textbox').press('Enter')
+  await started.promise
+  await expect(page).toHaveURL(/q=slow$/)
+
+  // Change only the hash, not the document containing the in-flight search.
+  await page.evaluate(() => { location.hash = '/concept/service-decomposition' })
+  const destination = page.getByRole('heading', {name:'服务拆分',level:1})
+  await expect(destination).toBeFocused()
+  await expect(page.locator('html')).toHaveAttribute('data-slow-search-canceled', 'true')
+  const staleResponse = page.waitForResponse(slow)
+  release.resolve()
+  expect(await (await staleResponse).json()).toMatchObject({content_version:'stale'})
+  // Wait for the browser to finish its render cycle after the late response.
+  await page.evaluate(() => new Promise<void>(resolve =>
+   requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+  ))
+  await expect(page).toHaveURL(/#\/concept\/service-decomposition$/)
+  await expect(destination).toBeFocused()
+  await expect(page.locator('article')).toContainText('实际例子')
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  expect(pageErrors).toEqual([])
+ } finally {
+  release.resolve()
+  await page.unrouteAll({behavior:'wait'})
+ }
+})
+
+test('a keyboard user can follow a relation and reach the destination heading', async ({page}) => {
+ await page.goto('/#/concept/service-decomposition')
+ await expect(page.getByRole('heading', {name:'服务拆分',level:1})).toBeFocused()
+ const related = page.getByRole('link', {name:/事务一致性/})
+ await page.keyboard.press('Tab')
+ await expect(related).toBeFocused()
+ await page.keyboard.press('Enter')
+ await expect(page).toHaveURL(/#\/concept\/transaction-consistency$/)
+ await expect(page.getByRole('heading', {name:'事务一致性',level:1})).toBeFocused()
+})
+
+test.describe('390px touch context', () => {
+ test.use({viewport:{width:390,height:900},isMobile:true,hasTouch:true})
+ test('tap follows a related concept', async ({page}) => {
+  await page.goto('/#/concept/service-decomposition')
+  await page.getByRole('link', {name:/事务一致性/}).tap()
+  await expect(page).toHaveURL(/#\/concept\/transaction-consistency$/)
+  await expect(page.getByRole('heading', {name:'事务一致性',level:1})).toBeVisible()
+ })
+})
 
 test('reading perspective preserves article, query, open mapping and browser history', async ({page}) => {
  await page.setViewportSize({width:390,height:900})

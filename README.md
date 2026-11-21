@@ -65,7 +65,7 @@ npm run test:unit
 npm run build
 ```
 
-本轮已通过 5 项 API 测试、6 项 Vue 组件测试、TypeScript 类型检查和 Vite 构建，并验证过实际 HTTP 接口。**真实浏览器的桌面及手机视口验收未完成**：云环境限制导致 Chromium 未能启动，组件测试不能代替跨屏验收。没有上线或声称像素级还原。可在浏览器环境可用时，保持 API 运行、关闭手动启动的 Web 服务，然后在 `next/web` 执行 `npx playwright install chromium` 和 `npm test`。详见[验证记录](next/VERIFICATION.md)。
+截至 2026-11-21，已通过 5 项 API 测试、9 项 Vue 组件测试、TypeScript 类型检查和 Vite 构建，并验证过实际 HTTP 接口。**真实浏览器的桌面及手机视口验收未完成**：云环境限制导致 Chromium 未能启动，组件测试不能代替跨屏验收。没有上线或声称像素级还原。可在浏览器环境可用时，保持 API 运行、关闭手动启动的 Web 服务，然后在 `next/web` 执行 `npx playwright install chromium` 和 `npm test`。详见[验证记录](next/VERIFICATION.md)。
 
 ## 内容、版本与提交
 

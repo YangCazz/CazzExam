@@ -67,3 +67,33 @@ test('clear empty-state perspective keeps committed search and discards unsent d
  expect(wrapper.get('.concept-card').text()).toContain('事务一致性')
  expect(wrapper.text()).not.toContain('取消考试视角')
 })
+
+test('a late response body cannot override a newly loaded article', async () => {
+ const baseFetch = fetchMock.getMockImplementation()!
+ let slowSignal: AbortSignal | undefined
+ let settleBody!: (body: unknown) => void
+ const body = new Promise<unknown>(resolve => { settleBody = resolve })
+ const finishOldBody = vi.fn(() => body)
+ fetchMock.mockImplementation(async (url: string, init?: RequestInit) => {
+  if (url !== '/api/v1/concepts?q=slow') return baseFetch(url)
+  slowSignal = init?.signal ?? undefined
+  return {ok: true, json: finishOldBody}
+ })
+
+ wrapper = mount(App)
+ await flushPromises()
+ await navigate('#/?q=slow')
+ expect(finishOldBody).toHaveBeenCalledTimes(1)
+ expect(slowSignal?.aborted).toBe(false)
+
+ await navigate('#/concept/service-decomposition')
+ const article = wrapper.get('article').element
+ expect(slowSignal?.aborted).toBe(true)
+ expect(wrapper.get('h1').text()).toBe('服务拆分')
+ settleBody({items:[],content_version:'stale'})
+ await flushPromises()
+
+ expect(wrapper.get('article').element).toBe(article)
+ expect(wrapper.find('[role="alert"]').exists()).toBe(false)
+ expect(wrapper.text()).not.toContain('stale')
+})
