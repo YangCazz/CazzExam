@@ -5,7 +5,12 @@ const current = ref(location.hash.slice(1) || '/'), draft = ref(''), qualificati
 const concepts = ref<ConceptSummary[]>([]), concept = ref<Concept | null>(null), qualifications = ref<Qualification[]>([])
 const loading = ref(true), error = ref(''), version = ref(''), qualificationError = ref(false)
 const heading = ref<HTMLElement | null>(null)
-const route = computed(() => { const [path, query] = current.value.split('?'); const params = new URLSearchParams(query); return { path: path || '/', q: params.get('q') || '', qualification: params.get('qualification') || '' } })
+function parseRoute(hash: string) {
+ const [path, query] = hash.split('?')
+ const params = new URLSearchParams(query)
+ return { path: path || '/', q: params.get('q') || '', qualification: params.get('qualification') || '' }
+}
+const route = computed(() => parseRoute(current.value))
 const reading = computed(() => route.value.path.startsWith('/concept/'))
 const isMap = computed(() => route.value.path === '/map')
 const contextQuery = computed(() => { const p = new URLSearchParams(); if (route.value.q) p.set('q', route.value.q); if (route.value.qualification) p.set('qualification', route.value.qualification); return p.size ? '?' + p : '' })
@@ -19,7 +24,6 @@ async function loadQualifications() { qualificationError.value = false; try { qu
 async function load() {
  controller?.abort(); const own = new AbortController(); controller = own
  loading.value = true; error.value = ''; concept.value = null; concepts.value = []
- draft.value = route.value.q; qualification.value = route.value.qualification
  try {
   if (reading.value) { const slug = route.value.path.slice('/concept/'.length); if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error('这个概念暂未收录。'); concept.value = await get<Concept>('concepts/' + slug, own.signal); version.value = concept.value.content_version; document.title = concept.value.title + ' · CazzExam' }
   else if (route.value.path === '/' || isMap.value) { const p = new URLSearchParams(); if (route.value.q) p.set('q', route.value.q); if (route.value.qualification) p.set('qualification', route.value.qualification); const result = await get<Collection<ConceptSummary>>('concepts?' + p, own.signal); concepts.value = result.items; version.value = result.content_version; document.title = (isMap.value ? '知识地图' : '探索知识') + ' · CazzExam' }
@@ -27,10 +31,35 @@ async function load() {
  } catch (e) { if (own.signal.aborted) return; error.value = e instanceof Error && e.name !== 'TypeError' ? e.message : '知识库暂时无法读取，请检查服务是否启动。' }
  finally { if (!own.signal.aborted) { loading.value = false; await nextTick(); heading.value?.focus({preventScroll:true}); window.scrollTo(0, positions.get(current.value) ?? 0) } }
 }
-function search() { const p = new URLSearchParams(); if (draft.value.trim()) p.set('q', draft.value.trim()); if (qualification.value) p.set('qualification', qualification.value); const hash = (isMap.value ? '#/map' : '#/') + (p.size ? '?' + p : ''); if (location.hash === hash) load(); else location.hash = hash }
-function clearSearch() { draft.value = ''; qualification.value = ''; search() }
-watch(current, load)
-onMounted(() => { window.addEventListener('hashchange', syncRoute); loadQualifications(); load() })
+function setRoute(path: string, q: string, lens: string) {
+ const params = new URLSearchParams()
+ if (q) params.set('q', q)
+ if (lens) params.set('qualification', lens)
+ const hash = '#' + path + (params.size ? '?' + params : '')
+ if (location.hash !== hash) { location.hash = hash; return true }
+ return false
+}
+function search() {
+ if (!setRoute(isMap.value ? '/map' : '/', draft.value.trim(), qualification.value)) {
+  draft.value = route.value.q
+  load()
+ }
+}
+function selectPerspective() { setRoute(route.value.path, route.value.q, qualification.value) }
+function clearPerspective() { setRoute(route.value.path, route.value.q, '') }
+function clearSearch() { setRoute(isMap.value ? '/map' : '/', '', '') }
+function syncFields() {
+ draft.value = route.value.q
+ qualification.value = route.value.qualification
+}
+watch(current, (_, previous) => {
+ syncFields()
+ // The detail API returns every mapping for a concept. Keep the rendered
+ // article (including an open mapping and focus) across lens-only history.
+ if (reading.value && parseRoute(previous).path === route.value.path) return
+ load()
+})
+onMounted(() => { syncFields(); window.addEventListener('hashchange', syncRoute); loadQualifications(); load() })
 onUnmounted(() => { window.removeEventListener('hashchange', syncRoute); controller?.abort() })
 const visibleMappings = computed(() => concept.value?.mappings.filter(m => !route.value.qualification || m.qualification === route.value.qualification) || [])
 </script>
@@ -44,7 +73,7 @@ const visibleMappings = computed(() => concept.value?.mappings.filter(m => !rout
    <div class="side-note"><span class="line-art" aria-hidden="true">◇</span><p>知识之间，<br>总有新的连接。</p><small>自由探索 · 原创内容样例</small></div>
   </aside>
   <div class="workspace">
-   <header class="topbar"><span class="mobile-brand">⬡ CazzExam</span><label class="perspective">学习视角 <select v-model="qualification" @change="search" :disabled="qualificationError"><option value="">自由探索 · 全部</option><option v-for="item in qualifications" :value="item.id" :key="item.id">{{item.name}}{{item.has_content ? '' : ' · 尚无内容'}}</option><option v-if="qualification && !qualifications.some(q => q.id === qualification)" :value="qualification">未知视角 · 请重新选择</option></select></label><span class="quiet top-note">从好奇心出发，不必赶进度</span></header>
+   <header class="topbar"><span class="mobile-brand">⬡ CazzExam</span><label class="perspective">学习视角 <select v-model="qualification" @change="selectPerspective" :disabled="qualificationError"><option value="">自由探索 · 全部</option><option v-for="item in qualifications" :value="item.id" :key="item.id">{{item.name}}{{item.has_content ? '' : ' · 尚无内容'}}</option><option v-if="qualification && !qualifications.some(q => q.id === qualification)" :value="qualification">未知视角 · 请重新选择</option></select></label><span class="quiet top-note">从好奇心出发，不必赶进度</span></header>
    <div v-if="qualificationError" class="notice" role="alert">考试视角暂未加载。<button @click="loadQualifications">重试加载</button></div>
    <main id="main" :aria-busy="loading">
     <template v-if="!reading">
@@ -65,7 +94,7 @@ const visibleMappings = computed(() => concept.value?.mappings.filter(m => !rout
      </div>
     </template>
     <template v-else-if="!reading">
-     <div v-if="!concepts.length" class="state"><h2>还没有找到这个方向</h2><p>试试更短的关键词，或暂时取消考试视角。没有结果不代表这个知识不重要。</p><button @click="clearSearch" class="primary">查看全部概念</button></div>
+     <div v-if="!concepts.length" class="state"><h2>还没有找到这个方向</h2><p>试试更短的关键词<span v-if="route.qualification">，或取消考试视角后继续搜索</span>。没有结果不代表这个知识不重要。</p><button v-if="route.qualification" @click="clearPerspective" class="primary">取消考试视角</button> <button @click="clearSearch" :class="{ primary: !route.qualification }">查看全部概念</button></div>
      <template v-else>
       <section v-if="!route.q && !route.qualification && !isMap" class="feature"><div><span class="eyebrow">✦ 好奇问题</span><h2>为什么系统拆分之后<br>反而更复杂？</h2><p>边界让团队更独立，也让一次调用跨过网络。<br>从拆分出发，看看一致性、故障与协作之间的联系。</p><a :href="conceptHref('service-decomposition')" class="primary">展开阅读 →</a></div><div class="diagram" aria-label="一个系统拆分为相互连接的服务"><div class="cube big">系统</div><span class="connector">→</span><div class="nodes"><span class="cube">服务</span><span class="cube">数据</span><span class="cube">消息</span></div></div></section>
       <section class="results"><div class="section-title"><h2>{{isMap ? '概念的入口' : route.q ? '搜索结果' : '主题探索'}}</h2><span class="quiet">{{concepts.length}} 个原创概念</span></div><p v-if="isMap" class="quiet">打开任一概念，沿着有解释的关系继续阅读。首版以可访问的列表呈现，而非拖拽图谱。</p><div class="cards"><a v-for="(item,index) in concepts" :key="item.id" :href="conceptHref(item.slug)" class="concept-card"><span class="card-index">{{String(index+1).padStart(2,'0')}} / CONCEPT</span><h3>{{item.title}}</h3><p>{{item.summary}}</p><div class="card-bottom"><span>{{item.match_reason || '原创讲解 · 关联阅读'}}</span><span class="round-arrow" aria-hidden="true">↗</span></div></a></div></section>

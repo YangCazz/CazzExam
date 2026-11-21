@@ -38,3 +38,42 @@ test('new navigation aborts stale search',async({page})=>{
  await page.goto('/#/concept/service-decomposition'); await expect(page.locator('article')).toBeVisible();
  await page.waitForTimeout(800); await expect(page.locator('article')).toBeVisible();
 });
+
+test('reading perspective preserves article, query, open mapping and browser history', async ({page}) => {
+ await page.setViewportSize({width:390,height:900})
+ await page.goto('/#/concept/quality-attribute-scenario?q=' + encodeURIComponent('质量属性') + '&qualification=architect')
+ const mapping = page.locator('details.mapping')
+ await mapping.locator('summary').click()
+ await expect(mapping).toContainText('架构评价与度量')
+ const initial = page.url()
+ await page.locator('select').selectOption('systems-analyst')
+ await expect(page).toHaveURL(/qualification=systems-analyst$/)
+ await expect(page.locator('h1')).toHaveText('质量属性场景')
+ await expect(mapping).toHaveAttribute('open', '')
+ await expect(mapping).toContainText('把质量需求写成可验证场景')
+ await expect(mapping).not.toContainText('架构评价与度量')
+ expect(new URLSearchParams(new URL(page.url()).hash.split('?')[1]).get('q')).toBe('质量属性')
+ await page.goBack()
+ await expect(page).toHaveURL(initial)
+ await expect(mapping).toHaveAttribute('open', '')
+ await expect(mapping).toContainText('架构评价与度量')
+ await page.goForward()
+ await expect(mapping).toContainText('把质量需求写成可验证场景')
+ await page.reload()
+ await expect(page.locator('h1')).toHaveText('质量属性场景')
+ await expect(page.locator('select')).toHaveValue('systems-analyst')
+ await mapping.locator('summary').click()
+ await expect(mapping).toContainText('把质量需求写成可验证场景')
+})
+
+test('empty filtered search can be widened without clearing keywords', async ({page}) => {
+ await page.goto('/#/?q=ACID&qualification=systems-analyst')
+ await expect(page.getByText('还没有找到这个方向')).toBeVisible()
+ await page.getByRole('button',{name:'取消考试视角',exact:true}).click()
+ await expect(page).toHaveURL(/#\/\?q=ACID$/)
+ await expect(page.getByRole('textbox')).toHaveValue('ACID')
+ await expect(page.getByRole('link',{name:/事务一致性/})).toBeVisible()
+ await page.goBack()
+ await expect(page.getByText('还没有找到这个方向')).toBeVisible()
+ await expect(page.locator('select')).toHaveValue('systems-analyst')
+})

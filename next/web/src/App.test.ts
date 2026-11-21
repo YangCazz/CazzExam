@@ -14,3 +14,56 @@ test('error is not empty state and retries',async()=>{fetchMock.mockImplementati
 test('empty renders guidance',async()=>{fetchMock.mockResolvedValue({ok:true,json:async()=>({items:[],content_version:'test'})});wrapper=mount(App);await flushPromises();expect(wrapper.text()).toContain('还没有找到这个方向')})
 test('map filter keeps map location',async()=>{window.location.hash='#/map';wrapper=mount(App);await flushPromises();await wrapper.find('select').setValue('architect');expect(location.hash).toBe('#/map?qualification=architect')})
 test('invalid deep link does not request another API',async()=>{window.location.hash='#/concept/../qualifications';wrapper=mount(App);await flushPromises();expect(wrapper.find('[role="alert"]').text()).toContain('这个概念暂未收录');expect(fetchMock).toHaveBeenCalledTimes(1)})
+
+test('reading lens keeps the same article, open mapping and history context', async () => {
+ const architect = { qualification: 'architect', label: '架构评价与度量', evidence_status: 'editorial_topic', source_url: null }
+ const analyst = { ...architect, qualification: 'systems-analyst', label: '把质量需求写成可验证场景' }
+ const article = { ...detail, slug: 'quality-attribute-scenario', title: '质量属性场景', mappings: [architect, analyst] }
+ fetchMock.mockImplementation(async (url: string) => ({
+  ok: true, json: async () => url.endsWith('/qualifications')
+   ? { items: [{ id: 'architect', name: '架构师' }, { id: 'systems-analyst', name: '系统分析师' }] }
+   : article,
+ }))
+ const q = encodeURIComponent('质量属性')
+ const initial = '#/concept/quality-attribute-scenario?q=' + q + '&qualification=architect'
+ const switched = '#/concept/quality-attribute-scenario?q=' + q + '&qualification=systems-analyst'
+ window.location.hash = initial
+ wrapper = mount(App)
+ await flushPromises()
+ const originalArticle = wrapper.get('article').element
+ const mapping = wrapper.get('details').element
+ mapping.open = true
+ expect(mapping.textContent).toContain(architect.label)
+ await wrapper.get('select').setValue('systems-analyst')
+ expect(location.hash).toBe(switched)
+ await navigate(switched)
+ expect(wrapper.get('article').element).toBe(originalArticle)
+ expect(mapping.open).toBe(true)
+ expect(mapping.textContent).toContain(analyst.label)
+ expect(mapping.textContent).not.toContain(architect.label)
+ expect(wrapper.get('.relation').attributes('href')).toContain('qualification=systems-analyst')
+ await navigate(initial)
+ expect(wrapper.get('select').element.value).toBe('architect')
+ expect(mapping.open).toBe(true)
+ expect(mapping.textContent).toContain(architect.label)
+ expect(fetchMock.mock.calls.filter(([url]) => url.includes('/concepts/'))).toHaveLength(1)
+})
+
+test('clear empty-state perspective keeps committed search and discards unsent draft', async () => {
+ fetchMock.mockImplementation(async (url: string) => ({
+  ok: true, json: async () => url.includes('qualification=systems-analyst')
+   ? { items: [] }
+   : { items: [{ ...summary, title: '事务一致性' }], content_version: 'test' },
+ }))
+ window.location.hash = '#/?q=ACID&qualification=systems-analyst'
+ wrapper = mount(App)
+ await flushPromises()
+ expect(wrapper.text()).toContain('还没有找到这个方向')
+ await wrapper.get('input').setValue('尚未提交')
+ await wrapper.get('.state button.primary').trigger('click')
+ expect(location.hash).toBe('#/?q=ACID')
+ await navigate('#/?q=ACID')
+ expect(wrapper.get('input').element.value).toBe('ACID')
+ expect(wrapper.get('.concept-card').text()).toContain('事务一致性')
+ expect(wrapper.text()).not.toContain('取消考试视角')
+})
