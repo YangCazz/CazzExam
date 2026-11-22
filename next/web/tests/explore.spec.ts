@@ -7,15 +7,34 @@ function gate() {
 
 for (const width of [1440, 390, 320]) {
  test(`explore, read, relations and history ${width}px`, async ({page}) => {
-  await page.setViewportSize({width,height:900}); await page.goto('/');
-  await expect(page.getByRole('heading',{name:'从一个问题开始'})).toBeVisible();
-  await page.getByRole('textbox').fill('拆分'); await page.getByRole('button',{name:'搜索',exact:false}).click();
-  await page.locator('.concept-card').first().click();
+  const cards = page.locator('.concept-card')
+  const searchbox = page.getByRole('textbox', {name:'搜索问题、概念或主题',exact:true})
+  const service = cards.filter({has:page.getByRole('heading',{name:'服务拆分',exact:true})})
+  const unrelated = cards.getByRole('heading', {name:'缓存失效',exact:true})
+  async function expectSearchResults() {
+   await expect(page).toHaveURL(url => new URLSearchParams(url.hash.split('?')[1]).get('q') === '拆分')
+   await expect(page.getByRole('heading', {name:'搜索结果',exact:true})).toBeVisible()
+   await expect(service).toHaveCount(1)
+   await expect(service).toBeVisible()
+   await expect(unrelated).toHaveCount(0)
+  }
+
+  await page.setViewportSize({width,height:900})
+  await page.goto('/')
+  await expect(page.getByRole('heading', {name:'从一个问题开始',exact:true})).toBeVisible()
+  await expect(unrelated).toBeVisible()
+  await searchbox.fill('拆分')
+  await page.getByRole('button', {name:'搜索',exact:true}).click()
+  await expectSearchResults()
+  await service.click()
+  await expect(page.getByRole('heading', {name:'服务拆分',level:1,exact:true})).toBeVisible()
   await expect(page.locator('article')).toContainText('实际例子');
   await expect(page.locator('.relation').first()).toBeVisible();
   const original = page.url(); await page.locator('.relation').first().click();
   await expect(page).not.toHaveURL(original); await page.goBack(); await expect(page).toHaveURL(original);
-  await page.goBack(); await expect(page.getByRole('textbox')).toHaveValue('拆分');
+  await page.goBack()
+  await expectSearchResults()
+  await expect(searchbox).toHaveValue('拆分')
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
   await page.goForward(); await expect(page.locator('article')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
