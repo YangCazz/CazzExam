@@ -65,7 +65,9 @@ npm run test:unit
 npm run build
 ```
 
-截至 2026-11-22，已通过 5 项 API 测试、9 项 Vue 组件测试、TypeScript 类型检查和 Vite 构建，并验证过实际 HTTP 接口。**真实浏览器的桌面及手机视口验收未完成**：云环境限制导致 Chromium 未能启动，组件测试不能代替跨屏验收。浏览器用例要求在 1440、390、320 px 下实际筛出中文结果，并在返回后恢复筛选；真机中文输入法仍需单独验收。未上线，也未验收像素还原。可在浏览器环境可用时，保持 API 运行、关闭手动启动的 Web 服务，然后在 `next/web` 执行 `npx playwright install chromium` 和 `npm test`。详见[验证记录](next/VERIFICATION.md)。
+此前已通过 5 项 API 测试、9 项 Vue 组件测试、TypeScript 类型检查和 Vite 构建，并验证过实际 HTTP 接口。2026-11-23，[GitHub Actions 的 Chromium 测试](https://github.com/YangCazz/CazzExam/actions/runs/45100349303)在提交 `46d3c8c` 上**实际执行并通过全部 10 项**，覆盖 1440、390、320 px 下的首页、中文搜索、概念阅读和返回恢复筛选，并包含 390 px 模拟触控用例。真机中文输入法和视觉还原仍未验收，未部署。
+
+本地复现：保持 API 运行、关闭手动启动的 Web 服务，然后在 `next/web` 执行 `npx playwright install chromium` 和 `npm test`。详见[验证记录](next/VERIFICATION.md)。
 
 ## 内容、版本与提交
 
