@@ -1,0 +1,59 @@
+name: CazzExam Next browser acceptance
+
+on:
+  push:
+    branches: ['dev/cazzexam-next']
+    paths:
+      - 'next/**'
+      - '.github/workflows/cazzexam-next-browser.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  chromium:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Install API dependencies
+        run: python -m pip install -r next/api/requirements.txt
+      - name: Install Chromium and frontend dependencies
+        working-directory: next/web
+        run: |
+          npm ci --ignore-scripts
+          npx --no-install playwright install --with-deps chromium
+          sudo apt-get install -y --no-install-recommends fonts-noto-cjk
+      - name: Run the browser suite against the local API
+        shell: bash
+        run: |
+          api_log="$RUNNER_TEMP/cazzexam-api.log"
+          python -m uvicorn app:app --app-dir next/api --host 127.0.0.1 --port 8010 >"$api_log" 2>&1 &
+          api_pid=$!
+          cleanup() {
+            local status=$?
+            kill "$api_pid" 2>/dev/null || true
+            if (( status != 0 )); then
+              cat "$api_log"
+            fi
+          }
+          trap cleanup EXIT
+          for attempt in {1..25}; do
+            if curl --fail --silent --max-time 2 http://127.0.0.1:8010/api/v1/concepts >/dev/null; then
+              break
+            fi
+            kill -0 "$api_pid"
+            sleep 1
+          done
+          curl --fail --silent --show-error --max-time 2 http://127.0.0.1:8010/api/v1/concepts >/dev/null
+          cd next/web
+          npm test -- --reporter=line

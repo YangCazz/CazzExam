@@ -23,6 +23,10 @@ for (const width of [1440, 390, 320]) {
   await page.goto('/')
   await expect(page.getByRole('heading', {name:'从一个问题开始',exact:true})).toBeVisible()
   await expect(unrelated).toBeVisible()
+  // Exercise the initial feature card and Chinese layout before filtering it away.
+  await expect(page.getByRole('link', {name:/展开阅读/})).toBeVisible()
+  await page.evaluate(() => document.fonts.ready.then(() => undefined))
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy()
   await searchbox.fill('拆分')
   await page.getByRole('button', {name:'搜索',exact:true}).click()
   await expectSearchResults()
