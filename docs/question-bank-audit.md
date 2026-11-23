@@ -13,7 +13,7 @@
 | 资格与考期 | 已可定位 | 缺口或处理 |
 | --- | --- | --- |
 | 架构师 2026 上 | [湖南考务](https://gxt.hunan.gov.cn/gxt/rkb/jsjtzgg/202605/t20260515_33978082.html)；[希赛综合索引](https://www.educity.cn/rk/5513953.html)可见 70 个回忆题位；[案例索引](https://www.educity.cn/rk/5513955.html) | 71–75 未见；有缺图和错序，案例某些分值与小问冲突。不用于整卷计分。 |
-| 架构师 2026 下 | [湖南考务](https://gxt.hunan.gov.cn/gxt/rkb/jsjtzgg/202610/t20261016_34082960.html)；[综合](https://www.educity.cn/rk/5546782.html)、[案例](https://www.educity.cn/rk/5546784.html)、[论文](https://www.educity.cn/rk/5546786.html) | 综合 30 个可见题位；案例 2–5 原图或小问未补齐；论文为回忆题。 |
+| 架构师 2026 下 | [湖南考务](https://gxt.hunan.gov.cn/gxt/rkb/jsjtzgg/202610/t20261016_34082960.html)；[综合回忆 1–10](https://www.educity.cn/rk/5546782.html)、[综合回忆 11–20](https://www.educity.cn/rk/5546784.html)、[综合回忆 21–30](https://www.educity.cn/rk/5546786.html)；[案例回忆](https://m.hqwx.com/news/2026-10/17929106753026.html)；[论文回忆](https://www.educity.cn/rk/5546252.html) | 综合 30 个可见题位；案例 2–5 原图或小问未补齐；论文为回忆题。 |
 | 架构师 2025 下 | [湖南考务](https://gxt.hunan.gov.cn/gxt/rkb/jsjtzgg/202505/t20250516_33673689.html)；[四道论文回忆题面](https://www.educity.cn/rk/5422426.html) | 综合候选版本存在年份归属冲突；不以 75 个编号或相同主题认定是原卷。 |
 | 系规 2026 下 | [湖南考务](https://gxt.hunan.gov.cn/gxt/rkb/jsjtzgg/202610/t20261016_34082960.html)；[信管综合](https://www.cnitpm.com/pm2/19234960efq5wp12.html)、[案例](https://www.cnitpm.com/pm2/1923509f4d5je6o1.html)、[论文](https://www.educity.cn/rk/5545947.html) | 信管连续编号 1–71，16 道缺部分或全部选项；希赛综合 30 组不能直接补回，招聘与能耗案例版本不可拼接。 |
 | 软考达人 | [题库入口](https://ruankaodaren.com/exam/#/)；[2015 下架构案例节选](https://ruankaodaren.com/info/5f6279efbb5c11efba330c42a13201a6.html)、[2017 下架构论文样本](https://ruankaodaren.com/info/5f8dc709bb5c11efba330c42a13201a6.html) | 可做逐题核对；整卷和解析入口实测需要登录，未确认批量导出或再分发授权。 |
