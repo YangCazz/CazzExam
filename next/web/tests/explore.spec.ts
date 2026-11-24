@@ -232,3 +232,33 @@ test('a late initial list leaves an active search draft focused', async ({page})
   await page.unrouteAll({behavior:'wait'})
  }
 })
+
+test('perspective changes keep a search draft separate from the committed results', async ({page}) => {
+ await page.goto('/#/?q=ACID')
+ const textbox = page.getByRole('textbox', {name:'搜索问题、概念或主题',exact:true})
+ const cards = page.locator('.concept-card')
+ const consistency = cards.getByRole('heading', {name:'事务一致性',exact:true})
+ const service = cards.getByRole('heading', {name:'服务拆分',exact:true})
+ await expect(consistency).toBeVisible()
+
+ await textbox.fill('拆分')
+ await page.locator('select').selectOption('architect')
+ await expect(page).toHaveURL(/#\/\?q=ACID&qualification=architect$/)
+ await expect(page.getByRole('main')).toHaveAttribute('aria-busy', 'false')
+ await expect(consistency).toBeVisible()
+ await expect(service).toHaveCount(0)
+ await expect(textbox).toHaveValue('拆分')
+
+ await page.getByRole('button', {name:'搜索',exact:true}).click()
+ await expect(page).toHaveURL(url => {
+  const params = new URLSearchParams(url.hash.split('?')[1])
+  return params.get('q') === '拆分' && params.get('qualification') === 'architect'
+ })
+ await expect(service).toBeVisible()
+ await expect(consistency).toHaveCount(0)
+
+ await page.goBack()
+ await expect(page).toHaveURL(/#\/\?q=ACID&qualification=architect$/)
+ await expect(consistency).toBeVisible()
+ await expect(textbox).toHaveValue('ACID')
+})

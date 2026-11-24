@@ -123,3 +123,40 @@ test('a pending first list load does not take focus from an active search draft'
  await wrapper.get('.skip').trigger('click')
  expect(document.activeElement).toBe(wrapper.get('h1').element)
 })
+
+test.each(['', 'ACID'])('changing perspective preserves an unsubmitted draft (committed query: %s)', async (committed) => {
+ const suffix = committed ? 'q=' + committed + '&' : ''
+ const initial = '#/' + (committed ? '?q=' + committed : '')
+ const filtered = '#/?' + suffix + 'qualification=architect'
+ const baseFetch = fetchMock.getMockImplementation()!
+ fetchMock.mockImplementation(async (url: string) => {
+  if (!url.includes('/concepts?')) return baseFetch(url)
+  const q = new URL(url, location.href).searchParams.get('q')
+  return {ok:true,json:async()=>({
+   items:[q === 'ACID' ? {...summary, title:'事务一致性'} : summary],
+   content_version:'test',
+  })}
+ })
+ window.location.hash = initial
+ wrapper = mount(App)
+ await flushPromises()
+ const textbox = wrapper.get('input')
+ await textbox.setValue('拆分')
+ await wrapper.get('select').setValue('architect')
+ expect(location.hash).toBe(filtered)
+ await navigate(filtered)
+ expect(textbox.element.value).toBe('拆分')
+ expect(fetchMock).toHaveBeenCalledWith('/api/v1/concepts?' + suffix + 'qualification=architect', expect.anything())
+ expect(wrapper.get('.concept-card').text()).toContain(committed ? '事务一致性' : '服务拆分')
+
+ await navigate(initial)
+ expect(textbox.element.value).toBe('拆分')
+ await navigate(filtered)
+ await wrapper.get('form').trigger('submit')
+ const submitted = '#/?q=' + encodeURIComponent('拆分') + '&qualification=architect'
+ expect(location.hash).toBe(submitted)
+ await navigate(submitted)
+ expect(wrapper.get('.concept-card').text()).toContain('服务拆分')
+ await navigate(filtered)
+ expect(textbox.element.value).toBe(committed)
+})

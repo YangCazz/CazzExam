@@ -51,26 +51,38 @@ function setRoute(path: string, q: string, lens: string) {
  return false
 }
 function search() {
- if (!setRoute(isMap.value ? '/map' : '/', draft.value.trim(), qualification.value)) {
-  draft.value = route.value.q
-  load()
- }
+ const q = draft.value.trim()
+ draft.value = q
+ if (!setRoute(isMap.value ? '/map' : '/', q, qualification.value)) load()
 }
 function selectPerspective() { setRoute(route.value.path, route.value.q, qualification.value) }
-function clearPerspective() { setRoute(route.value.path, route.value.q, '') }
-function clearSearch() { setRoute(isMap.value ? '/map' : '/', '', '') }
-function syncFields() {
+function clearPerspective() {
  draft.value = route.value.q
- qualification.value = route.value.qualification
+ setRoute(route.value.path, route.value.q, '')
+}
+function clearSearch() {
+ draft.value = ''
+ setRoute(isMap.value ? '/map' : '/', '', '')
 }
 watch(current, (_, previous) => {
- syncFields()
+ const previousRoute = parseRoute(previous)
+ qualification.value = route.value.qualification
+ // Changing only the perspective re-filters the committed query, not the draft.
+ if (previousRoute.path !== route.value.path || previousRoute.q !== route.value.q) {
+  draft.value = route.value.q
+ }
  // The detail API returns every mapping for a concept. Keep the rendered
  // article (including an open mapping and focus) across lens-only history.
- if (reading.value && parseRoute(previous).path === route.value.path) return
+ if (reading.value && previousRoute.path === route.value.path) return
  load()
 })
-onMounted(() => { syncFields(); window.addEventListener('hashchange', syncRoute); loadQualifications(); load() })
+onMounted(() => {
+ draft.value = route.value.q
+ qualification.value = route.value.qualification
+ window.addEventListener('hashchange', syncRoute)
+ loadQualifications()
+ load()
+})
 onUnmounted(() => { window.removeEventListener('hashchange', syncRoute); controller?.abort() })
 const visibleMappings = computed(() => concept.value?.mappings.filter(m => !route.value.qualification || m.qualification === route.value.qualification) || [])
 </script>
