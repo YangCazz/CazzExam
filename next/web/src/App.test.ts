@@ -97,3 +97,29 @@ test('a late response body cannot override a newly loaded article', async () => 
  expect(wrapper.find('[role="alert"]').exists()).toBe(false)
  expect(wrapper.text()).not.toContain('stale')
 })
+
+test('a pending first list load does not take focus from an active search draft', async () => {
+ const baseFetch = fetchMock.getMockImplementation()!
+ let deliverList!: (value: unknown) => void
+ const list = new Promise(resolve => { deliverList = resolve })
+ fetchMock.mockImplementation((url: string) => url === '/api/v1/concepts?' ? list : baseFetch(url))
+
+ wrapper = mount(App, {attachTo: document.body})
+ const textbox = wrapper.get('input')
+ textbox.element.focus()
+ await textbox.setValue('拆')
+ expect(document.activeElement).toBe(textbox.element)
+ expect(wrapper.get('main').attributes('aria-busy')).toBe('true')
+ expect(fetchMock.mock.calls.some(([url]) => url === '/api/v1/concepts?')).toBe(true)
+
+ deliverList({ok: true, json: async () => ({items:[summary],content_version:'test'})})
+ await flushPromises()
+
+ expect(wrapper.get('.concept-card').text()).toContain('服务拆分')
+ expect(wrapper.get('main').attributes('aria-busy')).toBe('false')
+ expect(textbox.element.value).toBe('拆')
+ expect(document.activeElement).toBe(textbox.element)
+
+ await wrapper.get('.skip').trigger('click')
+ expect(document.activeElement).toBe(wrapper.get('h1').element)
+})

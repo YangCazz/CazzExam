@@ -5,6 +5,7 @@ const current = ref(location.hash.slice(1) || '/'), draft = ref(''), qualificati
 const concepts = ref<ConceptSummary[]>([]), concept = ref<Concept | null>(null), qualifications = ref<Qualification[]>([])
 const loading = ref(true), error = ref(''), version = ref(''), qualificationError = ref(false)
 const heading = ref<HTMLElement | null>(null)
+const searchbox = ref<HTMLInputElement | null>(null)
 function parseRoute(hash: string) {
  const [path, query] = hash.split('?')
  const params = new URLSearchParams(query)
@@ -29,7 +30,17 @@ async function load() {
   else if (route.value.path === '/' || isMap.value) { const p = new URLSearchParams(); if (route.value.q) p.set('q', route.value.q); if (route.value.qualification) p.set('qualification', route.value.qualification); const result = await get<Collection<ConceptSummary>>('concepts?' + p, own.signal); concepts.value = result.items; version.value = result.content_version; document.title = (isMap.value ? '知识地图' : '探索知识') + ' · CazzExam' }
   else { error.value = '这个页面不存在。你可以回到探索。' }
  } catch (e) { if (own.signal.aborted) return; error.value = e instanceof Error && e.name !== 'TypeError' ? e.message : '知识库暂时无法读取，请检查服务是否启动。' }
- finally { if (!own.signal.aborted) { loading.value = false; await nextTick(); heading.value?.focus({preventScroll:true}); window.scrollTo(0, positions.get(current.value) ?? 0) } }
+ finally {
+  if (!own.signal.aborted) {
+   loading.value = false
+   await nextTick()
+   // A list response must not interrupt a search draft or a native IME session.
+   if (!own.signal.aborted && !(searchbox.value && document.activeElement === searchbox.value)) {
+    heading.value?.focus({preventScroll:true})
+    window.scrollTo(0, positions.get(current.value) ?? 0)
+   }
+  }
+ }
 }
 function setRoute(path: string, q: string, lens: string) {
  const params = new URLSearchParams()
@@ -78,7 +89,7 @@ const visibleMappings = computed(() => concept.value?.mappings.filter(m => !rout
    <main id="main" :aria-busy="loading">
     <template v-if="!reading">
      <section class="hero"><span class="eyebrow">{{isMap ? 'CONNECTED IDEAS' : 'A SPACE TO UNDERSTAND'}}</span><h1 ref="heading" tabindex="-1">{{isMap ? '沿着联系，继续探索' : '从一个问题开始'}}</h1><p>理解知识，发现联系。让一个答案，带来新的问题。</p>
-      <form class="search" @submit.prevent="search" role="search"><span aria-hidden="true">⌕</span><input aria-label="搜索问题、概念或主题" v-model="draft" maxlength="120" placeholder="搜索问题、概念或主题，例如：一致性"><button type="submit" class="primary">搜索 <span aria-hidden="true">→</span></button></form>
+      <form class="search" @submit.prevent="search" role="search"><span aria-hidden="true">⌕</span><input ref="searchbox" aria-label="搜索问题、概念或主题" v-model="draft" maxlength="120" placeholder="搜索问题、概念或主题，例如：一致性"><button type="submit" class="primary">搜索 <span aria-hidden="true">→</span></button></form>
       <p class="search-hint">标题、别名和关键词检索，不是 AI 问答。</p>
      </section>
     </template>

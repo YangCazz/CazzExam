@@ -189,3 +189,46 @@ test('empty filtered search can be widened without clearing keywords', async ({p
  await expect(page.getByText('还没有找到这个方向')).toBeVisible()
  await expect(page.locator('select')).toHaveValue('systems-analyst')
 })
+
+test('a late initial list leaves an active search draft focused', async ({page}) => {
+ await page.setViewportSize({width:390,height:900})
+ const started = gate()
+ const release = gate()
+ const initialList = (url: URL) => url.pathname === '/api/v1/concepts' && !url.search
+ await page.route(initialList, async route => {
+  started.resolve()
+  await release.promise
+  await route.continue()
+ })
+ try {
+  await page.goto('/', {waitUntil:'domcontentloaded'})
+  await started.promise
+  const textbox = page.getByRole('textbox', {name:'搜索问题、概念或主题',exact:true})
+  const main = page.getByRole('main')
+  await expect(main).toHaveAttribute('aria-busy', 'true')
+  await textbox.focus()
+  await page.keyboard.insertText('拆')
+  await expect(textbox).toBeFocused()
+  await expect(textbox).toHaveValue('拆')
+  release.resolve()
+  await expect(page.locator('.concept-card')).toHaveCount(7)
+  await expect(main).toHaveAttribute('aria-busy', 'false')
+  await expect(textbox).toHaveValue('拆')
+  await expect(textbox).toBeFocused()
+
+  await page.keyboard.insertText('分')
+  await page.getByRole('button', {name:'搜索',exact:true}).click()
+  const result = page.getByRole('link', {name:/服务拆分/})
+  await expect(page).toHaveURL(url => new URLSearchParams(url.hash.split('?')[1]).get('q') === '拆分')
+  await expect(page.getByRole('heading', {name:'搜索结果',exact:true})).toBeVisible()
+  await result.click()
+  await expect(page.getByRole('heading', {name:'服务拆分',level:1,exact:true})).toBeFocused()
+  await page.goBack()
+  await expect(page.getByRole('heading', {name:'搜索结果',exact:true})).toBeVisible()
+  await expect(textbox).toHaveValue('拆分')
+  await expect(result).toBeVisible()
+ } finally {
+  release.resolve()
+  await page.unrouteAll({behavior:'wait'})
+ }
+})
