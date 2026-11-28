@@ -1,5 +1,12 @@
 # CazzExam Next 验证记录
 
+## 2026-11-28：补记最新搜索回归验收
+
+- 代码基线：`c8ead3ecebcb49faf7ec01a6517ffab42415c4fa`。11 月 24 日的 [GitHub Actions](https://github.com/YangCazz/CazzExam/actions/runs/45436656236) 在该提交上执行 Chromium 测试 **12 项，全部通过（7.4 秒）**。
+- 初始列表晚到时，正在编辑的搜索框不失焦；切换学习视角会按上次已提交的关键词筛选，同时保留输入框中尚未提交的草稿，直到用户点击「搜索」。浏览器回退恢复原 URL 与已提交结果，不把草稿写进历史。
+- 11 月 28 日使用与该提交逐文件一致的源码复验：API 5/5、Vue 组件 12/12、TypeScript 检查和 Vite 生产构建通过。Playwright 本地收集 12 项；实际浏览器执行以链接的 CI 记录为准。
+- 未验收安卓真机拼音选词、物理触摸或视觉还原，未部署。历史用例仍保留下方。
+
 ## 2026-11-23：GitHub Actions 浏览器实测通过
 
 - 提交 `46d3c8c3fc16cb676f36b8c2fa7f3381392fa4dd` 的 [GitHub Actions 运行记录](https://github.com/YangCazz/CazzExam/actions/runs/45100349303)显示 Playwright 在 Chromium 中执行 **10 项，全部通过（4.1 秒）**。此前云电脑启动受限的记录保留在下文，不再代表当前浏览器测试状态。

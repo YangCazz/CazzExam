@@ -65,7 +65,7 @@ npm run test:unit
 npm run build
 ```
 
-此前已通过 5 项 API 测试、9 项 Vue 组件测试、TypeScript 类型检查和 Vite 构建，并验证过实际 HTTP 接口。2026-11-23，[GitHub Actions 的 Chromium 测试](https://github.com/YangCazz/CazzExam/actions/runs/45100349303)在提交 `46d3c8c` 上**实际执行并通过全部 10 项**，覆盖 1440、390、320 px 下的首页、中文搜索、概念阅读和返回恢复筛选，并包含 390 px 模拟触控用例。真机中文输入法和视觉还原仍未验收，未部署。
+当前验收基线为提交 `c8ead3e`：5 项 API 测试、12 项 Vue 组件测试、TypeScript 类型检查和 Vite 生产构建通过；[GitHub Actions 的 Chromium 测试](https://github.com/YangCazz/CazzExam/actions/runs/45436656236)在该提交上执行 12 项、全部通过。覆盖三种视口、中文搜索、历史返回、加载时搜索焦点，以及切换学习视角时保留未提交的搜索词。模拟触摸和浏览器输入不等于真机验收；真机中文输入法、物理触摸和视觉还原仍未验收。未部署。
 
 本地复现：保持 API 运行、关闭手动启动的 Web 服务，然后在 `next/web` 执行 `npx playwright install chromium` 和 `npm test`。详见[验证记录](next/VERIFICATION.md)。
 
